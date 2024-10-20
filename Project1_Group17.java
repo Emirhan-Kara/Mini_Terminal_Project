@@ -14,7 +14,8 @@ public class Project1_Group17
             greetingPage();
             printOptions();
             selection = input.nextLine();
-            while (!isValidEntry(selection))
+            selection = selection.toUpperCase();
+            while (!isValidEntry(selection, "A","B","C","D","E"))
             {
                 cls();
                 System.err.println("\n\n        INVALID ENTRY!!");
@@ -24,14 +25,13 @@ public class Project1_Group17
             
             switch (selection)
             {
-                case "1":
-                case "2":
-                case "3":
-                case "4":
-                case "5":
+                case "A":
+                case "B":
+                case "C":
+                case "D":
+                case "E":
             }
         }
-        
     }
 
     //  MAIN METHODS FOR HOMEPAGE
@@ -53,14 +53,16 @@ public class Project1_Group17
         System.out.println("        5)   EXIT\n\n\n");
         System.out.print("        Please select an option from the list above(1-5): ");
     }
-    public static boolean isValidEntry(String ans)
+    public static boolean isValidEntry(String ans, String... Check )
     {
         // .equals method must be used. Because when we use ==, it compares the their memory references
-        if (ans.equals("1") || ans.equals("2") || ans.equals("3") || ans.equals("4") || ans.equals("5"))
-            return true;
+        for(String c: Check)
+        {
+            if(c.equals(ans))
+                return true;
+        }
         return false;
     }
-
     public static void cls()
     {
         try
@@ -79,4 +81,7 @@ public class Project1_Group17
         }
     }
     // ----------------------------------------------------------------------------------------
+    // METHODS FOR OPTION 3
+   
+   
 }
