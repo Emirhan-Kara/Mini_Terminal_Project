@@ -28,6 +28,8 @@ public class Project1_Group17
                 case "A":
                 case "B":
                 case "C":
+                    Cryption();
+                    break;
                 case "D":
                 case "E":
             }
@@ -51,7 +53,14 @@ public class Project1_Group17
         System.out.println("        C)   Text Encryption/Decryption\n");
         System.out.println("        D)   Tic-tac-toe HotSeat\n");
         System.out.println("        E)   EXIT\n\n\n");
-        System.out.print("        Please select an option from the list above(A-B): ");
+        System.out.print("        Please select an option from the list above(A-E)): ");
+    }
+    public static void printCrypOptions()
+    {
+        System.out.println("        A)   Encryption\n");
+        System.out.println("        B)   Decryption\n");
+        System.out.println("        C)   Return to the Main Menu\n");
+        System.out.print("        Please select an option from the list above(A-C)): ");
     }
     public static boolean isValidEntry(String ans, String... Check )
     {
@@ -82,6 +91,32 @@ public class Project1_Group17
     }
     // ----------------------------------------------------------------------------------------
     // METHODS FOR OPTION 3
+    public static void Cryption()
+    {
+        cls();
+        String selection;
+        Scanner input = new Scanner(System.in);
+        while(true)
+        {
+            printCrypOptions();
+            selection = input.nextLine();
+            selection = selection.toUpperCase();
+            while (!isValidEntry(selection, "A","B","C"))
+            {
+                cls();
+                System.err.println("\n\n        INVALID ENTRY!!");
+                printCrypOptions();
+                selection = input.nextLine();
+            }
+            switch (selection)
+            {
+                case "A":
+                case "B":
+                case "C":
+                    return;
+            }
+        }
+    }
    
    
 }
