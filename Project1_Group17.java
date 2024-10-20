@@ -46,12 +46,12 @@ public class Project1_Group17
     }
     public static void printOptions()
     {
-        System.out.println("        1)   Statistical Information about an array\n");
-        System.out.println("        2)   Matrix Operations\n");
-        System.out.println("        3)   Text Encryption/Decryption\n");
-        System.out.println("        4)   Tic-tac-toe HotSeat\n");
-        System.out.println("        5)   EXIT\n\n\n");
-        System.out.print("        Please select an option from the list above(1-5): ");
+        System.out.println("        A)   Statistical Information about an array\n");
+        System.out.println("        B)   Matrix Operations\n");
+        System.out.println("        C)   Text Encryption/Decryption\n");
+        System.out.println("        D)   Tic-tac-toe HotSeat\n");
+        System.out.println("        E)   EXIT\n\n\n");
+        System.out.print("        Please select an option from the list above(A-B): ");
     }
     public static boolean isValidEntry(String ans, String... Check )
     {
