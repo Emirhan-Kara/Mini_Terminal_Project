@@ -32,6 +32,7 @@ public class Project1_Group17
                 case "B":
                     break;
                 case "C":
+                    Cryption();
                     break;
                 case "D":
                     break;
@@ -132,4 +133,93 @@ public class Project1_Group17
         }
     }
     // ----------------------------------------------------------------------------------------
+    // METHODS FOR OPTION 3
+    public static void Cryption()
+    {
+        
+        String selection;
+        Scanner input = new Scanner(System.in);
+        cls();
+        while(true)
+        {
+            printCrypOptions();
+            selection = input.nextLine();
+            selection = selection.toUpperCase();
+            while (!isValidEntry(selection, "A","B","C"))
+            {
+                cls();
+                System.err.println("\n\n        INVALID ENTRY!!");
+                printCrypOptions();
+                selection = input.nextLine();
+                selection = selection.toUpperCase();
+            }
+            cls();
+            switch (selection)
+            {
+                case "A":
+                    Encryption(1);
+                    break;
+                case "B":
+                    Encryption(-1);
+                    break;
+                case "C":
+                    returnHomePage();
+                    return;
+            }  
+        }
+    }
+    public static void Encryption(int x)
+    {
+        String victim; // The message
+        int key; 
+        Scanner input = new Scanner(System.in);
+        do
+        {
+            System.out.print("\n        Please enter your message: ");
+            victim = input.nextLine();
+            System.out.print("\n        Please enter the key[-26,26]: ");
+            key = input.nextInt();
+            input.nextLine();
+
+        } while ((key < -26 || key > 26) || victim.equals(""));
+        // Multiply by x, to decide if the request is encryption or decryption
+        key = key * x;
+        // Managing negative keys by modulo and adding 26
+        if (key < 0) {
+            key = (key % 26 + 26) % 26; // now, they are positive
+            key = key % 26;  // positivie keys are already correct
+        }
+
+        // string to char array
+        char[] newarr = new char[victim.length()];
+
+        //Process of encryption/decryption
+        for (int i = 0; i < victim.length(); i++)
+        {
+            char che = victim.charAt(i);
+            if (Character.isLetter(che))  
+            {
+                char Aa = Character.isLowerCase(che) ? 'a' : 'A';  // Decides whether the starting point should be lowercase or uppercase
+                newarr[i] = (char) ((che - Aa + key) % 26 + Aa);   // addition of the key to the distance to starting point is actually the purified key, getting mod 26 shows how many steps you need to take from the beginning
+            }
+            else
+            {
+                newarr[i] = che;  // nonalphabetic, remains
+            }
+        }
+        // Char array to string, then print the message
+        String result = new String(newarr);
+        if (x == 1) {
+            System.out.println("\n             Encrypted Message:\n");
+        } else {
+            System.out.println("\n             Decrypted Message:\n");
+        }
+        System.out.printf("\n             %s", result);
+        System.out.print("\n\n        To return back press a button:\n");
+        input.nextLine();
+        cls();
+        return;
+    }
+    // ----------------------------------------------------------------------------------------
+
 }
