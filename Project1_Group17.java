@@ -138,10 +138,16 @@ public class Project1_Group17
     {
         cls();
         Scanner scanA = new Scanner(System.in);
-        System.out.println("In this objective, you need to create an array that contains double variables");
-        System.out.println("The program would provide you the following information about your array");
-        System.out.println("Median, Arithmetic mean, Geometric mean, and Harmonic mean\n");
-        System.out.println("NOTE: The median of even-length array is calculated by taking the average of the middle two elements\n\n");
+        System.out.println("Objective 1");
+        System.out.println("------------");
+        System.out.println("-> In this objective, you need to create an array that contains double variables");
+        System.out.println("-> The program would provide you the following information about your array");
+        System.out.println("-> Median, Arithmetic mean, Geometric mean, and Harmonic mean\n");
+        System.out.println("IMPORTANT NOTES");
+        System.out.println("----------------");
+        System.out.println("*  The median of even-length array is calculated by taking the average of the middle two elements\n");
+        System.out.println("*  The values that are '<= 0' are ignored while calculating the geometric mean of the array\n\n\n");
+
         System.out.print("Please enter your array's size between 1-10: ");
         String ans = scanA.nextLine();
         while (!isValidEntry(ans, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
@@ -251,7 +257,7 @@ public class Project1_Group17
         Arrays.sort(arr);
         // if the array size is even, take the average of the middle two value
         if (size % 2 == 0)
-            return (arr[size/2] + arr[(size/2) - 1]) / 2;
+            return (arr[size/2] + arr[(size/2) - 1]) / 2.0;
         return arr[size/2];
     }
 
@@ -263,9 +269,9 @@ public class Project1_Group17
     {
         double aritMean = 0;
         for (double i : arr)
-            aritMean += i/size;
+            aritMean += i;
 
-        return aritMean;
+        return aritMean / (double)size;
     }
 
 
@@ -275,9 +281,17 @@ public class Project1_Group17
     public static double geometricMean(double arr[], int size)
     {
         double geoMean = 1;
+        double count = (double)size;
         for (double i : arr)
+        {
+            if (i <= 0)
+            {
+                count -= 1.0;
+                continue;
+            }
             geoMean *= i;
-        return Math.pow(geoMean, 1.0/size);
+        }
+        return Math.pow(geoMean, 1.0/count);
     }
 
 
@@ -298,5 +312,4 @@ public class Project1_Group17
         
         return 1.0/arr[index] + harmonicSummation(arr, index-1);
     }
-
 }
