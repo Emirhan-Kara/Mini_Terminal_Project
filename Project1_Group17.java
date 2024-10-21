@@ -11,6 +11,7 @@ public class Project1_Group17
         Scanner input = new Scanner(System.in);
         while (true)
         {
+            cls();
             greetingPage();
             printOptions();
             selection = input.nextLine();
@@ -21,17 +22,23 @@ public class Project1_Group17
                 System.err.println("\n\n        INVALID ENTRY!!");
                 printOptions();
                 selection = input.nextLine();
+                selection = selection.toUpperCase();
             }
             
             switch (selection)
             {
                 case "A":
+                    break;
                 case "B":
+                    break;
                 case "C":
-                    Cryption();
                     break;
                 case "D":
+                    break;
                 case "E":
+                    input.close();
+                    exitPage();
+                    return;
             }
         }
     }
@@ -89,34 +96,40 @@ public class Project1_Group17
             System.err.println("Error on cls!!!!");
         }
     }
-    // ----------------------------------------------------------------------------------------
-    // METHODS FOR OPTION 3
-    public static void Cryption()
+    public static void returnHomePage()
     {
         cls();
-        String selection;
-        Scanner input = new Scanner(System.in);
-        while(true)
+        System.out.println("Returning to homepage");
+        try
         {
-            printCrypOptions();
-            selection = input.nextLine();
-            selection = selection.toUpperCase();
-            while (!isValidEntry(selection, "A","B","C"))
+            for(int i = 0; i < 3; i++)
             {
-                cls();
-                System.err.println("\n\n        INVALID ENTRY!!");
-                printCrypOptions();
-                selection = input.nextLine();
-            }
-            switch (selection)
-            {
-                case "A":
-                case "B":
-                case "C":
-                    return;
+                System.out.println(".");
+                Thread.sleep(500);
             }
         }
+        catch (InterruptedException e)
+        {
+            System.out.println("Error! Returning Now");
+        }
     }
-   
-   
+    public static void exitPage()
+    {
+        cls();
+        System.out.println("Exiting from the program");
+        try
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                System.out.println(".");
+                Thread.sleep(500);
+            }
+            System.out.println("\n\nEXIT! SEE YOU NEXT TIME\n");
+        }
+        catch (InterruptedException e)
+        {
+            System.out.println("Error! Returning Now");
+        }
+    }
+    // ----------------------------------------------------------------------------------------
 }
