@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.io.IOException;
 
-public class Main {
+public class Project1_Group17 {
     public static void main(String[] args) {
         cls();
         String selection;
