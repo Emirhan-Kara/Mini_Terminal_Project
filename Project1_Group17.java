@@ -78,6 +78,23 @@ public class Project1_Group17 {
             System.err.println("Error on cls!!!!");
         }
     }
+    public static void returnHomePage()
+    {
+        cls();
+        System.out.println("Returning to homepage");
+        try
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                System.out.println(".");
+                Thread.sleep(500);
+            }
+        }
+        catch (InterruptedException e)
+        {
+            System.out.println("Error! Returning Now");
+        }
+    }
 
     public static void exitPage() {
         cls();
