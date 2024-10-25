@@ -1,6 +1,9 @@
 import java.util.Scanner;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 
 public class Project1_Group17
 {
@@ -72,7 +75,7 @@ public class Project1_Group17
     }
     public static boolean isValidEntry(String ans, String... Check )
     {
-        // .equals method must be used. Because when we use ==, it compares the their memory references
+        // .equals() method must be used. Because when we use ==, it compares the their memory references
         for(String c: Check)
         {
             if(c.equals(ans))
@@ -171,19 +174,36 @@ public class Project1_Group17
     public static void Encryption(int x)
     {
         String victim; // The message
-        int key; 
+        int key = 0;
+        boolean isValid = false;
         Scanner input = new Scanner(System.in);
         do
         {
             System.out.print("\n        Please enter your message: ");
             victim = input.nextLine();
-            System.out.print("\n        Please enter the key[-26,26]: ");
-            key = input.nextInt();
-            input.nextLine();
+            cls();
+        } while ( victim.equals("") || victim.equals(" "));
 
-        } while ((key < -26 || key > 26) || victim.equals(""));
+        do {
+            try {
+                System.out.print("\nPlease enter the key[-26,26]: ");
+                key = input.nextInt();
+                input.nextLine();  // Buffer temizleme
+                cls();
+                if(key < 27 && key > -27)
+                {
+                    isValid = true;
+                }
+            } catch (InputMismatchException e) {
+                cls();
+                System.out.println("Invalid input. Please enter an **INTEGER**.");
+                input.nextLine();  // Scanner cleans non-integer input
+            }
+        } while (!isValid);
+
         // Multiply by x, to decide if the request is encryption or decryption
         key = key * x;
+
         // Managing negative keys by modulo and adding 26
         if (key < 0) {
             key = (key % 26 + 26) % 26; // now, they are positive
@@ -204,7 +224,7 @@ public class Project1_Group17
             }
             else
             {
-                newarr[i] = che;  // nonalphabetic, remains
+                newarr[i] = che;  // non-alphabetic, remains
             }
         }
         // Char array to string, then print the message
@@ -221,5 +241,4 @@ public class Project1_Group17
         return;
     }
     // ----------------------------------------------------------------------------------------
-
 }
