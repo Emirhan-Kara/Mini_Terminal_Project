@@ -1,0 +1,16 @@
+{
+  "modules": [
+    {
+      "name": "CMPE343-Project1-Group17",
+      "path": "/Users/hayrunnisa/javaProjects/CMPE343-Project1-Group17/",
+      "sources": [
+        "/Users/hayrunnisa/javaProjects/CMPE343-Project1-Group17/Project1_Group17.java"
+      ],
+      "testSources": [],
+      "generatedSources": [],
+      "classpath": [
+        "/Users/hayrunnisa/Library/Application Support/Code/User/workspaceStorage/aaa6b5bec60de04ac37ca082dade21fb/redhat.java/jdt_ws/CMPE343-Project1-Group17_99360538/bin"
+      ]
+    }
+  ]
+}
