@@ -221,6 +221,7 @@ public class Project1_Group17
                 transposeMatrix();
                 break;
             case "2":
+                inverseMatrix();
                 break;
             case "3":
                 break;
@@ -243,10 +244,11 @@ public class Project1_Group17
         System.out.println("        5)   EXIT TO HOMEPAGE\n\n\n");
         System.out.print("        Please select an option from the list above(1-5)): ");
     }
+    
     public static void transposeMatrix()
     {
-        int row = takeInputOfRowAndColumn("ROWS");
-        int col = takeInputOfRowAndColumn("COLUMNS");
+        int row = takeInputOfRowAndColumn("number of ROWS");
+        int col = takeInputOfRowAndColumn("number of COLUMNS");
 
         double[][] matrix = new double[row][col];
 
@@ -269,13 +271,13 @@ public class Project1_Group17
     {
         cls();
         Scanner scan = new Scanner(System.in);
-        System.out.printf("\nEnter the number of %s (between 1-5): ", s);
+        System.out.printf("\nEnter a value for %s (between 1-5): ", s);
         String val = scan.nextLine();
         while (!isValidEntry(val, "1","2","3","4","5"))
         {
             cls();
             System.err.println("        INVALID ENTRY!!");
-            System.out.printf("\nEnter the number of %s (between 1-5): ", s);
+            System.out.printf("\nEnter a value for %s (between 1-5): ", s);
             val = scan.nextLine();
         }
         return strToInt(val);
@@ -337,21 +339,87 @@ public class Project1_Group17
     
         System.out.println("=".repeat((row * 8)+3) + "\n");
     }
+    public static double[][] returnTranspose(double mat[][])
+    {
+        int row = mat.length;
+        int col = mat[0].length;
+
+        double transposeMat[][] = new double[col][row];
+
+        for (int i = 0; i < row; i++)
+        {
+            for(int j = 0; j < col; j++)
+                transposeMat[j][i] = mat[i][j];
+        }
+
+        return transposeMat;
+    }
+
 
     public static void inverseMatrix()
     {
-        cls();
-        System.out.println("IMPORTANT NOTES");
-        System.out.println("----------------");
-        System.out.println("*  The median of even-length array is calculated by taking the average of the middle two elements\n");
-        System.out.println("*  The values that are '<= 0' are ignored while calculating the geometric mean of the array\n\n\n\n\n");
-        System.out.println("PRESS \"1\" to continue: ");
+        int row = takeInputOfRowAndColumn("both number of ROWS and COLUMNS");
         
-    }
-    public static void inverseMessages()
-    {
+        double matrix[][] = new double[row][row];
 
+        fillMatrix(matrix, row, row);
+        cls();
+        printMatrix(matrix, row, row);
+        printInverse(matrix);
+
+        if (loopAsk())
+        {
+            loadingPage();
+            inverseMatrix();
+        }
+        else
+        {
+            loadingPage();
+            Objective2();
+        }
     }
+    public static void printInverse(double[][] mat)
+    {
+        double determinant = determinant(mat);
+        
+        if (determinant == 0.0)
+        {
+            System.err.println("\n\nSingular matrices (determinant = 0) does not have an inverse!!\n");
+        }
+        else if (mat.length == 1)
+        {
+            System.out.printf("\n\nInverse of Your %d x %d Matrix:\n", mat.length, mat[0].length);
+            System.out.println("=".repeat((mat.length * 8)+3));
+            System.out.printf("%7.2f \n", mat[0][0]);
+            System.out.println("=".repeat((mat.length * 8)+3) + "\n");
+        }
+        else
+        {
+            // create the adjoint matrix by taking the transpose of the cofactor matrix
+            double[][] cofactorMatrix = cofactorMatrix(mat);
+            double[][] adjointMatrix = returnTranspose(cofactorMatrix);
+            
+            // use the formula to derive the inverse of the matrix (Inverse Matrix = Adjoint Matrix . 1/determinant)
+            matrixMultWithConstant(adjointMatrix, 1.0 / determinant);
+            
+            // print the inverse matrix
+            System.out.printf("\n\nInverse of Your %d x %d Matrix:\n", mat.length, mat[0].length);
+            System.out.println("=".repeat((adjointMatrix.length * 8)+3));
+
+            for (int i = 0; i < adjointMatrix.length; i++)
+            {
+                for (int j = 0; j < adjointMatrix[0].length; j++)
+                {
+                    System.out.printf("%7.2f ", adjointMatrix[i][j]); // 7 spaces wide and 2 decimal places
+                }
+                System.out.println();
+            }
+        
+            System.out.println("=".repeat((adjointMatrix.length * 8)+3) + "\n");
+        }
+    }
+
+
 
     // Calculates the determinant of the square rxr matrix recursively
     // O(r) space complexity and O(n) time complexity where r=row number and n=number of elements in matrix(r^2)
@@ -380,16 +448,78 @@ public class Project1_Group17
                 for (int col = 0; col < n; col++)
                 {
                     if (col != i) // ignore the current element's column
-                    {
                         newMat[row-1][colCount++] = mat[row][col];
-                        if (colCount == n-1)
-                            colCount = 0;
-                    }
                 }
+                colCount = 0;
             }
-            // determinant calculation formula
+            // determinant calculation formula. In the recurisve call, the skipRow index is 0 because newMat has new dimensions and it must start from 0
             ans += Math.pow(-1, i)*mat[0][i]*determinant(newMat);
         }
         return ans;
+    }
+
+    public static double[][] cofactorMatrix(double mat[][])
+    {
+        int row = mat.length;
+        int col = mat[0].length;
+        double cofactorMat[][] = new double[row][col];
+
+        // Iterate through each element of the matrix to calculate cofactors
+        for (int i = 0; i < row; i++)
+        {
+            for (int j = 0; j < col; j++)
+            {
+                // create the submatrix by ignoring i-th row and j-th column
+                double subMatrix[][] = ignore_ithRow_jthColumn(mat, i, j);
+                
+                // Calculate the minor (determinant of the submatrix)
+                double det = determinant(subMatrix);
+
+                // Determine the sign for the cofactor
+                cofactorMat[i][j] = Math.pow(-1, i+j) * det;
+            }
+        }
+    
+        return cofactorMat;
+    }
+
+    public static double[][] ignore_ithRow_jthColumn(double mat[][], int i, int j)
+    {
+        int row = mat.length;
+        int col = mat[0].length;
+        double newMat[][] = new double[row-1][col-1];
+
+        int rowIdx = 0;
+        for (int a = 0; a < row; a++)
+        {
+            int colIdx = 0;
+            if (a == i)
+                continue;
+            for (int b = 0; b < col; b++)
+            {
+                if (b == j)
+                    continue;
+                newMat[rowIdx][colIdx++] = mat[a][b];
+            }
+            rowIdx++;
+            colIdx = 0;
+        }
+
+        return newMat;
+    }
+
+    public static void matrixMultWithConstant(double mat[][], double x)
+    {
+        int row = mat.length;
+        int col = mat[0].length;
+        if (row == 0 || col == 0)
+            return;
+        for (int i = 0; i < row; i++)
+        {
+            for (int j = 0; j < col; j++)
+            {
+                mat[i][j] *= x;
+            }
+        }
     }
 }
