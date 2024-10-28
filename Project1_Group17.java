@@ -107,8 +107,8 @@ public class Project1_Group17 {
         }
     }
 
-    // Tic-Tac-Toe Game Logic
-    public static void playTicTacToe() {
+    //Tic-Tac-Toe Game Logic
+        public static void playTicTacToe() {
         char[][] board = new char[3][3];
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
@@ -153,12 +153,12 @@ public class Project1_Group17 {
                     cls(); // Clear console to display final board
                     printBoard(board);
                     System.out.println("Player " + player + " has won!");
-                    pause(2000); // Pause for 2 seconds to allow the player to see the result
+                    // pause(2000); // Pause for 2 seconds to allow the player to see the result
                 } else if (moves == 9) {
                     cls(); // Clear console to display final board
                     printBoard(board);
                     System.out.println("The game is a tie!");
-                    pause(2000); // Pause for 2 seconds to allow the player to see the result
+                    // pause(2000); // Pause for 2 seconds to allow the player to see the result
                 } else {
                     player = (player == 'X') ? 'O' : 'X'; // Switch player
                 }
@@ -167,18 +167,23 @@ public class Project1_Group17 {
             }
         }
 
-        returnHomePage(); // Return to the main menu after the game ends
-    }
-
-    // Method to pause execution for a specified number of milliseconds
-    public static void pause(int milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            System.out.println("Error in pause: " + e.getMessage());
+        // Ask the user to return to the main menu or exit
+        boolean validInput = false;
+        while (!validInput) {
+            System.out.print("\nWould you like to return to the main menu (M) or exit (E)? ");
+            String choice = scanner.next().toUpperCase();
+            if (choice.equals("M")) {
+                returnHomePage(); // Return to the main menu
+                validInput = true;
+            } else if (choice.equals("E")) {
+                exitPage(); // Exit the program
+                scanner.close(); // Close the scanner to avoid resource leaks
+                System.exit(0); // Exit the program
+            } else {
+                System.out.println("Invalid choice. Please enter 'M' to return to the main menu or 'E' to exit.");
+            }
         }
     }
-
     public static boolean haveWon(char[][] board, char player) {
         // Check rows for a win
         for (int row = 0; row < board.length; row++) {
@@ -200,7 +205,7 @@ public class Project1_Group17 {
     }
 
     public static void printBoard(char[][] board) {
-        System.out.print("\nTic-Tac-Toe Board:\n");
+        System.out.print("\nTic-Tac-Toe Board:\n\n");
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
                 System.out.print(board[row][col]);
