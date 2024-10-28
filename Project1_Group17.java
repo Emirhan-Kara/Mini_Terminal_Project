@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -38,7 +39,7 @@ public class Project1_Group17 {
         }
     }
 
-    //  MAIN METHODS FOR HOMEPAGE
+    // MAIN METHODS FOR HOMEPAGE
     public static void greetingPage() {
         System.out.println("         _       _         _                                   ");
         System.out.println("        ( )  _  ( )       (_ )                                 ");
@@ -78,20 +79,16 @@ public class Project1_Group17 {
             System.err.println("Error on cls!!!!");
         }
     }
-    public static void returnHomePage()
-    {
+
+    public static void returnHomePage() {
         cls();
         System.out.println("Returning to homepage");
-        try
-        {
-            for(int i = 0; i < 3; i++)
-            {
+        try {
+            for (int i = 0; i < 3; i++) {
                 System.out.println(".");
                 Thread.sleep(500);
             }
-        }
-        catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             System.out.println("Error! Returning Now");
         }
     }
@@ -118,40 +115,50 @@ public class Project1_Group17 {
                 board[row][col] = ' ';
             }
         }
-    
+
         char player = 'X';
         boolean gameOver = false;
         Scanner scanner = new Scanner(System.in);
         int moves = 0; // Track the number of moves for checking tie
-    
-        while (!gameOver  ) { // Continue till game over or all moves are made
+
+        while (!gameOver) { // Continue until game over or all moves are made
+            cls(); // Clear the console for the current player's turn
             printBoard(board);
-            System.out.print("\n Player " + player + " enter row and column (0, 1, or 2): ");
-            int row = scanner.nextInt();
-            int col = scanner.nextInt();
-            System.out.println();
-    
+            System.out.print("\nPlayer " + player + ", enter row and column (0, 1, or 2): ");
+
+            int row = -1;
+            int col = -1;
+            // Input handling
+            try {
+                row = scanner.nextInt();
+                col = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter numbers only.");
+                scanner.next(); // Clear invalid input
+                continue; // Skip to the next iteration
+            }
+
             // Check for valid row and column input
             if (row < 0 || row > 2 || col < 0 || col > 2) {
                 System.out.println("Invalid position. Please enter row and column between 0 and 2.");
                 continue;
             }
-    
+
             if (board[row][col] == ' ') {
-                board[row][col] = player; // place the element
-                moves++; // increment moves
+                board[row][col] = player; // Place the element
+                moves++; // Increment moves
                 gameOver = haveWon(board, player);
-                
-                // Debugging statements to track the game's state
-                System.out.println("Current moves: " + moves);
-                System.out.println("Game over status: " + gameOver);
-                
+
                 if (gameOver) {
+                    cls(); // Clear console to display final board
                     printBoard(board);
                     System.out.println("Player " + player + " has won!");
+                    pause(2000); // Pause for 2 seconds to allow the player to see the result
                 } else if (moves == 9) {
+                    cls(); // Clear console to display final board
                     printBoard(board);
                     System.out.println("The game is a tie!");
+                    pause(2000); // Pause for 2 seconds to allow the player to see the result
                 } else {
                     player = (player == 'X') ? 'O' : 'X'; // Switch player
                 }
@@ -159,41 +166,48 @@ public class Project1_Group17 {
                 System.out.println("Invalid move. Try again!");
             }
         }
+
+        returnHomePage(); // Return to the main menu after the game ends
     }
-    
+
+    // Method to pause execution for a specified number of milliseconds
+    public static void pause(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            System.out.println("Error in pause: " + e.getMessage());
+        }
+    }
+
     public static boolean haveWon(char[][] board, char player) {
-        // Check the rows
+        // Check rows for a win
         for (int row = 0; row < board.length; row++) {
             if (board[row][0] == player && board[row][1] == player && board[row][2] == player) {
                 return true;
             }
         }
-    
-        // Check for columns
+
+        // Check columns for a win
         for (int col = 0; col < board[0].length; col++) {
             if (board[0][col] == player && board[1][col] == player && board[2][col] == player) {
                 return true;
             }
         }
-    
-        // Check diagonals
-        if (board[0][0] == player && board[1][1] == player && board[2][2] == player) {
-            return true;
-        }
-    
-        if (board[0][2] == player && board[1][1] == player && board[2][0] == player) {
-            return true;
-        }
-        return false;
+
+        // Check diagonals for a win
+        return (board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
+               (board[0][2] == player && board[1][1] == player && board[2][0] == player);
     }
-    
+
     public static void printBoard(char[][] board) {
-        System.out.print("\nTic-Tac-Toe !\n\n");
+        System.out.print("\nTic-Tac-Toe Board:\n");
         for (int row = 0; row < board.length; row++) {
             for (int col = 0; col < board[row].length; col++) {
-                System.out.print(board[row][col] + " | ");
+                System.out.print(board[row][col]);
+                if (col < 2) System.out.print(" | "); // Print separator
             }
             System.out.println();
+            if (row < 2) System.out.println("---------"); // Print row separator
         }
     }
-}    
+}
