@@ -82,14 +82,14 @@ public class Project1_Group17 {
 
     public static void returnHomePage() {
         cls();
-        System.out.println("Returning to homepage");
+        System.out.println("Returning to Homepage");
         try {
             for (int i = 0; i < 3; i++) {
                 System.out.println(".");
                 Thread.sleep(500);
             }
         } catch (InterruptedException e) {
-            System.out.println("Error! Returning Now");
+            System.out.println("Error! Returning Now ");
         }
     }
 
@@ -124,7 +124,7 @@ public class Project1_Group17 {
         while (!gameOver) { // Continue until game over or all moves are made
             cls(); // Clear the console for the current player's turn
             printBoard(board);
-            System.out.print("\nPlayer " + player + ", enter row and column (0, 1, or 2): ");
+            System.out.print("\n->Player  " + player + ", enter row and column (0,1,or2): ");
 
             int row = -1;
             int col = -1;
