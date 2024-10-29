@@ -47,7 +47,13 @@ public class Project1_Group17
         }
     }
 
-    //  MAIN METHODS FOR HOMEPAGE
+    /**
+     * GREETING PAGE
+     * NO PARAMETERS
+     * @author Emirhan Hayrunnisa
+     * 
+     */
+
     public static void greetingPage() {
         String[] part1 = {
             "____    __    ____  _______  __        ______   ______   .___  ___.  _______      _______ __   ______",
@@ -124,6 +130,10 @@ public class Project1_Group17
         cls();
         for (String line : part1) System.out.println(line);
     }
+    /**
+     * @author Emirhan
+     * Shows options of applivation
+     */
     public static void printOptions()
     {
         System.out.println("        A)   Statistical Information about an array\n");
@@ -133,6 +143,11 @@ public class Project1_Group17
         System.out.println("        E)   EXIT\n\n\n");
         System.out.print("        Please select an option from the list above(A-E)): ");
     }
+    /**
+     * @author Hayrunnisa
+     * @param NO PARAMETER
+     * Visualization of sections for C
+     */
     public static void printCrypOptions()
     {
         System.out.println("        A)   Encryption\n");
@@ -140,6 +155,14 @@ public class Project1_Group17
         System.out.println("        C)   Return to the Main Menu\n");
         System.out.print("        Please select an option from the list above(A-C)): ");
     }
+    /**
+     * @author Emirhan Hayrunnisa 
+     * @param ans
+     * @param Check
+     * @return true/false according to correctness of the input 
+     * Method takes options and input as parameter 
+     * variable-length arguments are used
+     */
     public static boolean isValidEntry(String ans, String... Check )
     {
         // .equals method must be used. Because when we use ==, it compares the their memory references
@@ -150,6 +173,10 @@ public class Project1_Group17
         }
         return false;
     }
+    /**
+     * @author Emirhan
+     * Cleans terminal
+     */
     public static void cls()
     {
         try
@@ -167,6 +194,11 @@ public class Project1_Group17
             System.err.println("Error on cls!!!!");
         }
     }
+    /**
+     * @author Emirhan
+     * Clear screen, simulate a return to home, displays a " . " in every 500 ms
+     * @throw if interrupted, it catches an default exception
+     */
     public static void returnHomePage()
     {
         cls();
@@ -184,6 +216,10 @@ public class Project1_Group17
             System.out.println("Error! Returning Now");
         }
     }
+    /**
+     * @author Emirhan
+     * logic same as the previous one string is differ
+     */
     public static void exitPage()
     {
         cls();
@@ -203,6 +239,10 @@ public class Project1_Group17
         }
     }
     // ----------------------------------------------------------------------------------------
+    /**
+     * @author Hayrunnisa
+     * Simulates an ascıı art entrance for the game
+     */
     public static void welcometoxox() {
         String[] lines = {
             "                                                                                          ",
@@ -234,8 +274,10 @@ public class Project1_Group17
             "                        t^                'v                                               ",
             "                                                                                          "
         };
-
-        // Metni satır satır yazdır
+        /**
+         * print ascıı art line by line 10 ms for each line
+         * @throws if an exception occurs during execution
+         */
         for (String satır : lines) {
             System.out.println(satır);
             try {
@@ -245,9 +287,13 @@ public class Project1_Group17
                 Thread.currentThread().interrupt();  // İş parçacığının kesildiğini bildirir
             }
         }
-        // 3 saniye bekle, sonra ekranı temizle
         beklermisin();
     }
+    /**
+     * @author Hayrunnisa
+     * To give an significant visualizement to user in the some part of program
+     * it waits for 1 sec
+     */
     public static void beklermisin()
     {
         // 3 saniye bekle, sonra ekranı temizle
@@ -259,6 +305,11 @@ public class Project1_Group17
         }
         cls();
     }
+    /**
+     * @author Hayrunnisa
+     * @param choice -> is the person who is the next 
+     * represents the user next and remains 1.2 sec
+     */
     public static void printNext(char choice) {
         if ('O' == choice) {
             System.out.println(" ________   __    __   ______        __      _        ____    ");
@@ -281,13 +332,28 @@ public class Project1_Group17
             System.out.println("                                                                ");
         } 
         try {
-            Thread.sleep(1500);
+            Thread.sleep(1200);
         } catch (InterruptedException e) {
             System.out.println("Interruption cut: " + e.getMessage());
             Thread.currentThread().interrupt();  // İş parçacığının kesildiğini bildirir
         }
         cls();
     }
+    /**
+     * @author Hayrunnisa, Zaid
+     * XOX STARTS
+     * starts with an empty board
+     * prints the board on terminal each time
+     * X starts
+     * if the turn number smaller then 4 it does not check if there is a winner or not
+     * About selecting a block:
+     * they cannot choose a block that does not exist or full
+     * Flag: follows the progress of the game. 
+     * Counter: total of the turns.
+     * isValid: indicates input
+     * 
+     * 
+     */
     public static void startxox()
     {
         Scanner input = new Scanner(System.in);
@@ -307,7 +373,7 @@ public class Project1_Group17
                     System.out.println();
                     System.out.printf("\nPlease select a row %c [0,2]: ",turn);
                     row = input.nextInt();
-                    System.out.printf("\nPlease select a column [0,2]: ",turn);//edit by zaid 
+                    System.out.print("\nPlease select a column [0,2]: ");
                     col = input.nextInt();
                     input.nextLine();  // Buffer temizleme
                     cls();
@@ -319,26 +385,21 @@ public class Project1_Group17
                         counter ++;
                         if(counter > 4 && Over(paper, turn))
                         {
-                            flag = false;
-                            if(counter != 9)
-                            {
-                                System.out.printf("                     %c WON IN %d TURNS                                                 \n\n",turn,counter);
-                                System.out.println(" __        ___                                  _                       ");
-                                System.out.println(" \\ \\      / (_)_ __  _ __   ___ _ __  __      _(_)_ __  _ __   ___ _ __ ");
-                                System.out.println("  \\ \\ /\\ / /| | '_ \\| '_ \\ / _ \\ '__| \\ \\ /\\ / / | '_ \\| '_ \\ / _ \\ '__|");
-                                System.out.println("   \\ V  V / | | | | | | | |  __/ |     \\ V  V /| | | | | | | |  __/ |   ");
-                                System.out.println("    \\_/\\_/  |_|_| |_|_| |_|\\___|_|      \\_/\\_/ |_|_| |_|_| |_|\\___|_|   ");
-                                System.out.println("  ___| |__ (_) ___| | _____ _ __     __| (_)_ __  _ __   ___ _ __      ");
-                                System.out.println(" / __| '_ \\| |/ __| |/ / _ \\ '_ \\   / _` | | '_ \\| '_ \\ / _ \\ '__|     ");
-                                System.out.println("| (__| | | | | (__|   <  __/ | | | | (_| | | | | | | | |  __/ |        ");
-                                System.out.println(" \\___|_| |_|_|\\___|_|\\_\\___|_| |_|  \\__,_|_|_| |_|_| |_|\\___|_|         \n");     
-                            }
-                            
+                            flag = false; // GAME OVER
+                            System.out.printf("                     %c WON IN %d TURNS                                                 \n\n",turn,counter);
+                            System.out.println(" __        ___                                  _                       ");
+                            System.out.println(" \\ \\      / (_)_ __  _ __   ___ _ __  __      _(_)_ __  _ __   ___ _ __ ");
+                            System.out.println("  \\ \\ /\\ / /| | '_ \\| '_ \\ / _ \\ '__| \\ \\ /\\ / / | '_ \\| '_ \\ / _ \\ '__|");
+                            System.out.println("   \\ V  V / | | | | | | | |  __/ |     \\ V  V /| | | | | | | |  __/ |   ");
+                            System.out.println("    \\_/\\_/  |_|_| |_|_| |_|\\___|_|      \\_/\\_/ |_|_| |_|_| |_|\\___|_|   ");
+                            System.out.println("  ___| |__ (_) ___| | _____ _ __     __| (_)_ __  _ __   ___ _ __      ");
+                            System.out.println(" / __| '_ \\| |/ __| |/ / _ \\ '_ \\   / _` | | '_ \\| '_ \\ / _ \\ '__|     ");                                System.out.println("| (__| | | | | (__|   <  __/ | | | | (_| | | | | | | | |  __/ |        ");
+                            System.out.println(" \\___|_| |_|_|\\___|_|\\_\\___|_| |_|  \\__,_|_|_| |_|_| |_|\\___|_|         \n");     
                         }
                         else if(counter == 9 && !Over(paper,turn))
                         {
-                            System.out.printf("The Game is Tie!\n\n");//edit by zaid 
-                            flag = false;
+                            System.out.printf("\n DRAW!\n");
+                            flag = false; // GAME OVER
                         }
                         
                         printPaper(paper);
@@ -355,8 +416,8 @@ public class Project1_Group17
             if(!flag)
             {
                 System.out.println();
-                System.out.println("\n Press [0]to Play Again & [1]to Return to Main Menu:");//edit by zaid 
-                // System.out.println("Press [1]to Return to Main Menu :");//edit by zaid 
+                System.out.println("\n PLAY AGAIN [0]");
+                System.out.println("\n RETURN MAIN MENU [1]");
                 try {
                     int exit;
                     exit = input.nextInt();
@@ -371,7 +432,7 @@ public class Project1_Group17
                     } 
                 } catch (Exception e) {
                     cls();
-                    System.out.println(" INVALID ENTRY");
+                    System.out.println("\n INVALID ENTRY");
                     returnHomePage();  
                     return;
                 }  
@@ -380,6 +441,13 @@ public class Project1_Group17
 
            
     }
+    /**
+     * @author Hayrunnisa , Zaid
+     * @param paper , current board
+     * @param turn , indicates who's turn
+     * @return if it is a winning situation return true
+     * checks the moves
+     */
     public static boolean Over(char paper[][], char turn)
     {
         //cross control
@@ -396,9 +464,13 @@ public class Project1_Group17
         }            
         return false;
     }
+    /**
+     * @author Zaid, Hayrunnisa
+     * Prints the board
+     * @param paper, the board
+     */
     public static void printPaper(char paper[][])
     {
-        System.out.print("\nTic-Tac-Toe Board:\n\n");//edit by zaid 
         for(short i = 0; i<3; i++)
         {
             for(short j = 0; j<3; j++)
@@ -417,7 +489,4 @@ public class Project1_Group17
         }
         System.out.println();
     }
-
-
-
 }
