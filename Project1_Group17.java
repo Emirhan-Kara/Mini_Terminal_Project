@@ -317,7 +317,7 @@ public class Project1_Group17
                         double val = input.nextDouble(); 
                          // java automatically sets the number as +/- infinity if it over/underflows. So we check if the number is finite or not
                          // also we check if the number has more than 8 digits before the decimal part.
-                        if(!Double.isFinite(val) || val / Math.pow(10, 8) > 1.0)
+                        if(!Double.isFinite(val) || Math.abs(val) >= Math.pow(10, 8))
                         {
                             throw new RuntimeException("!NUMBER IS NOT IN THE RANGE!");
                         }
