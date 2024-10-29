@@ -1,8 +1,9 @@
 import java.util.Scanner;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 
-public class deneme
+public class Project1_Group17
 {
     public static void main(String[] args)
     {
@@ -197,6 +198,17 @@ public class deneme
             return true;
         return false;
     }
+    public static void beklermisin()
+    {
+        // 3 saniye bekle, sonra ekranı temizle
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println("Interruption cut: " + e.getMessage());
+            Thread.currentThread().interrupt();  // İş parçacığının kesildiğini bildirir
+        }
+        cls();
+    }
     // ----------------------------------------------------------------------------------------
     // OBJECTIVE 1 MAIN METHOD
     // Contains information about the objective and main menu of the objective 1 UI
@@ -204,18 +216,6 @@ public class deneme
     public static void Objective1()
     {
         cls();
-        Scanner scanA = new Scanner(System.in);
-        System.out.println("Objective 1");
-        System.out.println("------------");
-        System.out.println("-> In this objective, you need to create an array that contains double variables");
-        System.out.println("-> The program would provide you the following information about your array");
-        System.out.println("-> Median, Arithmetic mean, Geometric mean, and Harmonic mean\n");
-        System.out.println("IMPORTANT NOTES");
-        System.out.println("----------------");
-        System.out.println("*  The median of even-length array is calculated by taking the average of the middle two elements\n");
-        System.out.println("*  The values that are '<= 0' are ignored while calculating the geometric mean of the array\n\n\n");
-
-        
         double arr[] = fillArray();
         callMethodsForObj1(arr);
 
@@ -235,17 +235,127 @@ public class deneme
         printArray(arr);
         System.out.printf("Median of your array:            %f\n\n", median(arr, arr.length));
         System.out.printf("Arithmetic mean of your array:   %f\n\n", arithmeticMean(arr, arr.length));
-        System.out.printf("Geometric mean of your array:    %f\n\n", geometricMean(arr, arr.length));
-        System.out.printf("Harmonic mean of your array:     %f\n\n", harmonicMean(arr, arr.length));
+        try
+        {
+            System.out.printf("Geometric mean of your array:    %f\n\n", geometricMean(arr, arr.length));
+        }
+        catch(IllegalArgumentException e)
+        {
+            System.err.println(e.getMessage());
+        }
+        try
+        {
+            System.out.printf("Harmonic mean of your array:     %f\n\n", harmonicMean(arr, arr.length));
+        }
+        catch(IllegalArgumentException e)
+        {
+            System.err.println(e.getMessage());
+        }
+        
     }
 
     // This method returns an array that the user will create
     public static double[] fillArray()
     {
-        cls();
+        Scanner input = new Scanner(System.in);
+        Scanner strInput = new Scanner(System.in);
+        
+        int size = getSize();
+        double array[] = new double[size];
+        
+        for (int i = 0; i < size; i++)
+        {
+            boolean flag = true;
+            while(flag)
+            {
+                double val = 0.0;
+                try
+                {
+                    cls();
+                    printArray(array);
+                    System.out.printf("Please enter a number for %d. element in the array\n\n", i+1);
+                    System.out.print("Enter a double (max 8 digits before the decimal): ");
+                    val = input.nextDouble(); 
 
-        // ! this method must take an integer input for array's size, between 1-10
-        // ! then asks user to fill each element with valid double values
+                    // java automatically sets the number as +/- infinity if it over/underflows. So we check if the number is finite or not
+                    // also we check if the number has more than 8 digits before the decimal part.
+                    if(!Double.isFinite(val) || Math.abs(val) >= Math.pow(10, 8))
+                    {
+                        throw new RuntimeException("!NUMBER IS NOT IN THE RANGE!");
+                    }
+                    else if(val <= 0.0)
+                    {
+                        throw new IllegalArgumentException("You have entered a negative value. If you continue, the value will be ignored while calculating the geometric and the harmonic mean!");
+                    }
+                    
+                    array[i] = val;
+                    flag = false;
+                }
+                catch (IllegalArgumentException e)
+                {
+                    cls();
+                    double invalidVal = val; // store the old value
+                    String choice;
+                    System.err.print(e.getMessage());
+                    System.out.println("\n\nTo change the value, PRESS 1\nTo continue, PRESS 2\n\n\nYour choice (1 or 2): ");
+                    choice = strInput.nextLine();
+
+                    while (!isValidEntry(choice, "1", "2"))
+                    {
+                        cls();
+                        System.err.println("INVALID ENTRY!!");
+                        System.out.println("\n\nTo change the value, PRESS 1\nTo continue, PRESS 2\n\n\nYour choice (1 or 2): ");
+                        choice = strInput.nextLine();
+                    }
+
+                    if (choice.equals("2"))
+                    {
+                        array[i] = invalidVal; // Assign the invalid value
+                        flag = false;
+                    }  
+                }
+                catch(InputMismatchException e) //NumberFormatException
+                {
+                    System.err.println("\nINVALID ENTRY! Select a double please!");
+                    beklermisin();
+                    input.nextLine();
+                }
+                catch(RuntimeException e)
+                {
+                    System.err.println(e.getMessage());
+                    beklermisin();
+                }
+            }
+        }
+
+        return array;
+    }
+    
+    public static int getSize()
+    {
+        Scanner strInput = new Scanner(System.in);
+        cls();
+        System.out.println("Objective 1");
+        System.out.println("------------");
+        System.out.println("-> In this objective, you need to create an array that contains double variables");
+        System.out.println("-> The program would provide you the following information about your array");
+        System.out.println("-> Median, Arithmetic mean, Geometric mean, and Harmonic mean\n");
+        System.out.println("IMPORTANT NOTES");
+        System.out.println("----------------");
+        System.out.println("*  The median of even-length array is calculated by taking the average of the middle two elements\n");
+        System.out.println("*  The values that are '<= 0' are ignored while calculating the geometric mean and harmonic mean of the array\n\n\n");
+        
+        System.out.print("Please enter your array's size between 1-10: ");
+
+        String ans = strInput.nextLine();
+        while (!isValidEntry(ans, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
+        {
+            cls();
+            System.err.println("INVALID ENTRY!!");
+            System.out.print("Please enter your array's size between 1-10: ");
+            ans = strInput.nextLine();
+        }
+        return strToInt(ans);
     }
     
     // This method takes an array as input and prints it
@@ -293,18 +403,21 @@ public class deneme
     public static double geometricMean(double arr[], int size)
     {
         double geoMean = 1;
-        double count = (double)size;
-        for (double i : arr)
+        int count = 0;   // positive number counter
+        for (double d : arr)
         {
             // if there are any elements equal to zero, ignores them
-            if (i <= 0.0)
-            {
-                count -= 1.0;
+            if (d <= 0.0)
                 continue;
-            }
-            geoMean *= i;
+
+            count++;
+            geoMean *= d;
         }
-        return Math.pow(geoMean, 1.0/count);
+
+        if (count == 0)
+            throw new IllegalArgumentException("Cannot calculate geometric mean without any positive number inside the array");
+
+        return Math.pow(geoMean, 1.0/(double)count);
     }
 
 
@@ -313,6 +426,15 @@ public class deneme
     // O(n) time complexity and O(n) space complexity. n=size of the array
     public static double harmonicMean(double arr[], int size)
     {
+        // count how many numbers are greater than 0 (valid for harmonic mean calculation)
+        int count = 0;
+        for(double d: arr)
+        {
+            if (d > 0)
+                count++;
+        }
+        if (count == 0)
+            throw new IllegalArgumentException("Cannot calculate harmonic mean without any positive number inside the array");
         return (double)size / harmonicSummation(arr, size-1);
     }
 
@@ -323,6 +445,9 @@ public class deneme
         if (index == 0)
             return 1.0 / arr[index];
         
-        return 1.0/arr[index] + harmonicSummation(arr, index-1);
+        // If the current value is <= 0, ignore it. If valid, continue normally
+        double sum = (arr[index] <= 0) ? 0.0 : 1.0/arr[index];
+        
+        return sum + harmonicSummation(arr, index-1);
     }
 }
