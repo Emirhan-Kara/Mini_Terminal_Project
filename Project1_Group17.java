@@ -320,20 +320,15 @@ public class Project1_Group17
                         if(counter > 4 && Over(paper, turn))
                         {
                             flag = false;
-                            if(counter != 9)
-                            {
-                                System.out.printf("                     %c WON IN %d TURNS                                                 \n\n",turn,counter);
-                                System.out.println(" __        ___                                  _                       ");
-                                System.out.println(" \\ \\      / (_)_ __  _ __   ___ _ __  __      _(_)_ __  _ __   ___ _ __ ");
-                                System.out.println("  \\ \\ /\\ / /| | '_ \\| '_ \\ / _ \\ '__| \\ \\ /\\ / / | '_ \\| '_ \\ / _ \\ '__|");
-                                System.out.println("   \\ V  V / | | | | | | | |  __/ |     \\ V  V /| | | | | | | |  __/ |   ");
-                                System.out.println("    \\_/\\_/  |_|_| |_|_| |_|\\___|_|      \\_/\\_/ |_|_| |_|_| |_|\\___|_|   ");
-                                System.out.println("  ___| |__ (_) ___| | _____ _ __     __| (_)_ __  _ __   ___ _ __      ");
-                                System.out.println(" / __| '_ \\| |/ __| |/ / _ \\ '_ \\   / _` | | '_ \\| '_ \\ / _ \\ '__|     ");
-                                System.out.println("| (__| | | | | (__|   <  __/ | | | | (_| | | | | | | | |  __/ |        ");
-                                System.out.println(" \\___|_| |_|_|\\___|_|\\_\\___|_| |_|  \\__,_|_|_| |_|_| |_|\\___|_|         \n");     
-                            }
-                            
+                            System.out.printf("                     %c WON IN %d TURNS                                                 \n\n",turn,counter);
+                            System.out.println(" __        ___                                  _                       ");
+                            System.out.println(" \\ \\      / (_)_ __  _ __   ___ _ __  __      _(_)_ __  _ __   ___ _ __ ");
+                            System.out.println("  \\ \\ /\\ / /| | '_ \\| '_ \\ / _ \\ '__| \\ \\ /\\ / / | '_ \\| '_ \\ / _ \\ '__|");
+                            System.out.println("   \\ V  V / | | | | | | | |  __/ |     \\ V  V /| | | | | | | |  __/ |   ");
+                            System.out.println("    \\_/\\_/  |_|_| |_|_| |_|\\___|_|      \\_/\\_/ |_|_| |_|_| |_|\\___|_|   ");
+                            System.out.println("  ___| |__ (_) ___| | _____ _ __     __| (_)_ __  _ __   ___ _ __      ");
+                            System.out.println(" / __| '_ \\| |/ __| |/ / _ \\ '_ \\   / _` | | '_ \\| '_ \\ / _ \\ '__|     ");                                System.out.println("| (__| | | | | (__|   <  __/ | | | | (_| | | | | | | | |  __/ |        ");
+                            System.out.println(" \\___|_| |_|_|\\___|_|\\_\\___|_| |_|  \\__,_|_|_| |_|_| |_|\\___|_|         \n");     
                         }
                         else if(counter == 9 && !Over(paper,turn))
                         {
