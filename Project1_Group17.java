@@ -47,7 +47,13 @@ public class Project1_Group17
         }
     }
 
-    //  MAIN METHODS FOR HOMEPAGE
+    /**
+     * GREETING PAGE
+     * NO PARAMETERS
+     * @author Emirhan Hayrunnisa
+     * 
+     */
+
     public static void greetingPage() {
         String[] part1 = {
             "____    __    ____  _______  __        ______   ______   .___  ___.  _______      _______ __   ______",
@@ -124,6 +130,10 @@ public class Project1_Group17
         cls();
         for (String line : part1) System.out.println(line);
     }
+    /**
+     * @author Emirhan
+     * Shows options of applivation
+     */
     public static void printOptions()
     {
         System.out.println("        A)   Statistical Information about an array\n");
@@ -133,6 +143,11 @@ public class Project1_Group17
         System.out.println("        E)   EXIT\n\n\n");
         System.out.print("        Please select an option from the list above(A-E)): ");
     }
+    /**
+     * @author Hayrunnisa
+     * @param NO PARAMETER
+     * Visualization of sections for C
+     */
     public static void printCrypOptions()
     {
         System.out.println("        A)   Encryption\n");
@@ -140,6 +155,13 @@ public class Project1_Group17
         System.out.println("        C)   Return to the Main Menu\n");
         System.out.print("        Please select an option from the list above(A-C)): ");
     }
+    /**
+     * @author Emirhan Hayrunnisa 
+     * @param ans
+     * @param Check
+     * @return true/false according to correctness of the input 
+     * Method takes options and input as parameter 
+     */
     public static boolean isValidEntry(String ans, String... Check )
     {
         // .equals method must be used. Because when we use ==, it compares the their memory references
@@ -150,6 +172,10 @@ public class Project1_Group17
         }
         return false;
     }
+    /**
+     * @author Emirhan
+     * Cleans terminal
+     */
     public static void cls()
     {
         try
@@ -167,6 +193,11 @@ public class Project1_Group17
             System.err.println("Error on cls!!!!");
         }
     }
+    /**
+     * @author Emirhan
+     * Clear screen, simulate a return to home, displays a " . " in every 500 ms
+     * @throw if interrupted, it catches an default exception
+     */
     public static void returnHomePage()
     {
         cls();
@@ -184,6 +215,10 @@ public class Project1_Group17
             System.out.println("Error! Returning Now");
         }
     }
+    /**
+     * @author Emirhan
+     * logic same as the previous one string is differ
+     */
     public static void exitPage()
     {
         cls();
@@ -203,6 +238,10 @@ public class Project1_Group17
         }
     }
     // ----------------------------------------------------------------------------------------
+    /**
+     * @author Hayrunnisa
+     * Simulates an ascıı art entrance for the game
+     */
     public static void welcometoxox() {
         String[] lines = {
             "                                                                                          ",
@@ -234,8 +273,10 @@ public class Project1_Group17
             "                        t^                'v                                               ",
             "                                                                                          "
         };
-
-        // Metni satır satır yazdır
+        /**
+         * print ascıı art line by line 10 ms for each line
+         * @throws if an exception occurs during execution
+         */
         for (String satır : lines) {
             System.out.println(satır);
             try {
@@ -245,9 +286,13 @@ public class Project1_Group17
                 Thread.currentThread().interrupt();  // İş parçacığının kesildiğini bildirir
             }
         }
-        // 3 saniye bekle, sonra ekranı temizle
         beklermisin();
     }
+    /**
+     * @author Hayrunnisa
+     * To give an significant visualizement to user in the some part of program
+     * it waits for 1 sec
+     */
     public static void beklermisin()
     {
         // 3 saniye bekle, sonra ekranı temizle
@@ -259,6 +304,11 @@ public class Project1_Group17
         }
         cls();
     }
+    /**
+     * @author Hayrunnisa
+     * @param choice -> is the person who is the next 
+     * represents the user next and remains 1.2 sec
+     */
     public static void printNext(char choice) {
         if ('O' == choice) {
             System.out.println(" ________   __    __   ______        __      _        ____    ");
@@ -281,13 +331,28 @@ public class Project1_Group17
             System.out.println("                                                                ");
         } 
         try {
-            Thread.sleep(1500);
+            Thread.sleep(1200);
         } catch (InterruptedException e) {
             System.out.println("Interruption cut: " + e.getMessage());
             Thread.currentThread().interrupt();  // İş parçacığının kesildiğini bildirir
         }
         cls();
     }
+    /**
+     * @author Hayrunnisa, Zaid
+     * XOX STARTS
+     * starts with an empty board
+     * prints the board on terminal each time
+     * X starts
+     * if the turn number smaller then 4 it does not check if there is a winner or not
+     * About selecting a block:
+     * they cannot choose a block that does not exist or full
+     * Flag: follows the progress of the game. 
+     * Counter: total of the turns.
+     * isValid: indicates input
+     * 
+     * 
+     */
     public static void startxox()
     {
         Scanner input = new Scanner(System.in);
@@ -375,6 +440,13 @@ public class Project1_Group17
 
            
     }
+    /**
+     * @author Hayrunnisa , Zaid
+     * @param paper , current board
+     * @param turn , indicates who's turn
+     * @return if it is a winning situation return true
+     * checks the moves
+     */
     public static boolean Over(char paper[][], char turn)
     {
         //cross control
@@ -391,6 +463,11 @@ public class Project1_Group17
         }            
         return false;
     }
+    /**
+     * @author Zaid, Hayrunnisa
+     * Prints the board
+     * @param paper, the board
+     */
     public static void printPaper(char paper[][])
     {
         for(short i = 0; i<3; i++)
@@ -411,7 +488,4 @@ public class Project1_Group17
         }
         System.out.println();
     }
-
-
-
 }
