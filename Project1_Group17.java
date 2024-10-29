@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class Project1_Group17
+public class deneme
 {
     public static void main(String[] args)
     {
@@ -114,6 +114,27 @@ public class Project1_Group17
             System.out.println("Error! Returning Now");
         }
     }
+    public static void loadingPage()
+    {
+        cls();
+        try
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                System.out.println("Loading");
+                for(int j = 0; j < 3; j++)
+                {
+                    System.out.println(".");
+                    Thread.sleep(400);
+                }
+                cls();
+            }
+        }
+        catch (InterruptedException e)
+        {
+            System.out.println("Error! Returning Now");
+        }
+    }
     public static void exitPage()
     {
         cls();
@@ -132,8 +153,54 @@ public class Project1_Group17
             System.out.println("Error! Returning Now");
         }
     }
+    public static int strToInt(String s)
+    {
+        int ans = 0;
+        int mult = 1;
+        int size = s.length();
+        for(int i = size-1; i >= 0; i--)
+        {
+            char c = s.charAt(i);
+            ans += (c - '0') * mult;
+            mult *= 10;
+        }
+        return ans;
+    }
+    public static boolean isValidDouble(String input)
+    {
+        try
+        {
+            Double.parseDouble(input);
+            return true;
+        }
+        catch (NumberFormatException e)
+        {
+            return false; // If conversion fails, return false
+        }
+    }
+    // The function for either returning the main page or redo the objective
+    public static boolean loopAsk()
+    {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("\n\n\nPRESS \"1\", to go back\n\nPRESS \"2\", to do the operation again");
+        System.out.print("Your choice (1 or 2): ");
+        String case1Loop = scan.nextLine();
+        while (!isValidEntry(case1Loop, "1", "2"))
+        {
+            cls();
+            System.err.println("\n        INVALID ENTRY!!");
+            System.out.println("\n\n\nPRESS \"1\", to go back\n\nPRESS \"2\", to do the operation again\n");
+            System.out.print("Your choice (1 or 2): ");
+            case1Loop = scan.nextLine();
+        }
+        if (case1Loop.equals("2"))
+            return true;
+        return false;
+    }
     // ----------------------------------------------------------------------------------------
-    // METHODS FOR OPTION 1
+    // OBJECTIVE 1 MAIN METHOD
+    // Contains information about the objective and main menu of the objective 1 UI
+    // Directs the user to corresponding methods according to their input
     public static void Objective1()
     {
         cls();
@@ -148,85 +215,20 @@ public class Project1_Group17
         System.out.println("*  The median of even-length array is calculated by taking the average of the middle two elements\n");
         System.out.println("*  The values that are '<= 0' are ignored while calculating the geometric mean of the array\n\n\n");
 
-        System.out.print("Please enter your array's size between 1-10: ");
-        String ans = scanA.nextLine();
-        while (!isValidEntry(ans, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
-        {
-            cls();
-            System.err.println("INVALID ENTRY!!");
-            System.out.print("Please enter your array's size between 1-10: ");
-            ans = scanA.nextLine();
-        }
-        System.out.println("\n");
-        int size = strToInt(ans);
-        double[] arr = new double[size];
-        for (int i = 0; i < size; i++)
-        {
-            cls();
-            System.out.printf("Enter %d. value (data type must be double): ", i + 1);
-            while (true) 
-            {
-                String doubleStr = scanA.nextLine();
-                if (doubleStr.isEmpty() || !isValidDouble(doubleStr)) 
-                {
-                    System.err.println("INVALID ENTRY!!");
-                    System.out.print("Please enter a valid double value: ");
-                } 
-                else 
-                {
-                    arr[i] = Double.parseDouble(doubleStr); // Convert to double
-                    break;                                  // Exit the loop
-                }
-            }
-        }
-
+        
+        double arr[] = fillArray();
         callMethodsForObj1(arr);
-        // scanA.nextLine(); // clears the last inputs to not cause any problem below
 
-        // The loop for either returning the main page or redo the objective 1
-        System.out.println("\n\n\nTo EXIT, press 1\nTo create a new array, press 2\n");
-        System.out.print("Your choice (1 or 2): ");
-        String caseALoop = scanA.nextLine();
-        while (!isValidEntry(caseALoop, "1", "2"))
+        if (loopAsk())
         {
-            cls();
-            System.err.println("\n\n        INVALID ENTRY!!");
-            System.out.println("\n\nTo EXIT, press 1\n\nTo create a new array, press 2");
-            System.out.print("Your choice (1 or 2): ");
-            caseALoop = scanA.nextLine();
-        }
-        if (caseALoop.equals("2"))
+            loadingPage();
             Objective1();
+        }
         else
             returnHomePage();
     } 
-    public static int strToInt(String s)
-    {
-        int ans = 0;
-        int mult = 1;
-        int size = s.length();
-        for(int i = size-1; i >= 0; i--)
-        {
-            char c = s.charAt(i);
-            ans += (c - '0') * mult;
-            mult *= 10;
-        }
-        return ans;
-    }
-
-    public static boolean isValidDouble(String input)
-    {
-        try
-        {
-            Double.parseDouble(input);
-            return true;
-        }
-        catch (NumberFormatException e)
-        {
-            return false; // If conversion fails, return false
-        }
-    }
-
+    
+    // This method calls all the methods for the first objective
     public static void callMethodsForObj1(double arr[])
     {
         cls();
@@ -237,6 +239,16 @@ public class Project1_Group17
         System.out.printf("Harmonic mean of your array:     %f\n\n", harmonicMean(arr, arr.length));
     }
 
+    // This method returns an array that the user will create
+    public static double[] fillArray()
+    {
+        cls();
+
+        // ! this method must take an integer input for array's size, between 1-10
+        // ! then asks user to fill each element with valid double values
+    }
+    
+    // This method takes an array as input and prints it
     public static void printArray(double arr[])
     {
         int size = arr.length;
@@ -249,9 +261,9 @@ public class Project1_Group17
         System.out.println("]\n\n");
     }
 
-    // Returns the median of the array.
+    // This method takes an array and its size as input, returns the median of the array
     // The array is first sorted, then the mean is selected based on the size of the array
-    // O(n logn) time complexity
+    // O(logn) space complexity and O(n logn) time complexity. n=number of elements in the array
     public static double median(double arr[], int size)
     {
         Arrays.sort(arr);
@@ -262,9 +274,9 @@ public class Project1_Group17
     }
 
 
-    // Returns the arithmetic mean of the array.
+    // This method takes an array and its size as input, returns the arithmetic mean (average) of the array
     // With an array of size n, the formula of the arithmetic mean is: (a1 + a2 + ... + an) / n
-    // O(n) time complexity     n=size of the array
+    // O(n) time complexity. n=size of the array
     public static double arithmeticMean(double arr[], int size)
     {
         double aritMean = 0;
@@ -275,16 +287,17 @@ public class Project1_Group17
     }
 
 
-    // Returns the geometric mean of the array.
+    // This method takes an array and its size as input, returns the geometric mean of the array.
     // With an array of size n, the formula of the geometric mean is: pow((a1 * a2 * ... * an), 1/n)
-    // O(n) time complexity     n=size of the array
+    // O(n) time complexity. n=size of the array
     public static double geometricMean(double arr[], int size)
     {
         double geoMean = 1;
         double count = (double)size;
         for (double i : arr)
         {
-            if (i <= 0)
+            // if there are any elements equal to zero, ignores them
+            if (i <= 0.0)
             {
                 count -= 1.0;
                 continue;
@@ -295,16 +308,16 @@ public class Project1_Group17
     }
 
 
-    // Returns the harmonic mean of the array by using recursive sumOfVariablesinArray function in the summation process
+    // This method takes and array and its size as input, returns the harmonic mean of the array by using recursive harmonicSummation method in the summation process
     // With an array of size n, the formula of the harmonic mean is: n / [(1/a1) + (1/a2) + ... + (1/an)]
-    // O(n) time complexity    n=size of the array
-    // O(n) space complexity   n=size of the array
+    // O(n) time complexity and O(n) space complexity. n=size of the array
     public static double harmonicMean(double arr[], int size)
     {
         return (double)size / harmonicSummation(arr, size-1);
     }
 
-    // Takes an array and index. Sum all the values with recursion as 1/value format starting from index 0 to index
+    // This method is a recursive approach for harmonic summation step of the harmonic mean calculation
+    // Takes an array and an index as input and calculates the harmonic summation recursively until it reaches the first element of the array.
     public static double harmonicSummation(double arr[], int index)
     {
         if (index == 0)
