@@ -373,7 +373,7 @@ public class Project1_Group17
                     System.out.println();
                     System.out.printf("\nPlease select a row %c [0,2]: ",turn);
                     row = input.nextInt();
-                    System.out.print("\nPlease select a column [0,2]: ");
+                    System.out.printf("\nPlease select a column [0,2]: ",turn);
                     col = input.nextInt();
                     input.nextLine();  // Buffer temizleme
                     cls();
@@ -398,7 +398,7 @@ public class Project1_Group17
                         }
                         else if(counter == 9 && !Over(paper,turn))
                         {
-                            System.out.printf("\n DRAW!\n");
+                            System.out.printf("The Game is Tie!\n\n");
                             flag = false; // GAME OVER
                         }
                         
@@ -416,8 +416,7 @@ public class Project1_Group17
             if(!flag)
             {
                 System.out.println();
-                System.out.println("\n PLAY AGAIN [0]");
-                System.out.println("\n RETURN MAIN MENU [1]");
+                System.out.println("\n Press [0]to Play Again & [1]to Return to Main Menu:");
                 try {
                     int exit;
                     exit = input.nextInt();
@@ -471,6 +470,7 @@ public class Project1_Group17
      */
     public static void printPaper(char paper[][])
     {
+        System.out.print("\nTic-Tac-Toe Board:\n\n");
         for(short i = 0; i<3; i++)
         {
             for(short j = 0; j<3; j++)
