@@ -161,6 +161,7 @@ public class Project1_Group17
      * @param Check
      * @return true/false according to correctness of the input 
      * Method takes options and input as parameter 
+     * variable-length arguments are used
      */
     public static boolean isValidEntry(String ans, String... Check )
     {
