@@ -337,7 +337,7 @@ public class Project1_Group17
                         }
                         else if(counter == 9 && !Over(paper,turn))
                         {
-                            System.out.printf("\n DRAW!");
+                            System.out.printf("\n DRAW!\n");
                             flag = false;
                         }
                         
