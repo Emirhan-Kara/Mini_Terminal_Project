@@ -210,6 +210,9 @@ public class Project1_Group17
         return false;
     }
     // ----------------------------------------------------------------------------------------
+    // OBJECTIVE 2 MAIN METHOD
+    // Contains information about the objective and main menu of the objective 2 UI
+    // Directs the user to corresponding methods according to their input
     public static void Objective2()
     {
         cls();
@@ -260,6 +263,8 @@ public class Project1_Group17
         System.out.print("        Please select an option from the list above(1-5)): ");
     }
     
+    // Main method for Objective2_Case1 (Matrix transpose)
+    // Displays the transpose of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2
     public static void Obj2Case1()
     {
         int row = takeInputOfRowAndColumn("number of ROWS");
@@ -283,6 +288,8 @@ public class Project1_Group17
             Objective2();
         }
     }
+    
+    // This method takes a valid input for wanted dimension size
     public static int takeInputOfRowAndColumn(String s)
     {
         cls();
@@ -298,6 +305,8 @@ public class Project1_Group17
         }
         return strToInt(val);
     }
+    
+    // This method takes a matrix and its dimensions as input and fills it with valid double values
     public static void fillMatrix(double[][] mat, int row, int col)
     {
         cls();
@@ -340,6 +349,8 @@ public class Project1_Group17
             }
         }
     }
+    
+    // This methods takes a matrix and its dimensions as input and prints it. Input string is for the flexibility of the method.
     public static void printMatrix(double[][] mat, int row, int col, String message)
     {
         System.out.printf("\n\n%s\n", message);
@@ -357,6 +368,8 @@ public class Project1_Group17
         System.out.println("=".repeat((col * 20)+3) + "\n\n"); // Bottom divider line
     }  
     
+    // This method takes a matrix as input, returns the transpose of that matrix
+    // O(n) space complexity and O(n) time complexity. n=number of elements in the matrix
     public static double[][] returnTranspose(double mat[][])
     {
         int row = mat.length;
@@ -374,6 +387,9 @@ public class Project1_Group17
     }
 
 
+    // Main method for Objective2_Case2 (Inverse matrix)
+    // Creates a valid matrix to be able to perform the task.
+    // Displays the inverse of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2
     public static void Obj2Case2()
     {
         int row = takeInputOfRowAndColumn("both number of ROWS and COLUMNS");
@@ -409,6 +425,9 @@ public class Project1_Group17
             Objective2();
         }
     }
+    
+    // This method takes a matrix and its determinant as input, calculates the cofactor matrix, adjoint matrix and then returns the inverse of that matrix
+    // O(n+r) space complexity and O(n^2) time complexity. n=number of elements in the matrix
     public static double[][] inverseMatrix(double[][] mat, double determinant)
     {
         // create the adjoint matrix by taking the transpose of the cofactor matrix
@@ -459,6 +478,10 @@ public class Project1_Group17
         }
         return ans;
     }
+    
+    // This method takes a matrix as input, creates sub-matrices for each element of the original matrix,
+    // calculate the minors (determinant of the submatrix) for each sub-matrices and returns a cofactor matrix accordingly
+    // O(n+r) space complexity and O(n^2) time complexity. n=number of elements in the matrix
     public static double[][] cofactorMatrix(double mat[][])
     {
         int row = mat.length;
@@ -483,6 +506,9 @@ public class Project1_Group17
     
         return cofactorMat;
     }
+    
+    // This method takes a matrix and two indeces as input, returns a new matrix that doesn't contain the i-th row and j-th column of the original matrix
+    // O(n) space complexity, O(n) time complexity. n=number of elements in the matrix
     public static double[][] ignore_ithRow_jthColumn(double mat[][], int i, int j)
     {
         int row = mat.length;
@@ -507,6 +533,9 @@ public class Project1_Group17
 
         return newMat;
     }
+    
+    // This method takes a matrix and constant as input, modifes the matrix such that each element is multiplied with the constant
+    // O(1) space complexity and O(n) time complexity. n=number of elements in the matrix 
     public static void matrixMultWithConstant(double mat[][], double x)
     {
         int row = mat.length;
@@ -522,6 +551,9 @@ public class Project1_Group17
         }
     }
 
+    // Main method for Objective2_Case3 (Matrix multiplication)
+    // Creates and fills two matrices suitable for the operation
+    // Displays the dot product of the two matrices and asks the user if they want to re-do the objective or go back to main menu for Objective 2
     public static void Obj2Case3()
     {
         int row1 = takeInputOfRowAndColumn("number of ROWS for the first matrix");
@@ -568,6 +600,9 @@ public class Project1_Group17
             Objective2();
         }
     }
+    
+    // This methods takes two matrices as input, returns another matrix that is the dot product of the two matrices (matrix multiplication)
+    // O(n) space complexity and O(nr). n=number of elements in answer matrix and r=number of rows in the first matrix
     public static double[][] matrixMult(double mat1[][], double mat2[][])
     {
         int row1 = mat1.length;
@@ -596,6 +631,9 @@ public class Project1_Group17
         return result;
     }
 
+    // Main method for Objective2_Case4 (Element-wise multiplication)
+    // Creates and fills 2 matrices with same dimensions
+    // Displays the element-wise multiplication matrix and ask the user if they want to re-do the objective or go back to main menu for Objective 2
     public static void Obj2Case4()
     {
         int row = takeInputOfRowAndColumn("number of ROWS for both matrices");
@@ -652,6 +690,9 @@ public class Project1_Group17
             Objective2();
         }
     }
+
+    // This method takes two matrices as input, returns another matrix that contains the element-wise multiplication result
+    // O(n) space complexity and O(n) time complexity. n=number of elements in one matrix
     public static double[][] elementwiseMult(double mat1[][], double mat2[][])
     {
         int row = mat1.length;
