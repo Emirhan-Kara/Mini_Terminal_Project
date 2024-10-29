@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 
 public class Project1_Group17
 {
@@ -97,6 +98,17 @@ public class Project1_Group17
             System.err.println("Error on cls!!!!");
         }
     }
+    public static void beklermisin()
+    {
+        // 3 saniye bekle, sonra ekranı temizle
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println("Interruption cut: " + e.getMessage());
+            Thread.currentThread().interrupt();  // İş parçacığının kesildiğini bildirir
+        }
+        cls();
+    }
     public static void returnHomePage()
     {
         cls();
@@ -166,7 +178,7 @@ public class Project1_Group17
         }
         return ans;
     }
-    public static boolean isValidDouble(String input)
+    /*public static boolean isValidDouble(String input)
     {
         try
         {
@@ -177,7 +189,7 @@ public class Project1_Group17
         {
             return false; // If conversion fails, return false
         }
-    }
+    }*/
     // The function for either returning the main page or redo the objective
     public static boolean loopAsk()
     {
@@ -295,37 +307,54 @@ public class Project1_Group17
         {
             for (int j = 0; j < col; j++)
             {
-                cls();
-                System.out.printf("Please enter a number for ROW: %d  and COLUMN: %d\n\n", i+1, j+1);
-                System.out.print("Your value (data type is double): ");
-                String val = input.nextLine();
-                while (val.isEmpty() || !isValidDouble(val)) 
+                boolean flag = true;
+                while(flag)
                 {
-                    cls();
-                    System.err.println("\n\nINVALID ENTRY!!\n");
-                    System.out.printf("Please enter a number for ROW: %d  and COLUMN: %d\n\n", i+1, j+1);
-                    System.out.print("Your value (data type is double): ");
-                    val = input.nextLine();
+                    try
+                    {
+                        cls();
+                        printMatrix(mat, row, col,"~ CURRENT MATRIX ~" );
+                        System.out.printf("Please enter a number for ROW: %d  and COLUMN: %d\n\n", i+1, j+1);
+                        System.out.print("Your value (data type is double): ");
+                        double val = input.nextDouble(); 
+                        if( val > Double.MAX_VALUE || val < Double.MIN_VALUE)
+                        {
+                            throw new RuntimeException("!NUMBER IS NOT IN THE RANGE!");
+                        }
+                        mat[i][j] = val;
+                        flag = false;
+                    }
+                    catch(InputMismatchException e) //NumberFormatException
+                    {
+                        cls();
+                        System.err.println("\n\nINVALID ENTRY! Select a double please.\n");
+                        beklermisin();
+                        input.nextLine();
+                    }
+                    catch(RuntimeException e)
+                    {
+                        System.err.println(e.getMessage());
+                        beklermisin();
+                    }
                 }
-                mat[i][j] = Double.parseDouble(val);
             }
         }
     }
     public static void printMatrix(double[][] mat, int row, int col, String message)
     {
         System.out.printf("\n\n%s\n", message);
-        System.out.println("=".repeat((col * 8)+3));
+        System.out.println("=".repeat((col * 20)+3));
     
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < col; j++)
             {
-                System.out.printf("%7.2f ", mat[i][j]); // 7 spaces wide and 2 decimal places
+                System.out.printf("%15.2f ", mat[i][j]); // 7 spaces wide and 2 decimal places
             }
             System.out.println();
         }
     
-        System.out.println("=".repeat((col * 8)+3) + "\n\n"); // Bottom divider line
+        System.out.println("=".repeat((col * 20)+3) + "\n\n"); // Bottom divider line
     }  
     
     public static double[][] returnTranspose(double mat[][])
