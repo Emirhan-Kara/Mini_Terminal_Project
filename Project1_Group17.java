@@ -100,12 +100,12 @@ public class Project1_Group17
     }
     public static void beklermisin()
     {
-        // 3 saniye bekle, sonra ekranı temizle
+        // 1 saniye bekle, sonra ekranı temizle
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             System.out.println("Interruption cut: " + e.getMessage());
-            Thread.currentThread().interrupt();  // İş parçacığının kesildiğini bildirir
+            Thread.currentThread().interrupt();
         }
         cls();
     }
@@ -178,18 +178,7 @@ public class Project1_Group17
         }
         return ans;
     }
-    /*public static boolean isValidDouble(String input)
-    {
-        try
-        {
-            Double.parseDouble(input);
-            return true;
-        }
-        catch (NumberFormatException e)
-        {
-            return false; // If conversion fails, return false
-        }
-    }*/
+
     // The function for either returning the main page or redo the objective
     public static boolean loopAsk()
     {
@@ -324,9 +313,11 @@ public class Project1_Group17
                         cls();
                         printMatrix(mat, row, col,"~ CURRENT MATRIX ~" );
                         System.out.printf("Please enter a number for ROW: %d  and COLUMN: %d\n\n", i+1, j+1);
-                        System.out.print("Your value (data type is double): ");
+                        System.out.print("Enter a double (max 8 digits before the decimal): ");
                         double val = input.nextDouble(); 
-                        if( val > Double.MAX_VALUE || val < Double.MIN_VALUE)
+                         // java automatically sets the number as +/- infinity if it over/underflows. So we check if the number is finite or not
+                         // also we check if the number has more than 8 digits before the decimal part.
+                        if(!Double.isFinite(val) || val / Math.pow(10, 8) > 1.0)
                         {
                             throw new RuntimeException("!NUMBER IS NOT IN THE RANGE!");
                         }
@@ -360,7 +351,7 @@ public class Project1_Group17
         {
             for (int j = 0; j < col; j++)
             {
-                System.out.printf("%15.2f ", mat[i][j]); // 7 spaces wide and 2 decimal places
+                System.out.printf("%15.3f ", mat[i][j]); // 7 spaces wide and 2 decimal places
             }
             System.out.println();
         }
@@ -643,34 +634,12 @@ public class Project1_Group17
 
         cls();
         System.out.println("You will fill the FIRST MATRIX!");
-        try
-        {
-            for(int i = 0; i < 4; i++)
-            {
-                System.out.println(".");
-                Thread.sleep(750);
-            }
-        }
-        catch (InterruptedException e)
-        {
-            System.out.println("Error on pause!!");
-        }
+        beklermisin();
         fillMatrix(mat1, row, col);
 
         cls();
         System.out.println("You will fill the SECOND MATRIX!");
-        try
-        {
-            for(int i = 0; i < 4; i++)
-            {
-                System.out.println(".");
-                Thread.sleep(750);
-            }
-        }
-        catch (InterruptedException e)
-        {
-            System.out.println("Error on pause!!");
-        }
+        beklermisin();
         fillMatrix(mat2, row, col);
         cls();
 
