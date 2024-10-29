@@ -319,7 +319,7 @@ public class Project1_Group17
                         counter ++;
                         if(counter > 4 && Over(paper, turn))
                         {
-                            flag = false;
+                            flag = false; // GAME OVER
                             System.out.printf("                     %c WON IN %d TURNS                                                 \n\n",turn,counter);
                             System.out.println(" __        ___                                  _                       ");
                             System.out.println(" \\ \\      / (_)_ __  _ __   ___ _ __  __      _(_)_ __  _ __   ___ _ __ ");
@@ -333,7 +333,7 @@ public class Project1_Group17
                         else if(counter == 9 && !Over(paper,turn))
                         {
                             System.out.printf("\n DRAW!\n");
-                            flag = false;
+                            flag = false; // GAME OVER
                         }
                         
                         printPaper(paper);
