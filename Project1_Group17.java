@@ -137,6 +137,10 @@ public class Project1_Group17
     }
     // ----------------------------------------------------------------------------------------
     // METHODS FOR OPTION 3
+    /**
+     * @author Hayrunnisa, Zaid
+     * Prints options for encryption/decryption and ables user to select an option
+     */
     public static void Cryption()
     {
         
@@ -171,6 +175,22 @@ public class Project1_Group17
             }  
         }
     }
+    /**
+     * @author hayrunnisa, zaid
+     * @param x , by multiplying -1 it decides if it is enc or dec x = dec , x -1 enc
+     * if the input is empty, invalid try
+     * @throw choosing a key, while key is invalid it continues. If input is non-integer 
+     * it throws exception.
+     * 
+     * Negative key:
+     * -Cannot be smaller than -26, to make them positive method adds 26 after taking modulo. then again it takes modulo so that it can go further from the original letter
+     * strings are stabile so that we create a char "che" then assigned every char in the string to che in the for loop.
+     * !!newarr hold the new message
+     * !! char Aa holds the place in the ascıı table for 'a' or 'A',
+     * (THE DISTANCE OF THE ORIGINAL LETTER TO FIRST LETTER  + THE RAW KEY) %  26 gives the exact point from the first letter
+     * so that dont forget the add first letter Aa
+     * 
+     */
     public static void Encryption(int x)
     {
         String victim; // The message
@@ -207,7 +227,7 @@ public class Project1_Group17
         // Managing negative keys by modulo and adding 26
         if (key < 0) {
             key = (key % 26 + 26) % 26; // now, they are positive
-            key = key % 26;  // positivie keys are already correct
+            // positivie keys are already correct
         }
 
         // string to char array
