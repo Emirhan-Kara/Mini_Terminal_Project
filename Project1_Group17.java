@@ -143,7 +143,6 @@ public class Project1_Group17
      */
     public static void Cryption()
     {
-        
         String selection;
         Scanner input = new Scanner(System.in);
         cls();
@@ -214,6 +213,8 @@ public class Project1_Group17
                 {
                     isValid = true;
                 }
+                cls();
+                System.out.println("Not In The Range!");
             } catch (InputMismatchException e) {
                 cls();
                 System.out.println("Invalid input. Please enter an **INTEGER**.");
