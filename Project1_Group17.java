@@ -401,7 +401,6 @@ public class Project1_Group17
                             System.out.printf("The Game is Tie!\n\n");
                             flag = false; // GAME OVER
                         }
-                        
                         printPaper(paper);
                         turn = ( turn == 'X') ? 'O' : 'X';   
                     }
@@ -415,8 +414,8 @@ public class Project1_Group17
 
             if(!flag)
             {
-                System.out.println();
-                System.out.println("\n Press [0]to Play Again & [1]to Return to Main Menu:");
+                System.out.println("\n PLAY AGAIN [0]");
+                System.out.println("\n RETURN MAIN MENU [1]");
                 try {
                     int exit;
                     exit = input.nextInt();
@@ -436,9 +435,7 @@ public class Project1_Group17
                     return;
                 }  
             }
-        }
-
-           
+        }           
     }
     /**
      * @author Hayrunnisa , Zaid
