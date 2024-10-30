@@ -2,6 +2,8 @@ import java.util.Scanner;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.Scanner;
+
 
 public class Project1_Group17
 {
@@ -26,22 +28,7 @@ public class Project1_Group17
                 selection = selection.toUpperCase();
             }
             
-            switch (selection)
-            {
-                case "A":
-                    Objective1();
-                    break;
-                case "B":
-                    break;
-                case "C":
-                    break;
-                case "D":
-                    break;
-                case "E":
-                    scanner.close();
-                    exitPage();
-                    return;
-            }
+            objectiveChosen(selection);
         }
     }
 
@@ -73,7 +60,7 @@ public class Project1_Group17
     }
     public static boolean isValidEntry(String ans, String... Check )
     {
-        // .equals method must be used. Because when we use ==, it compares the their memory references
+        // .equals() method must be used. Because when we use ==, it compares the their memory references
         for(String c: Check)
         {
             if(c.equals(ans))
@@ -115,27 +102,6 @@ public class Project1_Group17
             System.out.println("Error! Returning Now");
         }
     }
-    public static void loadingPage()
-    {
-        cls();
-        try
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                System.out.println("Loading");
-                for(int j = 0; j < 3; j++)
-                {
-                    System.out.println(".");
-                    Thread.sleep(400);
-                }
-                cls();
-            }
-        }
-        catch (InterruptedException e)
-        {
-            System.out.println("Error! Returning Now");
-        }
-    }
     public static void exitPage()
     {
         cls();
@@ -154,353 +120,151 @@ public class Project1_Group17
             System.out.println("Error! Returning Now");
         }
     }
-    public static int strToInt(String s)
-    {
-        int ans = 0;
-        int mult = 1;
-        int size = s.length();
-        for(int i = size-1; i >= 0; i--)
-        {
-            char c = s.charAt(i);
-            ans += (c - '0') * mult;
-            mult *= 10;
-        }
-        return ans;
-    }
-    public static boolean isValidDouble(String input)
-    {
-        try
-        {
-            Double.parseDouble(input);
-            return true;
-        }
-        catch (NumberFormatException e)
-        {
-            return false; // If conversion fails, return false
-        }
-    }
-    // The function for either returning the main page or redo the objective
-    public static boolean loopAsk()
-    {
-        System.out.println("\n\n\nPRESS \"1\", to go back\n\nPRESS \"2\", to do the operation again");
-        System.out.print("Your choice (1 or 2): ");
-        String case1Loop = scanner.nextLine();
-        while (!isValidEntry(case1Loop, "1", "2"))
-        {
-            cls();
-            System.err.println("\n        INVALID ENTRY!!");
-            System.out.println("\n\n\nPRESS \"1\", to go back\n\nPRESS \"2\", to do the operation again\n");
-            System.out.print("Your choice (1 or 2): ");
-            case1Loop = scanner.nextLine();
-        }
-        if (case1Loop.equals("2"))
-            return true;
-        return false;
-    }
-    public static void beklermisin()
-    {
-        // 3 saniye bekle, sonra ekranı temizle
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            System.out.println("Interruption cut: " + e.getMessage());
-            Thread.currentThread().interrupt();  // İş parçacığının kesildiğini bildirir
-        }
-        cls();
-    }
     // ----------------------------------------------------------------------------------------
-    // OBJECTIVE 1 MAIN METHOD
-    // Contains information about the objective and main menu of the objective 1 UI
-    // Directs the user to corresponding methods according to their input
-    public static void Objective1()
+    // METHODS FOR OPTION 3
+    /**
+     * @author Hayrunnisa, Zaid
+     * Prints options for encryption/decryption and ables user to select an option
+     */
+    public static void Cryption()
     {
+        String selection;
         cls();
-        double arr[] = fillArray();
-        callMethodsForObj1(arr);
-        
-        interfaceChange("1", null);
-        
-    } 
-    
-    // This method calls all the methods for the first objective
-    public static void callMethodsForObj1(double arr[])
-    {
-        cls();
-        printArray(arr);
-        //ObjectiveProduct[0][0] = ;
-        System.out.printf("Median of your array:            %f\n\n", median(arr, arr.length));
-        System.out.printf("Arithmetic mean of your array:   %f\n\n", arithmeticMean(arr, arr.length));
-        try
+        while(true)
         {
-            System.out.printf("Geometric mean of your array:    %f\n\n", geometricMean(arr, arr.length));
-        }
-        catch(IllegalArgumentException e)
-        {
-            System.err.println(e.getMessage());
-        }
-        try
-        {
-            System.out.printf("Harmonic mean of your array:     %f\n\n", harmonicMean(arr, arr.length));
-        }
-        catch(IllegalArgumentException e)
-        {
-            System.err.println(e.getMessage());
+            printCrypOptions();
+            selection = scanner.nextLine();
+            selection = selection.toUpperCase();
+            while (!isValidEntry(selection, "A","B","C"))
+            {
+                cls();
+                System.err.println("\n\n        INVALID ENTRY!!");
+                printCrypOptions();
+                selection = scanner.nextLine();
+                selection = selection.toUpperCase();
+            }
+            cls();
+            switch (selection)
+            {
+                case "A":
+                    Encryption(1);
+                    break;
+                case "B":
+                    Encryption(-1);
+                    break;
+                case "C":
+                    returnHomePage();
+                    return;
+            }  
         }
     }
-
-    // This method returns an array that the user will create
-    public static double[] fillArray()
+    /**
+     * @author hayrunnisa, zaid
+     * @param x , by multiplying -1 it decides if it is enc or dec x = dec , x -1 enc
+     * if the input is empty, invalid try
+     * @throw choosing a key, while key is invalid it continues. If input is non-integer 
+     * it throws exception.
+     * 
+     * Negative key:
+     * -Cannot be smaller than -26, to make them positive method adds 26 after taking modulo. then again it takes modulo so that it can go further from the original letter
+     * strings are stabile so that we create a char "che" then assigned every char in the string to che in the for loop.
+     * !!newarr hold the new message
+     * !! char Aa holds the place in the ascıı table for 'a' or 'A',
+     * (THE DISTANCE OF THE ORIGINAL LETTER TO FIRST LETTER  + THE RAW KEY) %  26 gives the exact point from the first letter
+     * so that dont forget the add first letter Aa
+     * 
+     */
+    public static void Encryption(int x)
     {
-        int size = getSize();
-        double array[] = new double[size];
-        
-        for (int i = 0; i < size; i++)
+        String victim; // The message
+        int key = 0;
+        boolean isValid = false;
+        do
         {
-            boolean flag = true;
-            while(flag)
+            System.out.print("\n        Please enter your message: ");
+            victim = scanner.nextLine();
+            cls();
+        } while ( victim.equals("") || victim.equals(" "));
+
+        do {
+            try {
+                
+                System.out.print("\nPlease enter the key[-26,26]: ");
+                key = scanner.nextInt();
+                scanner.nextLine();  // Buffer temizleme
+                cls();
+                if(key < 27 && key > -27)
+                {
+                    isValid = true;
+                }else{
+                    cls();
+                    System.out.println("Not In The Range!");
+                }
+            } catch (InputMismatchException e) {
+                cls();
+                System.out.println("Invalid input. Please enter an **INTEGER**.");
+                scanner.nextLine();  // Scanner cleans non-integer input
+            }
+        } while (!isValid);
+
+        // Multiply by x, to decide if the request is encryption or decryption
+        key = key * x;
+
+        // Managing negative keys by modulo and adding 26
+        if (key < 0) {
+            key = (key % 26 + 26) % 26; // now, they are positive
+            // positivie keys are already correct
+        }
+
+        // string to char array
+        char[] newarr = new char[victim.length()];
+
+        //Process of encryption/decryption
+        for (int i = 0; i < victim.length(); i++)
+        {
+            char che = victim.charAt(i);
+            if (Character.isLetter(che))  
             {
-                double val = 0.0;
-                try
-                {
-                    cls();
-                    printArray(array);
-                    System.out.printf("Please enter a number for %d. element in the array\n\n", i+1);
-                    System.out.print("Enter a double (max 8 digits before the decimal): ");
-                    val = scanner.nextDouble();
-                    //to clear the buffer after nextDouble() since it only reads the next token and leaves an empty line for the next scan
-                    scanner.nextLine(); 
-
-                    // java automatically sets the number as +/- infinity if it over/underflows. So we check if the number is finite or not
-                    // also we check if the number has more than 8 digits before the decimal part.
-                    if(!Double.isFinite(val) || Math.abs(val) >= Math.pow(10, 8))
-                    {
-                        throw new RuntimeException("!NUMBER IS NOT IN THE RANGE!");
-                    }
-                    else if(val <= 0.0)
-                    {
-                        throw new IllegalArgumentException("You have entered a negative value. If you continue, the value will be ignored while calculating the geometric and the harmonic mean!");
-                    }
-                    
-                    array[i] = val;
-                    flag = false;
-                    
-                }
-                catch (IllegalArgumentException e)
-                {
-                    cls();
-                    double invalidVal = val; // store the old value
-                    String choice ="s";
-                    System.err.print(e.getMessage());
-                    System.out.println("\n\nTo change the value, PRESS 1\nTo continue, PRESS 2\n\n\nYour choice (1 or 2): ");
-                    choice = scanner.nextLine();
-
-                    while (!isValidEntry(choice, "1", "2"))
-                    {
-                        cls();
-                        System.err.println("INVALID ENTRY!!");
-                        System.out.println("\n\nTo change the value, PRESS 1\nTo continue, PRESS 2\n\n\nYour choice (1 or 2): ");
-                        choice = scanner.nextLine();
-                    }
-
-                    if (choice.equals("2"))
-                    {
-                        array[i] = invalidVal; // Assign the invalid value
-                        flag = false;
-                    }  
-                }
-                catch(InputMismatchException e) //NumberFormatException
-                {
-                    System.err.println("\nINVALID ENTRY! Select a double please!");
-                    scanner.nextLine();
-                    beklermisin();
-                }
-                catch(RuntimeException e)
-                {
-                    System.err.println(e.getMessage());
-                    beklermisin();
-                }
+                char Aa = Character.isLowerCase(che) ? 'a' : 'A';  // Decides whether the starting point should be lowercase or uppercase
+                newarr[i] = (char) ((che - Aa + key) % 26 + Aa);   // addition of the key to the distance to starting point is actually the purified key, getting mod 26 shows how many steps you need to take from the beginning
+            }
+            else
+            {
+                newarr[i] = che;  // non-alphabetic, remains
             }
         }
-
-        return array;
-    }
-    
-    public static int getSize()
-    {
+        // Char array to string, then print the message
+        String result = new String(newarr);
+        if (x == 1) {
+            System.out.println("\n             Encrypted Message:\n");
+        } else {
+            System.out.println("\n             Decrypted Message:\n");
+        }
+        System.out.printf("\n             %s", result);
+        System.out.print("\n\n        To return back press a button:\n");
+        scanner.nextLine();
         cls();
-        System.out.println("Objective 1");
-        System.out.println("------------");
-        System.out.println("-> In this objective, you need to create an array that contains double variables");
-        System.out.println("-> The program would provide you the following information about your array");
-        System.out.println("-> Median, Arithmetic mean, Geometric mean, and Harmonic mean\n");
-        System.out.println("IMPORTANT NOTES");
-        System.out.println("----------------");
-        System.out.println("*  The median of even-length array is calculated by taking the average of the middle two elements\n");
-        System.out.println("*  The values that are '<= 0' are ignored while calculating the geometric mean and harmonic mean of the array\n\n\n");
-        
-        System.out.print("Please enter your array's size between 1-10: ");
-
-        String ans = scanner.nextLine();
-        while (!isValidEntry(ans, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
-        {
-            cls();
-            System.err.println("INVALID ENTRY!!");
-            System.out.print("Please enter your array's size between 1-10: ");
-            ans = scanner.nextLine();
-        }
-        return strToInt(ans);
+        return;
     }
-    
-    // This method takes an array as input and prints it
-    public static void printArray(double arr[])
+    //set of objectives
+    public static void objectiveChosen(String Objective)
     {
-        int size = arr.length;
-        if (size <= 0)
-            return;
-        System.out.printf("Your array is -> [%.3f", arr[0]);
-        for (int i = 1; i < size; i++)
-            System.out.printf("   %.3f", arr[i]);
-        
-        System.out.println("]\n\n");
+        switch (Objective)
+            {
+                case "A":
+                    break;
+                case "B":
+                    break;
+                case "C":
+                    Cryption();
+                    break;
+                case "D":
+                    break;
+                case "E":
+                    scanner.close();
+                    exitPage();
+                    return;
+            }
     }
-
-    // This method takes an array and its size as input, returns the median of the array
-    // The array is first sorted, then the mean is selected based on the size of the array
-    // O(logn) space complexity and O(n logn) time complexity. n=number of elements in the array
-    public static double median(double arr[], int size)
-    {
-        Arrays.sort(arr);
-        // if the array size is even, take the average of the middle two value
-        if (size % 2 == 0)
-        {
-            overUnderFlow(arr[size/2] + arr[(size/2) - 1]);
-            return (arr[size/2] + arr[(size/2) - 1]) / 2.0;
-        }
-            return arr[size/2];
-    }
-
-
-    // This method takes an array and its size as input, returns the arithmetic mean (average) of the array
-    // With an array of size n, the formula of the arithmetic mean is: (a1 + a2 + ... + an) / n
-    // O(n) time complexity. n=size of the array
-    public static double arithmeticMean(double arr[], int size)
-    {
-        double aritMean = 0;
-        for (double i : arr)
-            aritMean += i;
-            overUnderFlow(aritMean);
-
-        return aritMean / (double)size;
-    }
-
-
-    // This method takes an array and its size as input, returns the geometric mean of the array.
-    // With an array of size n, the formula of the geometric mean is: pow((a1 * a2 * ... * an), 1/n)
-    // O(n) time complexity. n=size of the array
-    public static double geometricMean(double arr[], int size)
-    {
-        double geoMean = 1;
-        int count = 0;   // positive number counter
-        for (double d : arr)
-        {
-            // if there are any elements equal to zero, ignores them
-            if (d <= 0.0)
-                continue;
-
-            count++;
-            geoMean *= d;
-            overUnderFlow(geoMean);
-        }
-
-        if (count == 0)
-            throw new IllegalArgumentException("Cannot calculate geometric mean without any positive number inside the array");
-
-        return Math.pow(geoMean, 1.0/(double)count);
-    }
-
-
-    // This method takes and array and its size as input, returns the harmonic mean of the array by using recursive harmonicSummation method in the summation process
-    // With an array of size n, the formula of the harmonic mean is: n / [(1/a1) + (1/a2) + ... + (1/an)]
-    // O(n) time complexity and O(n) space complexity. n=size of the array
-    public static double harmonicMean(double arr[], int size)
-    {
-        // count how many numbers are greater than 0 (valid for harmonic mean calculation)
-        int count = 0;
-        for(double d: arr)
-        {
-            if (d > 0)
-                count++;
-        }
-        if (count == 0)
-            throw new IllegalArgumentException("Cannot calculate harmonic mean without any positive number inside the array");
-        
-        double tester = harmonicSummation(arr, size-1);
-        overUnderFlow(tester);
-        return (double)size / harmonicSummation(arr, size-1);
-    }
-
-    // This method is a recursive approach for harmonic summation step of the harmonic mean calculation
-    // Takes an array and an index as input and calculates the harmonic summation recursively until it reaches the first element of the array.
-    public static double harmonicSummation(double arr[], int index)
-    {
-        if (index == 0)
-            return 1.0 / arr[index];
-        
-        // If the current value is <= 0, ignore it. If valid, continue normally
-        double sum = (arr[index] <= 0) ? 0.0 : 1.0/arr[index];
-        
-        return sum + harmonicSummation(arr, index-1);
-    }
-     //the method that is able to change between interfaces and operations
-     public static void interfaceChange(String Objective, String Operation)
-     {
-        
-         if(loopAsk())
-         {
-             loadingPage();
-             objectiveChosen(Objective);
-         }
-         else
-         {
-             returnHomePage();
-         }
-     }
- 
-     //set of objectives
-     public static void objectiveChosen(String Objective)
-     {
-         switch (Objective)
-             {
-                 case "A":
-                    Objective1();
-                     break;
-                 case "B":
-                     break;
-                 case "C":
-                     break;
-                 case "D":
-                     break;
-                 case "E":
-                     scanner.close();
-                     exitPage();
-                     return;
-             }
-     }
- 
-     //checks if there is any overflow or underflow
-     //since double type doesn't throw ArithmethicException, we have to check every possible overflowable value with isInfinite
-     //Underflow value is generally 0.0 so we use that condition to detect underflow
-     public static void overUnderFlow(double value)
-     {
-         if(Double.isInfinite(value))
-         {
-             System.out.println("Overflow occurred in operation! Try with different values.");
-             interfaceChange("A", null);
-         }
-         else if(value == 0.0)
-         {
-             System.out.println("Underflow occurred in operation! Try with different values.");
-             interfaceChange("A", null);
-         }
-     }
+    // ----------------------------------------------------------------------------------------
 }
