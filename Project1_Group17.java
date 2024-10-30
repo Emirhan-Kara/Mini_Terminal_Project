@@ -155,19 +155,6 @@ public class Project1_Group17
             System.out.println("Error! Returning Now");
         }
     }
-    public static int strToInt(String s)
-    {
-        int ans = 0;
-        int mult = 1;
-        int size = s.length();
-        for(int i = size-1; i >= 0; i--)
-        {
-            char c = s.charAt(i);
-            ans += (c - '0') * mult;
-            mult *= 10;
-        }
-        return ans;
-    }
 
     /** The function for either returning the main page or redo the objective*/
     public static boolean loopAsk()
@@ -278,7 +265,7 @@ public class Project1_Group17
      * This method prevents the repetitive process of asking for a fixed range value. It loops until the user selects a valid number between 1-5
      * @author Emirhan, Hayrunnisa, Murat
      * @param s is the message for different input taking scenarios (for flexiblity)
-     * @return an integer between 1-5
+     * @return index, an integer between 1-5
     */
     public static int takeInputOfRowAndColumn(String s)
     {
@@ -292,7 +279,8 @@ public class Project1_Group17
             System.out.printf("\nEnter a value for %s (between 1-5): ", s);
             val = scanner.nextLine();
         }
-        return strToInt(val);
+        int index = Integer.parseInt(val);
+        return index;
     }
     
     /**
