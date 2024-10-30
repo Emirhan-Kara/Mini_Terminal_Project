@@ -5,43 +5,29 @@ import java.util.InputMismatchException;
 
 public class Project1_Group17
 {
+    private static final Scanner scanner = new Scanner(System.in);
+    private static double[][] Objective2Product;
     public static void main(String[] args)
     {
         cls();
         String selection;
-        Scanner input = new Scanner(System.in);
         while (true)
         {
             cls();
             greetingPage();
             printOptions();
-            selection = input.nextLine();
+            selection = scanner.nextLine();
             selection = selection.toUpperCase();
             while (!isValidEntry(selection, "A","B","C","D","E"))
             {
                 cls();
                 System.err.println("\n\n        INVALID ENTRY!!");
                 printOptions();
-                selection = input.nextLine();
+                selection = scanner.nextLine();
                 selection = selection.toUpperCase();
             }
             
-            switch (selection)
-            {
-                case "A":
-                    break;
-                case "B":
-                    Objective2();
-                    break;
-                case "C":
-                    break;
-                case "D":
-                    break;
-                case "E":
-                    input.close();
-                    exitPage();
-                    return;
-            }
+            objectiveChosen(selection);
         }
     }
 
@@ -96,6 +82,7 @@ public class Project1_Group17
         } catch (IOException | InterruptedException ex)
         {
             System.err.println("Error on cls!!!!");
+            interfaceChange("B", "5");
         }
     }
     public static void beklermisin()
@@ -124,6 +111,7 @@ public class Project1_Group17
         catch (InterruptedException e)
         {
             System.out.println("Error! Returning Now");
+            interfaceChange("B", "5");
         }
     }
     public static void loadingPage()
@@ -145,6 +133,7 @@ public class Project1_Group17
         catch (InterruptedException e)
         {
             System.out.println("Error! Returning Now");
+            interfaceChange("B", "");
         }
     }
     public static void exitPage()
@@ -179,63 +168,47 @@ public class Project1_Group17
         return ans;
     }
 
-    // The function for either returning the main page or redo the objective
+    /** The function for either returning the main page or redo the objective*/
     public static boolean loopAsk()
     {
-        Scanner scan = new Scanner(System.in);
+       
         System.out.println("\n\n\nPRESS \"1\", to go back\n\nPRESS \"2\", to do the operation again");
         System.out.print("Your choice (1 or 2): ");
-        String case1Loop = scan.nextLine();
+        String case1Loop = scanner.nextLine();
         while (!isValidEntry(case1Loop, "1", "2"))
         {
             cls();
             System.err.println("\n        INVALID ENTRY!!");
             System.out.println("\n\n\nPRESS \"1\", to go back\n\nPRESS \"2\", to do the operation again\n");
             System.out.print("Your choice (1 or 2): ");
-            case1Loop = scan.nextLine();
+            case1Loop = scanner.nextLine();
         }
         if (case1Loop.equals("2"))
             return true;
         return false;
     }
-    // ----------------------------------------------------------------------------------------
-    // OBJECTIVE 2 MAIN METHOD
-    // Contains information about the objective and main menu of the objective 2 UI
-    // Directs the user to corresponding methods according to their input
+    /** ----------------------------------------------------------------------------------------
+     * OBJECTIVE 2 MAIN METHOD
+     * @author Emirhan, Murat
+     * Contains information about the objective and main menu of the objective 2 UI
+     * Directs the user to corresponding methods according to their input*/ 
     public static void Objective2()
     {
         cls();
-        Scanner scanB = new Scanner(System.in);
         System.out.println("Objective 2");
         System.out.println("------------");
         System.out.println("-> In this objective, you can perform the matrix operations listed below\n");
         printMatrixOptions();
-        String input = scanB.nextLine();
+        String input = scanner.nextLine();
         while (!isValidEntry(input, "1","2","3","4","5"))
         {
             cls();
             System.err.println("\n\n        INVALID ENTRY!!");
             printMatrixOptions();
-            input = scanB.nextLine();
+            input = scanner.nextLine();
         }
 
-        switch (input)
-        {
-            case "1":
-                Obj2Case1();
-                break;
-            case "2":
-                Obj2Case2();
-                break;
-            case "3":
-                Obj2Case3();
-                break;
-            case "4":
-                Obj2Case4();
-                break;
-            case "5":
-                returnHomePage();
-        }
+        operationChosen(input);
     }
     public static void printMatrixOptions()
     {
@@ -252,8 +225,9 @@ public class Project1_Group17
         System.out.print("        Please select an option from the list above(1-5)): ");
     }
     
-    // Main method for Objective2_Case1 (Matrix transpose)
-    // Displays the transpose of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2
+    /**  Main method for Objective2_Case1 (Matrix transpose)
+     * @author Emirhan, Murat
+     * Displays the transpose of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2*/
     public static void Obj2Case1()
     {
         int row = takeInputOfRowAndColumn("number of ROWS");
@@ -266,40 +240,37 @@ public class Project1_Group17
         double transpose[][] = returnTranspose(matrix);
         printMatrix(matrix, row, col, "Your Matrix:");
         printMatrix(transpose, transpose.length, transpose[0].length, "Transpose of Your Matrix:");
-        if (loopAsk())
-        {
-            loadingPage();
-            Obj2Case1();
-        }
-        else
-        {
-            loadingPage();
-            Objective2();
-        }
+        interfaceChange("B", "1");
     }
     
-    // This method takes a valid input for wanted dimension size
+    /**
+     * @author Emirhan, Murat
+     * @param s is the user input  
+     * This method takes a valid input for wanted dimension size*/
     public static int takeInputOfRowAndColumn(String s)
     {
         cls();
-        Scanner scan = new Scanner(System.in);
         System.out.printf("\nEnter a value for %s (between 1-5): ", s);
-        String val = scan.nextLine();
+        String val = scanner.nextLine();
         while (!isValidEntry(val, "1","2","3","4","5"))
         {
             cls();
             System.err.println("        INVALID ENTRY!!");
             System.out.printf("\nEnter a value for %s (between 1-5): ", s);
-            val = scan.nextLine();
+            val = scanner.nextLine();
         }
         return strToInt(val);
     }
     
-    // This method takes a matrix and its dimensions as input and fills it with valid double values
+    /**
+     * @param mat is being filled by valid double values from user input
+     * @param row row size of matrix
+     * @param col column size of matrix
+     * @throws RuntimeException if a negative value is entered by user  
+     */
     public static void fillMatrix(double[][] mat, int row, int col)
     {
         cls();
-        Scanner input = new Scanner(System.in);
 
         for (int i = 0; i < row; i++)
         {
@@ -314,9 +285,11 @@ public class Project1_Group17
                         printMatrix(mat, row, col,"~ CURRENT MATRIX ~" );
                         System.out.printf("Please enter a number for ROW: %d  and COLUMN: %d\n\n", i+1, j+1);
                         System.out.print("Enter a double (max 8 digits before the decimal): ");
-                        double val = input.nextDouble(); 
-                         // java automatically sets the number as +/- infinity if it over/underflows. So we check if the number is finite or not
-                         // also we check if the number has more than 8 digits before the decimal part.
+                        double val = scanner.nextDouble();
+                        scanner.nextLine(); 
+                         /**  java automatically sets the number as +/- infinity if it over/underflows. 
+                          * So we check if the number is finite or not
+                          * also we check if the number has more than 8 digits before the decimal part.*/
                         if(!Double.isFinite(val) || Math.abs(val) >= Math.pow(10, 8))
                         {
                             throw new RuntimeException("!NUMBER IS NOT IN THE RANGE!");
@@ -329,7 +302,7 @@ public class Project1_Group17
                         cls();
                         System.err.println("\n\nINVALID ENTRY! Select a double please.\n");
                         beklermisin();
-                        input.nextLine();
+                        scanner.nextLine();
                     }
                     catch(RuntimeException e)
                     {
@@ -341,7 +314,12 @@ public class Project1_Group17
         }
     }
     
-    // This methods takes a matrix and its dimensions as input and prints it. Input string is for the flexibility of the method.
+    /**  
+     * @param mat is printed in this method
+     * @param row size of matrix
+     * @param col size of matrix
+     * @param message is to use the method in various situations
+     * */
     public static void printMatrix(double[][] mat, int row, int col, String message)
     {
         System.out.printf("\n\n%s\n", message);
@@ -359,8 +337,9 @@ public class Project1_Group17
         System.out.println("=".repeat((col * 20)+3) + "\n\n"); // Bottom divider line
     }  
     
-    // This method takes a matrix as input, returns the transpose of that matrix
-    // O(n) space complexity and O(n) time complexity. n=number of elements in the matrix
+    /** 
+     * @param mat is to hold the matrix in memory that will be used for transpose operation
+     * O(n) space complexity and O(n) time complexity. n=number of elements in the matrix*/ 
     public static double[][] returnTranspose(double mat[][])
     {
         int row = mat.length;
@@ -378,9 +357,9 @@ public class Project1_Group17
     }
 
 
-    // Main method for Objective2_Case2 (Inverse matrix)
-    // Creates a valid matrix to be able to perform the task.
-    // Displays the inverse of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2
+    /**  Main method for Objective2_Case2 (Inverse matrix)
+     * Creates a valid matrix to be able to perform the task.
+     * Displays the inverse of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2*/
     public static void Obj2Case2()
     {
         int row = takeInputOfRowAndColumn("both number of ROWS and COLUMNS");
@@ -405,39 +384,37 @@ public class Project1_Group17
         }
             
         
-        if (loopAsk())
-        {
-            loadingPage();
-            Obj2Case2();
-        }
-        else
-        {
-            loadingPage();
-            Objective2();
-        }
+        interfaceChange("B", "2");
     }
     
-    // This method takes a matrix and its determinant as input, calculates the cofactor matrix, adjoint matrix and then returns the inverse of that matrix
-    // O(n+r) space complexity and O(n^2) time complexity. n=number of elements in the matrix
+    /** 
+     * @author Emirhan, Murat
+     * @param mat to hold in memory the user-entered matrix
+     * @param determinant to calculate cofactor matrix
+     * method calculates the cofactor matrix and adjoint matrix
+     * returns the inverse of that matrix
+     * O(n+r) space complexity and O(n^2) time complexity. n=number of elements in the matrix*/ 
     public static double[][] inverseMatrix(double[][] mat, double determinant)
     {
-        // create the adjoint matrix by taking the transpose of the cofactor matrix
+        /**  create the adjoint matrix by taking the transpose of the cofactor matrix*/
         double[][] cofactorMatrix = cofactorMatrix(mat);
         double[][] adjointMatrix = returnTranspose(cofactorMatrix);
         
-        // use the formula to derive the inverse of the matrix (Inverse Matrix = Adjoint Matrix . 1/determinant)
+        /**  use the formula to derive the inverse of the matrix (Inverse Matrix = Adjoint Matrix . 1/determinant)*/
         matrixMultWithConstant(adjointMatrix, 1.0 / determinant);
         
-        // create a reference just for clean coding, its not copy
+        /**  create a reference just for clean coding, its not copy*/
         double[][] inverseMatrix = adjointMatrix;
         return inverseMatrix;
     }
 
-    // Calculates the determinant of the square rxr matrix recursively
-    // O(r) space complexity and O(n) time complexity where r=row number and n=number of elements in matrix(r^2)
+    /**
+     * @param mat is holding the matrix in memory that 
+     * the determinent will be calculated from recursively.
+     * O(r) space complexity and O(n) time complexity where r=row number and n=number of elements in matrix(r^2)*/ 
     public static double determinant(double[][] mat)
     {
-        // base cases for 1x1 and 2x2 matrices
+        /**  base cases for 1x1 and 2x2 matrices*/
         int n = mat.length;
         if (n == 1)
             return mat[0][0];
@@ -446,11 +423,11 @@ public class Project1_Group17
 
         double ans = 0;
 
-        // iterate through each element in the first row
+        /** iterate through each element in the first row*/
         for (int i = 0; i < n; i++)
         { 
-            // Create a submatrix called "newMat" by excluding the current element's row and column
-            // "newMat" will have dimensions (n-1)x(n-1)
+            /** Create a submatrix called "newMat" by excluding the current element's row and column
+            // "newMat" will have dimensions (n-1)x(n-1) */
             double newMat[][] = new double[n-1][n-1];
             int colCount = 0;
 
@@ -464,15 +441,17 @@ public class Project1_Group17
                 }
                 colCount = 0;
             }
-            // determinant calculation formula. In the recurisve call, the skipRow index is 0 because newMat has new dimensions and it must start from 0
+            /**determinant calculation formula. In the recurisve call, the skipRow index is 0 because 
+             * newMat has new dimensions and it must start from 0*/
             ans += Math.pow(-1, i)*mat[0][i]*determinant(newMat);
         }
         return ans;
     }
     
-    // This method takes a matrix as input, creates sub-matrices for each element of the original matrix,
-    // calculate the minors (determinant of the submatrix) for each sub-matrices and returns a cofactor matrix accordingly
-    // O(n+r) space complexity and O(n^2) time complexity. n=number of elements in the matrix
+    /** 
+     * @param mat creates sub matrices for each element of mat,
+     * calculates the minors (determinant of the submatrix) for each sub-matrices and returns a coffactor matrix accordingly
+     * O(n+r) space complexity and O(n^2) time complexity. n=number of elements in the matrix*/ 
     public static double[][] cofactorMatrix(double mat[][])
     {
         int row = mat.length;
@@ -498,8 +477,12 @@ public class Project1_Group17
         return cofactorMat;
     }
     
-    // This method takes a matrix and two indeces as input, returns a new matrix that doesn't contain the i-th row and j-th column of the original matrix
-    // O(n) space complexity, O(n) time complexity. n=number of elements in the matrix
+    /** 
+     * @param mat is to hold the matrix in memory
+     * @param i and,
+     * @param j is to ignore that row and column from the main matrix 
+     * returns a new matrix that doesn't containt ith row and jth column
+     * O(n) space complexity, O(n) time complexity. n=number of elements in the matrix*/ 
     public static double[][] ignore_ithRow_jthColumn(double mat[][], int i, int j)
     {
         int row = mat.length;
@@ -525,8 +508,10 @@ public class Project1_Group17
         return newMat;
     }
     
-    // This method takes a matrix and constant as input, modifes the matrix such that each element is multiplied with the constant
-    // O(1) space complexity and O(n) time complexity. n=number of elements in the matrix 
+    /**  
+     * @param mat modifies the matrix to multiply with the constant value
+     * @param x is the constant
+     * O(1) space complexity and O(n) time complexity. n=number of elements in the matrix */
     public static void matrixMultWithConstant(double mat[][], double x)
     {
         int row = mat.length;
@@ -542,9 +527,11 @@ public class Project1_Group17
         }
     }
 
-    // Main method for Objective2_Case3 (Matrix multiplication)
-    // Creates and fills two matrices suitable for the operation
-    // Displays the dot product of the two matrices and asks the user if they want to re-do the objective or go back to main menu for Objective 2
+    /**
+     * @author Emirhan, Murat
+     * Creates and fills two matrices suitable for the operation
+     * Displays the dot product of the two matrices and asks the user if they want to re-do the objective or 
+     * go back to main menu for Objective 2*/
     public static void Obj2Case3()
     {
         int row1 = takeInputOfRowAndColumn("number of ROWS for the first matrix");
@@ -580,20 +567,15 @@ public class Project1_Group17
 
         double multMat[][] = matrixMult(mat1, mat2);
         printMatrix(multMat, multMat.length, multMat[0].length, "Multiplication of two matrices above:");
-        if (loopAsk())
-        {
-            loadingPage();
-            Obj2Case3();
-        }
-        else
-        {
-            loadingPage();
-            Objective2();
-        }
+        interfaceChange("B", "3");
     }
     
-    // This methods takes two matrices as input, returns another matrix that is the dot product of the two matrices (matrix multiplication)
-    // O(n) space complexity and O(nr). n=number of elements in answer matrix and r=number of rows in the first matrix
+    /**  
+     * @param mat1 and
+     * @param mat2 is used for returning another matrix 
+     * that is the dot product of the two matrices (matrix multiplication)
+     * O(n) space complexity and O(nr). n=number of elements in answer matrix and r=number of rows in the first matrix
+    */
     public static double[][] matrixMult(double mat1[][], double mat2[][])
     {
         int row1 = mat1.length;
@@ -606,9 +588,10 @@ public class Project1_Group17
         int col_new = col2;
         double result[][] = new double[row_new][col_new];
 
-        // i is the row index for the new matrix
-        // j is the column index for the new matrix
-        // k is the index/counter for how many multiplication that must be summed to fill one spot in the new matrix
+        /**  i is the row index for the new matrix
+        * j is the column index for the new matrix
+        * k is the index/counter for how many multiplication that must be summed to fill one spot in the new matrix
+        */
         for(int i = 0; i < row_new; i++)
         {
             for(int j = 0; j < col_new; j++)
@@ -622,9 +605,11 @@ public class Project1_Group17
         return result;
     }
 
-    // Main method for Objective2_Case4 (Element-wise multiplication)
-    // Creates and fills 2 matrices with same dimensions
-    // Displays the element-wise multiplication matrix and ask the user if they want to re-do the objective or go back to main menu for Objective 2
+    /**  Main method for Objective2_Case4 (Element-wise multiplication)
+     * @author Emirhan, Murat
+     * Creates and fills 2 matrices with same dimensions
+     * Displays the element-wise multiplication matrix and ask the user if they want to re-do the objective 
+     * or go back to main menu for Objective 2*/
     public static void Obj2Case4()
     {
         int row = takeInputOfRowAndColumn("number of ROWS for both matrices");
@@ -648,20 +633,14 @@ public class Project1_Group17
         printMatrix(mat2, row, col, "Your SECOND MATRIX:");
         printMatrix(mult, row, col, "Element-wise multiplication of the two matrices above:");
 
-        if (loopAsk())
-        {
-            loadingPage();
-            Obj2Case4();
-        }
-        else
-        {
-            loadingPage();
-            Objective2();
-        }
+        interfaceChange("B", "4");
     }
 
-    // This method takes two matrices as input, returns another matrix that contains the element-wise multiplication result
-    // O(n) space complexity and O(n) time complexity. n=number of elements in one matrix
+    /**
+     * @param mat1 and
+     * @param mat2 is used for returning another matrix that is the product of element-wise multiplication  
+     * O(n) space complexity and O(n) time complexity. n=number of elements in one matrix
+     * */
     public static double[][] elementwiseMult(double mat1[][], double mat2[][])
     {
         int row = mat1.length;
@@ -675,5 +654,88 @@ public class Project1_Group17
         }
 
         return mult;
+    }
+    /**
+     * @param Objective is the objective number that is the user being directed to
+     * @param Operation is the operation number that is the user being directed to in Objective2
+     * the method that is able to change between interfaces and operations*/
+    public static void interfaceChange(String Objective, String Operation)
+    {
+        if(loopAsk())
+        {
+            loadingPage();
+            operationChosen(Operation);
+
+        }
+        else
+        {
+            loadingPage();
+            objectiveChosen(Objective);
+        }
+    }
+
+    /**
+     * set of objectives to choose from*/
+    public static void objectiveChosen(String Objective)
+    {
+        switch (Objective)
+            {
+                case "A":
+                    break;
+                case "B":
+                    Objective2();
+                    break;
+                case "C":
+                    break;
+                case "D":
+                    break;
+                case "E":
+                    scanner.close();
+                    exitPage();
+                    return;
+            }
+    }
+
+    /**
+     * set of operations to choose from
+    */
+    public static void operationChosen(String Operation)
+    {
+        switch (Operation)
+        {
+            case "1":
+                Obj2Case1();
+                break;
+            case "2":
+                Obj2Case2();
+                break;
+            case "3":
+                Obj2Case3();
+                break;
+            case "4":
+                Obj2Case4();
+                break;
+            case "5":
+                returnHomePage();
+        }
+    }
+
+    /**
+     * @param value is the value that is being checked for Over/Underflow
+    *since double type doesn't throw ArithmethicException, we have to check every possible over/underflow value with isInfinite()
+    *The value after underflow is set to 0.0 by java so we may use that condition to detect underflow
+    */
+    public static void overUnderFlow(double value)
+    {
+        if(Double.isInfinite(value))
+        {
+            System.out.println("Overflow occurred in element multiplication! Try with different values.");
+            interfaceChange("B", "5");
+        }
+        else if(value == 0.0)
+        {
+            System.out.println("Underflow occurred in element multiplication! Try with different values.");
+            interfaceChange("B", "5");
+        }
     }
 }
