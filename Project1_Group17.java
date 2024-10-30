@@ -205,6 +205,7 @@ public class Project1_Group17
 
         do {
             try {
+                
                 System.out.print("\nPlease enter the key[-26,26]: ");
                 key = input.nextInt();
                 input.nextLine();  // Buffer temizleme
@@ -212,9 +213,10 @@ public class Project1_Group17
                 if(key < 27 && key > -27)
                 {
                     isValid = true;
+                }else{
+                    cls();
+                    System.out.println("Not In The Range!");
                 }
-                cls();
-                System.out.println("Not In The Range!");
             } catch (InputMismatchException e) {
                 cls();
                 System.out.println("Invalid input. Please enter an **INTEGER**.");
