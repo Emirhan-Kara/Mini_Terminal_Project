@@ -7,6 +7,7 @@ public class Project1_Group17
 {
     private static final Scanner scanner = new Scanner(System.in);
     private static double[][] Objective2Product;
+    private static String rememberProduct = "N";
     public static void main(String[] args)
     {
         cls();
@@ -230,16 +231,36 @@ public class Project1_Group17
      * Displays the transpose of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2*/
     public static void Obj2Case1()
     {
-        int row = takeInputOfRowAndColumn("number of ROWS");
-        int col = takeInputOfRowAndColumn("number of COLUMNS");
+        int row;
+        int col;
+        double[][] matrix;
 
-        double[][] matrix = new double[row][col];
+        //if user wanted to use the Product object, assign and do the calculation automatically
+        if(rememberProduct.equals("Y"))
+        {
+            matrix = Objective2Product;
+            row = matrix.length;
+            col = matrix[0].length;
+        }
+        else
+        {
+
+        row = takeInputOfRowAndColumn("number of ROWS");
+        col = takeInputOfRowAndColumn("number of COLUMNS");
+
+        matrix = new double[row][col];
 
         fillMatrix(matrix, row, col);
+
+        }
         cls();
-        double transpose[][] = returnTranspose(matrix);
+        double[][] transpose = returnTranspose(matrix);
+        Objective2Product = transpose;
         printMatrix(matrix, row, col, "Your Matrix:");
         printMatrix(transpose, transpose.length, transpose[0].length, "Transpose of Your Matrix:");
+
+        isUseProduct();
+        cls();
         interfaceChange("B", "1");
     }
     
@@ -362,11 +383,31 @@ public class Project1_Group17
      * Displays the inverse of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2*/
     public static void Obj2Case2()
     {
-        int row = takeInputOfRowAndColumn("both number of ROWS and COLUMNS");
+        int row;
+        double[][] matrix; 
         
-        double matrix[][] = new double[row][row];
+        if(rememberProduct.equals("Y"))
+        {
+            //if the matrix isn't square by using another product, return and dont use that product
+            if(Objective2Product.length != Objective2Product[0].length)
+            {
+                cls();
+                System.out.println("This product is not valid for inverse operation! Please use another product.");
+                rememberProduct = "N";
+                interfaceChange("B", "2");
+            }
+            matrix = Objective2Product;
+            row = matrix.length;
+        }
+        else
+        {
+            row = takeInputOfRowAndColumn("both number of ROWS and COLUMNS");
+        
+            matrix = new double[row][row];
 
-        fillMatrix(matrix, row, row);
+            fillMatrix(matrix, row, row);
+        }
+        
         cls();
         printMatrix(matrix, row, row, "Your Matrix:");
 
@@ -375,15 +416,19 @@ public class Project1_Group17
             System.err.println("\n\nSingular matrices (determinant = 0) does not have an inverse!!\n");
         
         else if (matrix.length == 1)
+        {
             printMatrix(matrix, row, row, "Inverse of Your Matrix:");
-        
+            Objective2Product = matrix;
+        }
         else
         {
-            double inverse[][] = inverseMatrix(matrix, determinant);
+            double[][] inverse = inverseMatrix(matrix, determinant);
+            Objective2Product = inverse;
             printMatrix(inverse, inverse.length, inverse[0].length, "Inverse of Your Matrix:");
         }
             
-        
+        isUseProduct();
+        cls();
         interfaceChange("B", "2");
     }
     
@@ -534,12 +579,26 @@ public class Project1_Group17
      * go back to main menu for Objective 2*/
     public static void Obj2Case3()
     {
-        int row1 = takeInputOfRowAndColumn("number of ROWS for the first matrix");
-        int col1 = takeInputOfRowAndColumn("number of COLUMNS for the first matrix");
-        double mat1[][] = new double[row1][col1];
+        int row1, col1;
+        double mat1[][];
+
+        if(rememberProduct.equals("Y"))
+        {
+            mat1 = Objective2Product;
+            row1 = mat1.length;
+            col1 = mat1[0].length;
+        }
+        else
+        {
+
+        row1 = takeInputOfRowAndColumn("number of ROWS for the first matrix");
+        col1 = takeInputOfRowAndColumn("number of COLUMNS for the first matrix");
+        mat1 = new double[row1][col1];
         fillMatrix(mat1, row1, col1);
 
+        }
         cls();
+
         System.out.printf("Number of ROWS for the second matrix is set as %d to perform the task!!\n\n", col1);
         try
         {
@@ -566,7 +625,11 @@ public class Project1_Group17
         printMatrix(mat2, row2, col2, "Your SECOND MATRIX");
 
         double multMat[][] = matrixMult(mat1, mat2);
+        Objective2Product = multMat;
         printMatrix(multMat, multMat.length, multMat[0].length, "Multiplication of two matrices above:");
+
+        isUseProduct();
+        cls();
         interfaceChange("B", "3");
     }
     
@@ -612,15 +675,26 @@ public class Project1_Group17
      * or go back to main menu for Objective 2*/
     public static void Obj2Case4()
     {
-        int row = takeInputOfRowAndColumn("number of ROWS for both matrices");
-        int col = takeInputOfRowAndColumn("number of COLUMNS for both matrices");
-        double mat1[][] = new double[row][col];
-        double mat2[][] = new double[row][col];
+        int row, col;
+        double mat1[][];
+        if(rememberProduct.equals("Y"))
+        {
+            row = Objective2Product.length;
+            col = Objective2Product[0].length;
+            mat1 = Objective2Product;
+        }
+        else
+        {
+            row = takeInputOfRowAndColumn("number of ROWS for both matrices");
+            col = takeInputOfRowAndColumn("number of COLUMNS for both matrices");
+            mat1 = new double[row][col];
+            cls();
+            System.out.println("You will fill the FIRST MATRIX!");
+            beklermisin();
+            fillMatrix(mat1, row, col);
+        }
 
-        cls();
-        System.out.println("You will fill the FIRST MATRIX!");
-        beklermisin();
-        fillMatrix(mat1, row, col);
+        double mat2[][] = new double[row][col];
 
         cls();
         System.out.println("You will fill the SECOND MATRIX!");
@@ -629,10 +703,13 @@ public class Project1_Group17
         cls();
 
         double mult[][] = elementwiseMult(mat1, mat2);
+        Objective2Product = mult;
         printMatrix(mat1, row, col, "Your FIRST MATRIX:");
         printMatrix(mat2, row, col, "Your SECOND MATRIX:");
         printMatrix(mult, row, col, "Element-wise multiplication of the two matrices above:");
 
+        isUseProduct();
+        cls();
         interfaceChange("B", "4");
     }
 
@@ -698,6 +775,7 @@ public class Project1_Group17
 
     /**
      * set of operations to choose from
+     * on case 5 forgets the user option of rememberProduct
     */
     public static void operationChosen(String Operation)
     {
@@ -716,6 +794,7 @@ public class Project1_Group17
                 Obj2Case4();
                 break;
             case "5":
+                rememberProduct = "N";
                 returnHomePage();
         }
     }
@@ -736,6 +815,25 @@ public class Project1_Group17
         {
             System.out.println("Underflow occurred in element multiplication! Try with different values.");
             interfaceChange("B", "5");
+        }
+    }
+    public static void isUseProduct()
+    {
+        if(Objective2Product == null)
+        {
+            System.out.println("There is no recorded product! Please do an operation in order to get a product.");
+            interfaceChange("B", "5");
+        }
+        System.out.println("\nWould you like to use the product of this operation in a new operation?\n");
+        System.out.println("Your choice(Y/N): ");
+        rememberProduct = scanner.nextLine();
+        while(!isValidEntry(rememberProduct, "Y","N"))
+        {
+            cls();
+            System.out.println("INVALID ENTRY!");
+            System.out.println("\nWould you like to use the product of this operation in a new operation?\n");
+            System.out.println("Your choice(Y/N): ");
+            rememberProduct = scanner.nextLine();
         }
     }
 }
