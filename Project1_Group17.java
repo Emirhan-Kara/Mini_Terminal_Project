@@ -8,14 +8,18 @@ public class Project1_Group17
     private static final Scanner scanner = new Scanner(System.in);
     private static double[][] Objective2Product;
     private static String rememberProduct = "N";
+    
     public static void main(String[] args)
     {
         cls();
         String selection;
+        printHello();
+        beklermisin();
+        greetingPage();
         while (true)
         {
             cls();
-            greetingPage();
+            printHello();
             printOptions();
             selection = scanner.nextLine();
             selection = selection.toUpperCase();
@@ -29,18 +33,90 @@ public class Project1_Group17
             }
             
             objectiveChosen(selection);
+            if (selection.equals("E"))
+                return;
+
         }
     }
 
     //  MAIN METHODS FOR HOMEPAGE
+    public static void printHello()
+    {
+        String[] part1 = {
+            "____    __    ____  _______  __        ______   ______   .___  ___.  _______      _______ __   ______",
+            "\\   \\  /  \\  /   / |   ____||  |      /      | /  __  \\  |   \\/   | |   ____|    /  _____/_ | |____  |",
+            " \\   \\/    \\/   /  |  |__   |  |     |  ,----'|  |  |  | |  \\  /  | |  |__      |  |  __  | |     / / ",
+            "  \\            /   |   __|  |  |     |  |     |  |  |  | |  |\\/|  | |   __|     |  | |_ | | |    / /  ",
+            "   \\    /\\    /    |  |____ |  `----.|  `----.|  `--'  | |  |  |  | |  |____    |  |__| | | |   / /   ",
+            "    \\__/  \\__/     |_______||_______| \\______| \\______/  |__|  |__| |_______|    \\______| |_|  /_/    ",
+            "                                                                                                       "
+        };
+        for (String line : part1) System.out.println(line);
+        System.out.println("\n\n\n");
+    }
     public static void greetingPage()
     {
-        System.out.println("         _       _         _                                   ");
-        System.out.println("        ( )  _  ( )       (_ )                                 ");
-        System.out.println("        | | ( ) | |   __   | |    ___    _     ___ ___     __  ");
-        System.out.println("        | | | | | | /'__`\\ | |  /'___) /'_`\\ /' _ ` _ `\\ /'__`\\ ");
-        System.out.println("        | (_/ \\_) |(  ___/ | | ( (___ ( (_) )| ( ) ( ) |(  ___/ ");
-        System.out.println("        `\\_______/'`\\____)(___)`\\____)`\\___/'(_) (_) (_)`\\____) \n\n");
+        String[] part2 = {
+            " _______ .___  ___.  __  .______       __    __       ___      .__   __.     __  ___      ___      .______          ___           ___ __      ___",
+            "|   ____||   \\/   | |  | |   _  \\     |  |  |  |     /   \\     |  \\ |  |    |  |/  /     /   \\     |   _  \\        /   \\         /  /|  |     \\  \\ ",
+            "|  |__   |  \\  /  | |  | |  |_)  |    |  |__|  |    /  ^  \\    |   \\|  |    |  '  /     /  ^  \\    |  |_)  |      /  ^  \\       |  | |  |      |  |",
+            "|   __|  |  |\\/|  | |  | |      /     |   __   |   /  /_\\  \\   |  . `  |    |    <     /  /_\\  \\   |      /      /  /_\\  \\      |  | |  |      |  |",
+            "|  |____ |  |  |  | |  | |  |\\  \\----.|  |  |  |  /  _____  \\  |  |\\   |    |  .  \\   /  _____  \\  |  |\\  \\----./  _____  \\     |  | |  `----. |  |",
+            "|_______||__|  |__| |__| | _| `._____||__|  |__| /__/     \\__\\ |__| \\__|    |__|\\__\\ /__/     \\__\\ | _| `._____/__/     \\__\\    |  | |_______| |  |",
+            "                                                                                                                               \\__\\         /__/  "
+        };
+    
+        String[] part3 = {
+            " __    __       ___   ____    ____ .______       __    __  .__   __. .__   __.  __       _______.     ___           ______     ___   ____    ____  _______       ___      .______",
+            "|  |  |  |     /   \\  \\   \\  /   / |   _  \\     |  |  |  | |  \\ |  | |  \\ |  | |  |     /       |    /   \\         /      |   /   \\  \\   \\  /   / |       \\     /   \\     |   _  \\ ",
+            "|  |__|  |    /  ^  \\  \\   \\/   /  |  |_)  |    |  |  |  | |   \\|  | |   \\|  | |  |    |   (----`   /  ^  \\       |  ,----'  /  ^  \\  \\   \\/   /  |  .--.  |   /  ^  \\    |  |_)  | ",
+            "|   __   |   /  /_\\  \\  \\_    _/   |      /     |  |  |  | |  . `  | |  . `  | |  |     \\   \\      /  /_\\  \\      |  |      /  /_\\  \\  \\      /   |  |  |  |  /  /_\\  \\   |      /  ",
+            "|  |  |  |  /  _____  \\   |  |     |  |\\  \\----.|  `--'  | |  |\\   | |  |\\   | |  | .----)   |    /  _____  \\     |  `----./  _____  \\  \\    /    |  '--'  | /  _____  \\  |  |\\  \\----.",
+            "|__|  |__| /__/     \\__\\  |__|     | _| `._____| \\______/  |__| \\__| |__| \\__| |__| |_______/    /__/     \\__\\     \\______/__/     \\__\\  \\__/     |_______/ /__/     \\__\\ | _| `._____|",
+            "                                                                                                                                        "
+        };
+    
+        String[] part4 = {
+            ".___  ___.   ______    __    __       ___      .___  ___. .___  ___.      ___       _______      ________      ___       __   _______ ",
+            "|   \\/   |  /  __  \\  |  |  |  |     /   \\     |   \\/   | |   \\/   |     /   \\     |       \\    |       /     /   \\     |  | |       \\ ",
+            "|  \\  /  | |  |  |  | |  |__|  |    /  ^  \\    |  \\  /  | |  \\  /  |    /  ^  \\    |  .--.  |   `---/  /     /  ^  \\    |  | |  .--.  | ",
+            "|  |\\/|  | |  |  |  | |   __   |   /  /_\\  \\   |  |\\/|  | |  |\\/|  |   /  /_\\  \\   |  |  |  |      /  /     /  /_\\  \\   |  | |  |  |  | ",
+            "|  |  |  | |  `--'  | |  |  |  |  /  _____  \\  |  |  |  | |  |  |  |  /  _____  \\  |  '--'  |     /  /----./  _____  \\  |  | |  '--'  | ",
+            "|__|  |__|  \\______/  |__|  |__| /__/     \\__\\ |__|  |__| |__|  |__| /__/     \\__\\ |_______/     /________/__/     \\__\\ |__| |_______/ ",
+            "                                                                                                                                        "
+        };
+    
+        String[] part5 = {
+            ".___  ___.  __    __  .______          ___   .___________.        ___       __       __  ___      ___      .______   .___________.    ___      .__   __. ",
+            "|   \\/   | |  |  |  | |   _  \\        /   \\  |           |       /   \\     |  |     |  |/  /     /   \\     |   _  \\  |           |   /   \\     |  \\ |  | ",
+            "|  \\  /  | |  |  |  | |  |_)  |      /  ^  \\ `---|  |----`      /  ^  \\    |  |     |  '  /     /  ^  \\    |  |_)  | `---|  |----`  /  ^  \\    |   \\|  | ",
+            "|  |\\/|  | |  |  |  | |      /      /  /_\\  \\    |  |          /  /_\\  \\   |  |     |    <     /  /_\\  \\   |   ___/      |  |      /  /_\\  \\   |  . `  | ",
+            "|  |  |  | |  `--'  | |  |\\  \\----./  _____  \\   |  |         /  _____  \\  |  `----.|  .  \\   /  _____  \\  |  |          |  |     /  _____  \\  |  |\\   | ",
+            "|__|  |__|  \\______/  | _| `._____/__/     \\__\\  |__|        /__/     \\__\\ |_______||__|\\__\\ /__/     \\__\\ | _|          |__|    /__/     \\__\\ |__| \\__| ",
+            "                                                                                                                                         "
+        };
+    
+        String[] part6 = {
+            ".___  ___.  _______ .___________. _______  __    __       ___      .__   __.     __  ___  __   __       __    ______  __       __ ",
+            "|   \\/   | |   ____||           ||   ____||  |  |  |     /   \\     |  \\ |  |    |  |/  / |  | |  |     |  |  /      ||  |     |  | ",
+            "|  \\  /  | |  |__   `---|  |----`|  |__   |  |__|  |    /  ^  \\    |   \\|  |    |  '  /  |  | |  |     |  | |  ,----'|  |     |  | ",
+            "|  |\\/|  | |   __|      |  |     |   __|  |   __   |   /  /_\\  \\   |  . `  |    |    <   |  | |  |     |  | |  |     |  |     |  | ",
+            "|  |  |  | |  |____     |  |     |  |____ |  |  |  |  /  _____  \\  |  |\\   |    |  .  \\  |  | |  `----.|  | |  `----.|  `----.|  | ",
+            "|__|  |__| |_______|    |__|     |_______||__|  |__| /__/     \\__\\ |__| \\__|    |__|\\__\\ |__| |_______||__|  \\______||_______||__| ",
+            "                                                                                                                                         "
+        };
+    
+        // Print each part
+        for (String line : part2) System.out.println(line);
+        beklermisin();
+        for (String line : part3) System.out.println(line);
+        beklermisin();
+        for (String line : part4) System.out.println(line);
+        beklermisin();
+        for (String line : part5) System.out.println(line);
+        beklermisin();
+        for (String line : part6) System.out.println(line);
+        beklermisin();
     }
     public static void printOptions()
     {
@@ -175,7 +251,8 @@ public class Project1_Group17
             return true;
         return false;
     }
-    // ----------------------------------------------------------------------------------------
+
+    // ---------------------    METHODS FOR THE OBJECTIVE 1    -------------------------
     /**
      * OBJECTIVE 2 MAIN METHOD
      * @author Emirhan, Hayrunnisa, Murat
@@ -265,7 +342,7 @@ public class Project1_Group17
      * This method prevents the repetitive process of asking for a fixed range value. It loops until the user selects a valid number between 1-5
      * @author Emirhan, Hayrunnisa, Murat
      * @param s is the message for different input taking scenarios (for flexiblity)
-     * @return index, an integer between 1-5
+     * @return an integer between 1-5
     */
     public static int takeInputOfRowAndColumn(String s)
     {
@@ -279,8 +356,7 @@ public class Project1_Group17
             System.out.printf("\nEnter a value for %s (between 1-5): ", s);
             val = scanner.nextLine();
         }
-        int index = Integer.parseInt(val);
-        return index;
+        return Integer.parseInt(val);
     }
     
     /**
