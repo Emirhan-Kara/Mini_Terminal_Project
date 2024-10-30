@@ -412,8 +412,8 @@ public class Project1_Group17
 
             if(!flag)
             {
-                System.out.println("\n PLAY AGAIN [0]");
-                System.out.println("\n RETURN MAIN MENU [1]");
+                System.out.println("\nPLAY AGAIN [0]");
+                System.out.println("\nRETURN MAIN MENU [1]");
                 try {
                     int exit;
                     exit = input.nextInt();
