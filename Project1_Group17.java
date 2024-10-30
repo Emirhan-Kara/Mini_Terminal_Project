@@ -5,24 +5,25 @@ import java.util.InputMismatchException;
 
 public class Project1_Group17
 {
+    private static final Scanner scanner = new Scanner(System.in);
+    private static double[] Objective1Product;
     public static void main(String[] args)
     {
         cls();
         String selection;
-        Scanner input = new Scanner(System.in);
         while (true)
         {
             cls();
             greetingPage();
             printOptions();
-            selection = input.nextLine();
+            selection = scanner.nextLine();
             selection = selection.toUpperCase();
             while (!isValidEntry(selection, "A","B","C","D","E"))
             {
                 cls();
                 System.err.println("\n\n        INVALID ENTRY!!");
                 printOptions();
-                selection = input.nextLine();
+                selection = scanner.nextLine();
                 selection = selection.toUpperCase();
             }
             
@@ -38,7 +39,7 @@ public class Project1_Group17
                 case "D":
                     break;
                 case "E":
-                    input.close();
+                    scanner.close();
                     exitPage();
                     return;
             }
@@ -182,17 +183,16 @@ public class Project1_Group17
     // The function for either returning the main page or redo the objective
     public static boolean loopAsk()
     {
-        Scanner scan = new Scanner(System.in);
         System.out.println("\n\n\nPRESS \"1\", to go back\n\nPRESS \"2\", to do the operation again");
         System.out.print("Your choice (1 or 2): ");
-        String case1Loop = scan.nextLine();
+        String case1Loop = scanner.nextLine();
         while (!isValidEntry(case1Loop, "1", "2"))
         {
             cls();
             System.err.println("\n        INVALID ENTRY!!");
             System.out.println("\n\n\nPRESS \"1\", to go back\n\nPRESS \"2\", to do the operation again\n");
             System.out.print("Your choice (1 or 2): ");
-            case1Loop = scan.nextLine();
+            case1Loop = scanner.nextLine();
         }
         if (case1Loop.equals("2"))
             return true;
@@ -218,14 +218,9 @@ public class Project1_Group17
         cls();
         double arr[] = fillArray();
         callMethodsForObj1(arr);
-
-        if (loopAsk())
-        {
-            loadingPage();
-            Objective1();
-        }
-        else
-            returnHomePage();
+        
+        interfaceChange("1", null);
+        
     } 
     
     // This method calls all the methods for the first objective
@@ -233,6 +228,7 @@ public class Project1_Group17
     {
         cls();
         printArray(arr);
+        //ObjectiveProduct[0][0] = ;
         System.out.printf("Median of your array:            %f\n\n", median(arr, arr.length));
         System.out.printf("Arithmetic mean of your array:   %f\n\n", arithmeticMean(arr, arr.length));
         try
@@ -251,15 +247,11 @@ public class Project1_Group17
         {
             System.err.println(e.getMessage());
         }
-        
     }
 
     // This method returns an array that the user will create
     public static double[] fillArray()
     {
-        Scanner input = new Scanner(System.in);
-        Scanner strInput = new Scanner(System.in);
-        
         int size = getSize();
         double array[] = new double[size];
         
@@ -275,7 +267,9 @@ public class Project1_Group17
                     printArray(array);
                     System.out.printf("Please enter a number for %d. element in the array\n\n", i+1);
                     System.out.print("Enter a double (max 8 digits before the decimal): ");
-                    val = input.nextDouble(); 
+                    val = scanner.nextDouble();
+                    //to clear the buffer after nextDouble() since it only reads the next token and leaves an empty line for the next scan
+                    scanner.nextLine(); 
 
                     // java automatically sets the number as +/- infinity if it over/underflows. So we check if the number is finite or not
                     // also we check if the number has more than 8 digits before the decimal part.
@@ -290,22 +284,23 @@ public class Project1_Group17
                     
                     array[i] = val;
                     flag = false;
+                    
                 }
                 catch (IllegalArgumentException e)
                 {
                     cls();
                     double invalidVal = val; // store the old value
-                    String choice;
+                    String choice ="s";
                     System.err.print(e.getMessage());
                     System.out.println("\n\nTo change the value, PRESS 1\nTo continue, PRESS 2\n\n\nYour choice (1 or 2): ");
-                    choice = strInput.nextLine();
+                    choice = scanner.nextLine();
 
                     while (!isValidEntry(choice, "1", "2"))
                     {
                         cls();
                         System.err.println("INVALID ENTRY!!");
                         System.out.println("\n\nTo change the value, PRESS 1\nTo continue, PRESS 2\n\n\nYour choice (1 or 2): ");
-                        choice = strInput.nextLine();
+                        choice = scanner.nextLine();
                     }
 
                     if (choice.equals("2"))
@@ -317,8 +312,8 @@ public class Project1_Group17
                 catch(InputMismatchException e) //NumberFormatException
                 {
                     System.err.println("\nINVALID ENTRY! Select a double please!");
+                    scanner.nextLine();
                     beklermisin();
-                    input.nextLine();
                 }
                 catch(RuntimeException e)
                 {
@@ -333,7 +328,6 @@ public class Project1_Group17
     
     public static int getSize()
     {
-        Scanner strInput = new Scanner(System.in);
         cls();
         System.out.println("Objective 1");
         System.out.println("------------");
@@ -347,13 +341,13 @@ public class Project1_Group17
         
         System.out.print("Please enter your array's size between 1-10: ");
 
-        String ans = strInput.nextLine();
+        String ans = scanner.nextLine();
         while (!isValidEntry(ans, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"))
         {
             cls();
             System.err.println("INVALID ENTRY!!");
             System.out.print("Please enter your array's size between 1-10: ");
-            ans = strInput.nextLine();
+            ans = scanner.nextLine();
         }
         return strToInt(ans);
     }
@@ -450,4 +444,56 @@ public class Project1_Group17
         
         return sum + harmonicSummation(arr, index-1);
     }
+     //the method that is able to change between interfaces and operations
+     public static void interfaceChange(String Objective, String Operation)
+     {
+        
+         if(loopAsk())
+         {
+             loadingPage();
+             Objective1();
+         }
+         else
+         {
+             returnHomePage();
+         }
+     }
+ 
+     //set of objectives
+     public static void objectiveChosen(String Objective)
+     {
+         switch (Objective)
+             {
+                 case "A":
+                    Objective1();
+                     break;
+                 case "B":
+                     break;
+                 case "C":
+                     break;
+                 case "D":
+                     break;
+                 case "E":
+                     scanner.close();
+                     exitPage();
+                     return;
+             }
+     }
+ 
+     //checks if there is any overflow or underflow
+     //since double type doesn't throw ArithmethicException, we have to check every possible overflowable value with isInfinite
+     //Underflow value is generally 0.0 so we use that condition to detect underflow
+     public static void overUnderFlow(double value)
+     {
+         if(Double.isInfinite(value))
+         {
+             System.out.println("Overflow occurred in element multiplication! Try with different values.");
+             interfaceChange("1", null);
+         }
+         else if(value == 0.0)
+         {
+             System.out.println("Underflow occurred in element multiplication! Try with different values.");
+             interfaceChange("1", null);
+         }
+     }
 }
