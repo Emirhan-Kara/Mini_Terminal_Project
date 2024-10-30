@@ -360,7 +360,7 @@ public class Project1_Group17 {
         char turn = 'X';
         short counter = 0;
         int row, col;
-        boolean isValid = false;
+        boolean isValid;
         boolean flag = true;
         short invalidcounter = 0;
         while (flag) {
@@ -373,7 +373,7 @@ public class Project1_Group17 {
                     System.out.println();
                     System.out.printf("\nPlease select a row %c [0,2]: ", turn);
                     row = input.nextInt();
-                    System.out.printf("\nPlease select a column [0,2]: ", turn);
+                    System.out.printf("\nPlease select a column %c [0,2]: ", turn);
                     col = input.nextInt();
                     input.nextLine(); // Buffer temizleme
                     cls();
