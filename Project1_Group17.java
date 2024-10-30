@@ -6,7 +6,6 @@ import java.util.InputMismatchException;
 public class Project1_Group17
 {
     private static final Scanner scanner = new Scanner(System.in);
-    private static double[] Objective1Product;
     public static void main(String[] args)
     {
         cls();
@@ -373,8 +372,11 @@ public class Project1_Group17
         Arrays.sort(arr);
         // if the array size is even, take the average of the middle two value
         if (size % 2 == 0)
+        {
+            overUnderFlow(arr[size/2] + arr[(size/2) - 1]);
             return (arr[size/2] + arr[(size/2) - 1]) / 2.0;
-        return arr[size/2];
+        }
+            return arr[size/2];
     }
 
 
@@ -386,6 +388,7 @@ public class Project1_Group17
         double aritMean = 0;
         for (double i : arr)
             aritMean += i;
+            overUnderFlow(aritMean);
 
         return aritMean / (double)size;
     }
@@ -406,6 +409,7 @@ public class Project1_Group17
 
             count++;
             geoMean *= d;
+            overUnderFlow(geoMean);
         }
 
         if (count == 0)
@@ -429,6 +433,9 @@ public class Project1_Group17
         }
         if (count == 0)
             throw new IllegalArgumentException("Cannot calculate harmonic mean without any positive number inside the array");
+        
+        double tester = harmonicSummation(arr, size-1);
+        overUnderFlow(tester);
         return (double)size / harmonicSummation(arr, size-1);
     }
 
@@ -451,7 +458,7 @@ public class Project1_Group17
          if(loopAsk())
          {
              loadingPage();
-             Objective1();
+             objectiveChosen(Objective);
          }
          else
          {
@@ -487,13 +494,13 @@ public class Project1_Group17
      {
          if(Double.isInfinite(value))
          {
-             System.out.println("Overflow occurred in element multiplication! Try with different values.");
-             interfaceChange("1", null);
+             System.out.println("Overflow occurred in operation! Try with different values.");
+             interfaceChange("A", null);
          }
          else if(value == 0.0)
          {
-             System.out.println("Underflow occurred in element multiplication! Try with different values.");
-             interfaceChange("1", null);
+             System.out.println("Underflow occurred in operation! Try with different values.");
+             interfaceChange("A", null);
          }
      }
 }
