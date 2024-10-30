@@ -125,6 +125,7 @@ public class Project1_Group17
         for (String line : part5) System.out.println(line);
         beklermisin();
         for (String line : part6) System.out.println(line);
+        beklermisin();
         cls();
         for (String line : part1) System.out.println(line);
     }
