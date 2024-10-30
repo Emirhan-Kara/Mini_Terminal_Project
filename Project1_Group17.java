@@ -188,11 +188,13 @@ public class Project1_Group17
             return true;
         return false;
     }
-    /** ----------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------
+    /**
      * OBJECTIVE 2 MAIN METHOD
-     * @author Emirhan, Murat
+     * @author Emirhan, Hayrunnisa, Murat
      * Contains information about the objective and main menu of the objective 2 UI
-     * Directs the user to corresponding methods according to their input*/ 
+     * Directs the user to corresponding methods according to their input
+    */ 
     public static void Objective2()
     {
         cls();
@@ -211,6 +213,13 @@ public class Project1_Group17
 
         operationChosen(input);
     }
+
+    /**
+     * This method prints the options and the notes for Objective 2 
+     * @author Emirhan, Hayrunnisa, Murat 
+     * Contains information about the objective and main menu of the objective 2 UI
+     * Directs the user to corresponding methods according to their input
+    */
     public static void printMatrixOptions()
     {
         System.out.println("IMPORTANT NOTES");
@@ -227,8 +236,9 @@ public class Project1_Group17
     }
     
     /**  Main method for Objective2_Case1 (Matrix transpose)
-     * @author Emirhan, Murat
-     * Displays the transpose of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2*/
+     * Displays the transpose of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2
+     * @author Emirhan, Hayrunnisa, Murat
+    */
     public static void Obj2Case1()
     {
         int row;
@@ -265,9 +275,11 @@ public class Project1_Group17
     }
     
     /**
-     * @author Emirhan, Murat
-     * @param s is the user input  
-     * This method takes a valid input for wanted dimension size*/
+     * This method prevents the repetitive process of asking for a fixed range value. It loops until the user selects a valid number between 1-5
+     * @author Emirhan, Hayrunnisa, Murat
+     * @param s is the message for different input taking scenarios (for flexiblity)
+     * @return an integer between 1-5
+    */
     public static int takeInputOfRowAndColumn(String s)
     {
         cls();
@@ -284,10 +296,15 @@ public class Project1_Group17
     }
     
     /**
+     * This method takes a matrix with its dimensions as input.
+     * Iterates each element and changes them with the valid user input,
+     * ensuring that the input is a valid double and within specified limits.
+     * @author Emirhan, Hayrunnisa, Murat
      * @param mat is being filled by valid double values from user input
      * @param row row size of matrix
      * @param col column size of matrix
-     * @throws RuntimeException if a negative value is entered by user  
+     * @throws RuntimeException if the entered number is not-finite (overflow for double) or has more than 8 digits before the decimal point
+     * @throws InputMismatchException if the user enters a non-double value  
      */
     public static void fillMatrix(double[][] mat, int row, int col)
     {
@@ -336,11 +353,13 @@ public class Project1_Group17
     }
     
     /**  
+     * This methods takes a matrix and its dimensions as input and prints it. Input string is for the flexibility of the method.
+     * @author Emirhan, Hayrunnisa, Murat
      * @param mat is printed in this method
      * @param row size of matrix
      * @param col size of matrix
      * @param message is to use the method in various situations
-     * */
+    */
     public static void printMatrix(double[][] mat, int row, int col, String message)
     {
         System.out.printf("\n\n%s\n", message);
@@ -359,8 +378,12 @@ public class Project1_Group17
     }  
     
     /** 
-     * @param mat is to hold the matrix in memory that will be used for transpose operation
-     * O(n) space complexity and O(n) time complexity. n=number of elements in the matrix*/ 
+     * This method takes a matrix as input, returns the transpose of that matrix
+     * O(n) space complexity and O(n) time complexity. n=number of elements in the matrix
+     * @author Emirhan, Hayrunnisa, Murat
+     * @param mat is the matrix to be used for transpose operation
+     * @return the transpose of the input matrix
+    */ 
     public static double[][] returnTranspose(double mat[][])
     {
         int row = mat.length;
@@ -378,9 +401,12 @@ public class Project1_Group17
     }
 
 
-    /**  Main method for Objective2_Case2 (Inverse matrix)
-     * Creates a valid matrix to be able to perform the task.
-     * Displays the inverse of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2*/
+    /**
+     * Main method for Objective2_Case2 (Inverse matrix)
+     * Creates a square matrix and controls the determinant of that to be able to perform the task
+     * Displays the inverse of the matrix and asks the user if they want to re-do the objective or go back to main menu for Objective 2
+     * @author Emirhan, Hayrunnisa, Murat
+    */
     public static void Obj2Case2()
     {
         int row;
@@ -433,12 +459,14 @@ public class Project1_Group17
     }
     
     /** 
-     * @author Emirhan, Murat
-     * @param mat to hold in memory the user-entered matrix
-     * @param determinant to calculate cofactor matrix
-     * method calculates the cofactor matrix and adjoint matrix
-     * returns the inverse of that matrix
-     * O(n+r) space complexity and O(n^2) time complexity. n=number of elements in the matrix*/ 
+     * This method takes a matrix and its determinant as input;
+     * calculates the cofactor matrix, adjoint matrix and then returns the inverse of the matrix
+     * O(n+r) space complexity and O(n^2) time complexity. n=number of elements in the matrix, r=row size of the matrix
+     * @author Emirhan, Hayrunnisa, Murat
+     * @param mat the matrix to be inverted
+     * @param determinant to multiply the adjoint matrix with 1/determinant
+     * @return inverse of the input matrix
+    */ 
     public static double[][] inverseMatrix(double[][] mat, double determinant)
     {
         /**  create the adjoint matrix by taking the transpose of the cofactor matrix*/
@@ -454,9 +482,14 @@ public class Project1_Group17
     }
 
     /**
-     * @param mat is holding the matrix in memory that 
-     * the determinent will be calculated from recursively.
-     * O(r) space complexity and O(n) time complexity where r=row number and n=number of elements in matrix(r^2)*/ 
+     * Calculates the determinant of the square rxr matrix recursively
+     * Returns the base cases directly without recursion (1x1 and 2x2 matrices)
+     * O(r) space complexity and O(n) time complexity where r=row number and n=number of elements in matrix(r^2)
+     * @author Emirhan, Hayrunnisa, Murat
+     * @param mat the matrix whose determinant will be calculated
+     * @throws ArithmeticException if overflow or underflow is detected. Sets the determinant as 0 and returns
+     * @return a double value, determinant
+    */ 
     public static double determinant(double[][] mat)
     {
         /**  base cases for 1x1 and 2x2 matrices*/
@@ -486,17 +519,30 @@ public class Project1_Group17
                 }
                 colCount = 0;
             }
-            /**determinant calculation formula. In the recurisve call, the skipRow index is 0 because 
-             * newMat has new dimensions and it must start from 0*/
-            ans += Math.pow(-1, i)*mat[0][i]*determinant(newMat);
+            /**determinant calculation formula.*/
+            try
+            {
+                ans += secureMultiply((Math.pow(-1, i) * mat[0][i]), determinant(newMat));
+            }
+            catch (ArithmeticException e)
+            {
+                System.err.println(e.getMessage() + "While calculating the determinant\n\n");
+                System.out.println("The determinant is set as '0.0'\n\nReturning....\n");
+                beklermisin();
+                return 0.0;
+            }
         }
         return ans;
     }
     
     /** 
-     * @param mat creates sub matrices for each element of mat,
-     * calculates the minors (determinant of the submatrix) for each sub-matrices and returns a coffactor matrix accordingly
-     * O(n+r) space complexity and O(n^2) time complexity. n=number of elements in the matrix*/ 
+     * This method takes a matrix as input, creates sub-matrices for each element of the original matrix,
+     * calculate the minors (determinant of the submatrix) for each sub-matrices and returns a cofactor matrix accordingly
+     * O(n+r) space complexity and O(n^2) time complexity. n=number of elements in the matrix, r=row size of the matrix
+     * @author Emirhan, Hayrunnisa, Murat
+     * @param mat the matrix whose cofactor matrix will be derived
+     * @return cofactorMat, cofactor matrix of the input matrix
+    */ 
     public static double[][] cofactorMatrix(double mat[][])
     {
         int row = mat.length;
@@ -523,11 +569,15 @@ public class Project1_Group17
     }
     
     /** 
+     * This method takes a matrix and two indeces as input,
+     * returns a new matrix that doesn't contain the i-th row and j-th column of the original matrix
+     * O(n) space complexity, O(n) time complexity. n=number of elements in the matrix
+     * @author Emirhan, Hayrunnisa, Murat
      * @param mat is to hold the matrix in memory
-     * @param i and,
-     * @param j is to ignore that row and column from the main matrix 
-     * returns a new matrix that doesn't containt ith row and jth column
-     * O(n) space complexity, O(n) time complexity. n=number of elements in the matrix*/ 
+     * @param i index of the ignored row
+     * @param j index of the ignored column
+     * @return newMat, a new matrix without the i-th row and j-th column of the input matrix
+    */ 
     public static double[][] ignore_ithRow_jthColumn(double mat[][], int i, int j)
     {
         int row = mat.length;
@@ -553,10 +603,14 @@ public class Project1_Group17
         return newMat;
     }
     
-    /**  
-     * @param mat modifies the matrix to multiply with the constant value
-     * @param x is the constant
-     * O(1) space complexity and O(n) time complexity. n=number of elements in the matrix */
+    /**
+     * This method takes a matrix and constant as input, modifes the matrix such that each element is multiplied with the constant
+     * O(1) space complexity and O(n) time complexity. n=number of elements in the matrix
+     * @author Emirhan, Hayrunnisa, Murat
+     * @param mat the matrix to be modifed
+     * @param x is the constant to be multiplied with each element of the matrix
+     * @throws ArithmeticException if overflow or underflow is detected. Handles the exception such that it sets the value to 0.0
+     */
     public static void matrixMultWithConstant(double mat[][], double x)
     {
         int row = mat.length;
@@ -567,16 +621,27 @@ public class Project1_Group17
         {
             for (int j = 0; j < col; j++)
             {
-                mat[i][j] *= x;
+                try
+                {
+                    mat[i][j] = secureMultiply(mat[i][j], x);
+                }
+                catch (ArithmeticException e)
+                {
+                    System.err.println(e.getMessage() + "While multiplying elements at [" + i + "][" + j + "] with the constant\n\n");
+                    System.out.println("The value is set to '0.0'\n\n");
+                    mat[i][j] = 0.0;
+                    beklermisin();
+                }
             }
         }
     }
 
     /**
-     * @author Emirhan, Murat
+     * Main method for Objective2_Case3 (Matrix multiplication)
      * Creates and fills two matrices suitable for the operation
-     * Displays the dot product of the two matrices and asks the user if they want to re-do the objective or 
-     * go back to main menu for Objective 2*/
+     * Displays the multiplication of two matrices and asks the user if they want to re-do the objective or go back to main menu for Objective 2
+     * @author Emirhan, Hayrunnisa, Murat
+    */
     public static void Obj2Case3()
     {
         int row1, col1;
@@ -634,10 +699,14 @@ public class Project1_Group17
     }
     
     /**  
-     * @param mat1 and
-     * @param mat2 is used for returning another matrix 
+     * This methods takes two matrices as input, returns another matrix that is the product of the mat1 x mat2 multiplication
+     * O(n) space complexity and O(nr) time complexity. n=number of elements in answer matrix and r=number of rows in the first matrix
+     * @author Emirhan, Hayrunnisa, Murat
+     * @param mat1 the first matrix
+     * @param mat2 the second matrix 
+     * @throws ArithmeticException if overflow or underflow is detected. Handles the exception such that it sets the value to 0.0
+     * @return result, the product matrix from the mat1 x mat 2 multiplication
      * that is the dot product of the two matrices (matrix multiplication)
-     * O(n) space complexity and O(nr). n=number of elements in answer matrix and r=number of rows in the first matrix
     */
     public static double[][] matrixMult(double mat1[][], double mat2[][])
     {
@@ -661,18 +730,31 @@ public class Project1_Group17
             {
                 for(int k = 0; k < row2; k++)
                 {
-                    result[i][j] += mat1[i][k] * mat2[k][j];
+                    try
+                    {
+                        result[i][j] += secureMultiply(mat1[i][k], mat2[k][j]);
+                    }
+                    catch (ArithmeticException e)
+                    {
+                        System.err.println(e.getMessage() + "While multiplying elements at mat1[" + i + "][" + k + "] and mat2[" + k + "][" + j + "]\n\n");
+                        System.out.println("The value is set to '0.0'\n\n");
+                        result[i][j] = 0.0;
+                        beklermisin();
+                    }
+                    
                 }
             }
         }
         return result;
     }
 
-    /**  Main method for Objective2_Case4 (Element-wise multiplication)
-     * @author Emirhan, Murat
+    /**  
+     * Main method for Objective2_Case4 (Element-wise multiplication)
      * Creates and fills 2 matrices with same dimensions
      * Displays the element-wise multiplication matrix and ask the user if they want to re-do the objective 
-     * or go back to main menu for Objective 2*/
+     * or go back to main menu for Objective 2
+     * @author Emirhan, Hayrunnisa, Murat
+    */
     public static void Obj2Case4()
     {
         int row, col;
@@ -714,9 +796,13 @@ public class Project1_Group17
     }
 
     /**
-     * @param mat1 and
-     * @param mat2 is used for returning another matrix that is the product of element-wise multiplication  
+     * This method takes two matrices as input, returns another matrix that contains the element-wise multiplication result
      * O(n) space complexity and O(n) time complexity. n=number of elements in one matrix
+     * @author Emirhan, Hayrunnisa, Murat
+     * @param mat1 the first matrix
+     * @param mat2 the second matrix  
+     * @return mult, a new matrix with the element-wise multiplication results
+     * @throws ArithmeticException if overflow or underflow is detected. Handles the exception such that the overflowed/underflowed value is set to default (0.0)
      * */
     public static double[][] elementwiseMult(double mat1[][], double mat2[][])
     {
@@ -727,15 +813,30 @@ public class Project1_Group17
         for(int i = 0; i < row; i++)
         {
             for (int j = 0; j < col; j++)
-                mult[i][j] = mat1[i][j] * mat2[i][j];
+            {
+                try
+                {
+                    mult[i][j] = secureMultiply(mat1[i][j], mat2[i][j]);
+                }
+                catch (ArithmeticException e)
+                {
+                    System.err.println(e.getMessage() + "While multiplying elements at [" + i + "][" + j + "]\n\n");
+                    System.out.println("The value is set to '0.0'\n\n");
+                    mult[i][j] = 0.0;
+                    beklermisin();
+                }
+            }
         }
 
         return mult;
     }
     /**
+     * This methods prevents repetitive processes in each operation
+     * Is able to change between interfaces and operations
+     * @author Emirhan, Hayrunnisa, Murat
      * @param Objective is the objective number that is the user being directed to
      * @param Operation is the operation number that is the user being directed to in Objective2
-     * the method that is able to change between interfaces and operations*/
+    */
     public static void interfaceChange(String Objective, String Operation)
     {
         if(loopAsk())
@@ -752,7 +853,10 @@ public class Project1_Group17
     }
 
     /**
-     * set of objectives to choose from*/
+     * This methods contains the switch case for the main menu
+     * @author Emirhan, Hayrunnisa, Murat
+     * @param Objective the valid input that is used for switch case
+    */
     public static void objectiveChosen(String Objective)
     {
         switch (Objective)
@@ -774,8 +878,10 @@ public class Project1_Group17
     }
 
     /**
-     * set of operations to choose from
-     * on case 5 forgets the user option of rememberProduct
+     * This methods contains the switch case for the Objective2 main menu
+     * case 5 forgets the user option of rememberProduct
+     * @author Emirhan, Hayrunnisa, Murat
+     * @param Operation the valid input that is used for switch case
     */
     public static void operationChosen(String Operation)
     {
@@ -798,25 +904,31 @@ public class Project1_Group17
                 returnHomePage();
         }
     }
-
     /**
-     * @param value is the value that is being checked for Over/Underflow
-    *since double type doesn't throw ArithmethicException, we have to check every possible over/underflow value with isInfinite()
-    *The value after underflow is set to 0.0 by java so we may use that condition to detect underflow
-    */
-    public static void overUnderFlow(double value)
+     * This methods takes two double values and multiplies them and returns the result
+     * Checks the overflow/underflow during multiplication and if any, throws an exception
+     * If the result is 0 but neither of the values is zero, it is underflow
+     * If the result is infinite, it is overflow
+     * @author Emirhan, Hayrunnisa, Murat
+     * @return the result of a * b if there is no exception
+     * @throws ArithmeticException if overflow or underflow is detected
+     */
+    public static double secureMultiply(double a, double b)
     {
-        if(Double.isInfinite(value))
-        {
-            System.out.println("Overflow occurred in element multiplication! Try with different values.");
-            interfaceChange("B", "5");
-        }
-        else if(value == 0.0)
-        {
-            System.out.println("Underflow occurred in element multiplication! Try with different values.");
-            interfaceChange("B", "5");
-        }
+        double result = a * b;
+        
+        if (Double.isInfinite(result))
+            throw new ArithmeticException("OVERFLOW DETECED !!!\n");
+        else if (result == 0.0 && a != 0.0 && b != 0.0)
+            throw new ArithmeticException("UNDERFLOW DETECED !!!\n");
+
+        return result;
     }
+    /**
+     * This method is used to eleminate repetitive opearion
+     * After a matrix operation is done, it asks user to if they want to do another operation with the result matrix of the operation they have done
+     * @author Emirhan, Hayrunnisa, Murat 
+     */
     public static void isUseProduct()
     {
         if(Objective2Product == null)
@@ -827,6 +939,7 @@ public class Project1_Group17
         System.out.println("\nWould you like to use the product of this operation in a new operation?\n");
         System.out.println("Your choice(Y/N): ");
         rememberProduct = scanner.nextLine();
+        rememberProduct = rememberProduct.toUpperCase();
         while(!isValidEntry(rememberProduct, "Y","N"))
         {
             cls();
