@@ -6,50 +6,17 @@ import java.util.InputMismatchException;
 public class Project1_Group17
 {
     private static final Scanner scanner = new Scanner(System.in);
-    private static double[][] Objective2Product;
+    private static boolean isClosed = false;
+    private static double[][] Objective2Product = {{0.0, 0.0}, {0.0, 0.0}};
     private static String rememberProduct = "N";
     
     public static void main(String[] args)
     {
-        String selection;
         cls();
         printHello();
         beklermisin();
         greetingPage();
-        while (true)
-        {
-            cls();
-            printHello();
-            printOptions();
-            selection = scanner.nextLine();
-            selection = selection.toUpperCase();
-            while (!isValidEntry(selection, "A","B","C","D","E"))
-            {
-                cls();
-                System.err.println("\n\n        INVALID ENTRY!!");
-                printOptions();
-                selection = scanner.nextLine();
-                selection = selection.toUpperCase();
-            }
-            
-            switch (selection)
-            {
-                case "A":
-                    Objective1();
-                    break;
-                case "B":
-                    Objective2();
-                    break;
-                case "C":
-                    break;
-                case "D":
-                    break;
-                case "E":
-                    exitPage();
-                    scanner.close();
-                    return;
-            }
-        }
+        mainMenu();
     }
     //  MAIN METHODS FOR HOMEPAGE
     public static void printHello()
@@ -173,14 +140,19 @@ public class Project1_Group17
             System.err.println("Error on cls!!!!");
         }
     }
-    public static void beklermisin()
-    {
-        // 1 saniye bekle, sonra ekranı temizle
+     /**
+     * @author Hayrunnisa
+     *         To give an significant visualizement to user in the some part of
+     *         program
+     *         it waits for 1 sec
+     */
+    public static void beklermisin() {
+        // 3 saniye bekle, sonra ekranı temizle
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             System.out.println("Interruption cut: " + e.getMessage());
-            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt(); // İş parçacığının kesildiğini bildirir
         }
         cls();
     }
@@ -272,13 +244,7 @@ public class Project1_Group17
         double arr[] = fillArray();
         callMethodsForObj1(arr);
         
-        if (loopAsk())
-        {
-            loadingPage();
-            Objective1();
-        }
-        else
-            returnHomePage();        
+         interfaceChange("A");     
     } 
     
     // This method calls all the methods for the first objective
@@ -609,23 +575,7 @@ public class Project1_Group17
             input = scanner.nextLine();
         }
 
-        switch (input)
-        {
-            case "1":
-                Obj2Case1();
-                break;
-            case "2":
-                Obj2Case2();
-                break;
-            case "3":
-                Obj2Case3();
-                break;
-            case "4":
-                Obj2Case4();
-                break;
-            case "5":
-                returnHomePage();
-        }
+        operationChosen(input);
     }
 
     /**
@@ -685,16 +635,7 @@ public class Project1_Group17
 
         isUseProduct();
         cls();
-        if (loopAsk())
-        {
-            loadingPage();
-            Obj2Case1();
-        }
-        else
-        {
-            loadingPage();
-            Objective2();
-        }
+        interfaceChange("1");
     }
     
     /**
@@ -864,8 +805,11 @@ public class Project1_Group17
 
         double determinant = determinant(matrix);
         if (determinant == 0.0)
+        {
             System.err.println("\n\nSingular matrices (determinant = 0) does not have an inverse!!\n");
-        
+            System.err.println("\n\nOperation product assigned as a 2x2 matrix filled with zeroes.\n");
+
+        }
         else if (matrix.length == 1)
         {
             printMatrix(matrix, row, row, "Inverse of Your Matrix:");
@@ -880,16 +824,7 @@ public class Project1_Group17
             
         isUseProduct();
         cls();
-        if (loopAsk())
-        {
-            loadingPage();
-            Obj2Case2();
-        }
-        else
-        {
-            loadingPage();
-            Objective2();
-        }
+        interfaceChange("2");
     }
     
     /** 
@@ -1129,16 +1064,7 @@ public class Project1_Group17
 
         isUseProduct();
         cls();
-        if (loopAsk())
-        {
-            loadingPage();
-            Obj2Case3();
-        }
-        else
-        {
-            loadingPage();
-            Objective2();
-        }
+        interfaceChange("3");
     }
     
     /**  
@@ -1154,7 +1080,6 @@ public class Project1_Group17
     public static double[][] matrixMult(double mat1[][], double mat2[][])
     {
         int row1 = mat1.length;
-        int col1 = mat1[0].length;
 
         int row2 = mat2.length;
         int col2 = mat2[0].length;
@@ -1235,16 +1160,7 @@ public class Project1_Group17
 
         isUseProduct();
         cls();
-        if (loopAsk())
-        {
-            loadingPage();
-            Obj2Case4();
-        }
-        else
-        {
-            loadingPage();
-            Objective2();
-        }
+        interfaceChange("4");
     }
 
     /**
@@ -1302,6 +1218,27 @@ public class Project1_Group17
 
         return result;
     }
+    public static void operationChosen(String Operation)
+    {
+        switch (Operation)
+        {
+            case "1":
+                Obj2Case1();
+                break;
+            case "2":
+                Obj2Case2();
+                break;
+            case "3":
+                Obj2Case3();
+                break;
+            case "4":
+                Obj2Case4();
+                break;
+            case "5":
+                rememberProduct = "N";
+                returnHomePage();
+        }
+    }
     /**
      * This method is used to eleminate repetitive opearion
      * After a matrix operation is done, it asks user to if they want to do another operation with the result matrix of the operation they have done
@@ -1326,5 +1263,479 @@ public class Project1_Group17
             System.out.println("Your choice(Y/N): ");
             rememberProduct = scanner.nextLine();
         }
+    }
+    //-------------------------------------------------------------METHODS FOR OBJECTIVE 3--------------------------------------------------------
+    /**
+     * @author Hayrunnisa, Zaid
+     * Prints options for encryption/decryption and ables user to select an option
+     */
+    public static void Objective3()
+    {
+        String selection;
+        cls();
+        while(true)
+        {
+            printCrypOptions();
+            selection = scanner.nextLine();
+            selection = selection.toUpperCase();
+            while (!isValidEntry(selection, "A","B","C"))
+            {
+                cls();
+                System.err.println("\n\n        INVALID ENTRY!!");
+                printCrypOptions();
+                selection = scanner.nextLine();
+                selection = selection.toUpperCase();
+            }
+            cls();
+            switch (selection)
+            {
+                case "A":
+                    Encryption(1);
+                    break;
+                case "B":
+                    Encryption(-1);
+                    break;
+                case "C":
+                    returnHomePage();
+                    return;
+            }  
+        }
+    }
+    /**
+     * @author hayrunnisa, zaid
+     * @param x , by multiplying -1 it decides if it is enc or dec x = dec , x -1 enc
+     * if the input is empty, invalid try
+     * @throw choosing a key, while key is invalid it continues. If input is non-integer 
+     * it throws exception.
+     * 
+     * Negative key:
+     * -Cannot be smaller than -26, to make them positive method adds 26 after taking modulo. then again it takes modulo so that it can go further from the original letter
+     * strings are stabile so that we create a char "che" then assigned every char in the string to che in the for loop.
+     * !!newarr hold the new message
+     * !! char Aa holds the place in the ascıı table for 'a' or 'A',
+     * (THE DISTANCE OF THE ORIGINAL LETTER TO FIRST LETTER  + THE RAW KEY) %  26 gives the exact point from the first letter
+     * so that dont forget the add first letter Aa
+     * 
+     */
+    public static void Encryption(int x)
+    {
+        String victim; // The message
+        int key = 0;
+        boolean isValid = false;
+        do
+        {
+            System.out.print("\n        Please enter your message: ");
+            victim = scanner.nextLine();
+            cls();
+        } while ( victim.equals("") || victim.equals(" "));
+
+        do {
+            try {
+                
+                System.out.print("\nPlease enter the key[-26,26]: ");
+                key = scanner.nextInt();
+                scanner.nextLine();  // Buffer temizleme
+                cls();
+                if(key < 27 && key > -27)
+                {
+                    isValid = true;
+                }else{
+                    cls();
+                    System.out.println("Not In The Range!");
+                }
+            } catch (InputMismatchException e) {
+                cls();
+                System.out.println("Invalid input. Please enter an **INTEGER**.");
+                scanner.nextLine();  // Scanner cleans non-integer input
+            }
+        } while (!isValid);
+
+        // Multiply by x, to decide if the request is encryption or decryption
+        key = key * x;
+
+        // Managing negative keys by modulo and adding 26
+        if (key < 0) {
+            key = (key % 26 + 26) % 26; // now, they are positive
+            // positivie keys are already correct
+        }
+
+        // string to char array
+        char[] newarr = new char[victim.length()];
+
+        //Process of encryption/decryption
+        for (int i = 0; i < victim.length(); i++)
+        {
+            char che = victim.charAt(i);
+            if (Character.isLetter(che))  
+            {
+                char Aa = Character.isLowerCase(che) ? 'a' : 'A';  // Decides whether the starting point should be lowercase or uppercase
+                newarr[i] = (char) ((che - Aa + key) % 26 + Aa);   // addition of the key to the distance to starting point is actually the purified key, getting mod 26 shows how many steps you need to take from the beginning
+            }
+            else
+            {
+                newarr[i] = che;  // non-alphabetic, remains
+            }
+        }
+        // Char array to string, then print the message
+        String result = new String(newarr);
+        if (x == 1) {
+            System.out.println("\n             Encrypted Message:\n");
+        } else {
+            System.out.println("\n             Decrypted Message:\n");
+        }
+        System.out.printf("\n             %s", result);
+        System.out.print("\n\n        To return back press a button:\n");
+        scanner.nextLine();
+        cls();
+        return;
+    }
+    /**
+     * @author Murat 
+     * @param Objective is to reach directories correctly
+     * set of objectives */
+    public static void objectiveChosen(String Objective)
+    {
+        switch (Objective)
+            {
+                case "A":
+                    Objective1();
+                    break;
+                case "B":
+                    Objective2();
+                    break;
+                case "C":
+                    Objective3();
+                    break;
+                case "D":
+                    Objective4();
+                    break;
+                case "E":
+                    scanner.close();
+                    isClosed = true;
+                    exitPage();
+                    return;
+            }
+    }
+    // ----------------------------------------------------------------------------------------
+    /**
+     * @author Hayrunnisa
+     *         Simulates an ascıı art entrance for the game
+     */
+    public static void Objective4()
+    {
+        cls();
+        welcometoxox();
+        startxox();
+        return;
+    }
+    public static void welcometoxox() {
+        String[] lines = {
+                "                                                                                          ",
+                "                        --                /,                                              ",
+                "                        vt                fI                           .\"       ^'        ",
+                "                       `c<                |>                           .it^   '}{.        ",
+                "                       ,c,                1<                             ._(^>j\"          ",
+                "                       ;c`                )+                               -cv`           ",
+                "                       ic`                \\-                             ^t+.^j?.         ",
+                "                       <c`                j?                           .}{'    >n`        ",
+                "                       >c\"                n]               .            .       .         ",
+                "       '-]]]]]?][}{1)(|xcxfjjrrrrxxxxrrrrrcuft/\\|(1{}}[]?+>\"                               ",
+                "                       ;c\"                c}                                               ",
+                "                       :c\"                z}                             .I}][)l          ",
+                "                       ,c\"               .z}                            \"r^   ._/         ",
+                "                       \"c,               .z{                           'c^      rl        ",
+                "                       ^c,               .z{                           ,c.     .u:        ",
+                "                       `c,               .z{                           'n+.   '\\<         ",
+                "                       `c,               .z{                            .;}}}{<`          ",
+                "                      .`cI...............`z(''''''....                                     ",
+                "       .,I>+?[{11))))((\\cr((||||\\\\////ttcuffffjjjrrxxxrt}^                               ",
+                "                       .zl                v{                            .'.   .'.         ",
+                "                       .z>                n}                           [uxn\\^}uxn\\.       ",
+                "                       .z+                f}                          'c///jcx///v,       ",
+                "                        z[                (}                           {n///j///rf.       ",
+                "                        c(                ]1                            .>xjn]'          ",
+                "                        c{                >|                             .;'             ",
+                "                        u>                ,x                                               ",
+                "                        t^                'v                                               ",
+                "                                                                                          "
+        };
+        /**
+         * print ascıı art line by line 10 ms for each line
+         * 
+         * @throws if an exception occurs during execution
+         */
+        for (String satır : lines) {
+            System.out.println(satır);
+            try {
+                Thread.sleep(10); // Her satır arasında 0.01 saniye bekle
+            } catch (InterruptedException e) {
+                System.out.println("Interruption cut: " + e.getMessage());
+                Thread.currentThread().interrupt(); // İş parçacığının kesildiğini bildirir
+            }
+        }
+        beklermisin();
+        cls();
+    }
+
+    /**
+     * @author Hayrunnisa
+     * @param choice -> is the person who is the next
+     *               represents the user next and remains 1.2 sec
+     */
+    public static void printNext(char choice) {
+        if ('O' == choice) {
+            System.out.println(" ________   __    __   ______        __      _        ____    ");
+            System.out.println("(___  ___)  ) )  ( (  (   __ \\      /  \\    / )      / __ \\   ");
+            System.out.println("    ) )    ( (    ) )  ) (__) )    / /\\ \\  / /      / /  \\ \\  ");
+            System.out.println("   ( (      ) )  ( (  (    __/     ) ) ) ) ) )     ( ()  () ) ");
+            System.out.println("    ) )    ( (    ) )  ) \\ \\  _   ( ( ( ( ( (      ( ()  () ) ");
+            System.out.println("   ( (      ) \\__/ (  ( ( \\ \\_))  / /  \\ \\/ /       \\ \\__/ /  ");
+            System.out.println("   /__\\     \\______/   )_) \\__/  (_/    \\__/         \\____/   ");
+            System.out.println("                                                              ");
+        }
+        if ('X' == choice) {
+            System.out.println(" ________   __    __   ______        __      _      __     __  ");
+            System.out.println("(___  ___)  ) )  ( (  (   __ \\      /  \\    / )    (_ \\   / _) ");
+            System.out.println("    ) )    ( (    ) )  ) (__) )    / /\\ \\  / /       \\ \\_/ /   ");
+            System.out.println("   ( (      ) )  ( (  (    __/     ) ) ) ) ) )        \\   /    ");
+            System.out.println("    ) )    ( (    ) )  ) \\ \\  _   ( ( ( ( ( (         / _ \\    ");
+            System.out.println("   ( (      ) \\__/ (  ( ( \\ \\_))  / /  \\ \\/ /       _/ / \\ \\_  ");
+            System.out.println("   /__\\     \\______/   )_) \\__/  (_/    \\__/       (__/   \\__) ");
+            System.out.println("                                                                ");
+        }
+        try {
+            Thread.sleep(1200);
+        } catch (InterruptedException e) {
+            System.out.println("Interruption cut: " + e.getMessage());
+            Thread.currentThread().interrupt(); // İş parçacığının kesildiğini bildirir
+        }
+        cls();
+    }
+
+    /**
+     * @author Hayrunnisa, Zaid, Murat
+     *         XOX STARTS
+     *         starts with an empty board
+     *         prints the board on terminal each time
+     *         X starts
+     *         if the turn number smaller then 4 it does not check if there is a
+     *         winner or not
+     *         About selecting a block:
+     *         they cannot choose a block that does not exist or full
+     *         Flag: follows the progress of the game.
+     *         Counter: total of the turns.
+     *         isValid: indicates input
+     * 
+     * 
+     */
+    public static void startxox() {
+        char paper[][] = { { ' ', ' ', ' ' }, { ' ', ' ', ' ' }, { ' ', ' ', ' ' } };
+        char turn = 'X';
+        short counter = 0;
+        int row, col;
+        boolean isValid;
+        boolean flag = true;
+        short invalidcounter = 0;
+        while (flag) {
+            printNext(turn);
+            isValid = false;
+            do {
+                try {
+                    printPaper(paper);
+                    System.out.printf("\nYou can type 9 to return to main menu!]\n", invalidcounter);
+                    System.out.println();
+                    System.out.printf("\nPlease select a row %c [1,3]: ", turn);
+                    row = scanner.nextInt();
+                    scanner.nextLine();
+                    if(row == 9)
+                    {
+                        mainMenu();
+                        if(isClosed)
+                            return;
+                    }
+                    row -= 1;
+                    System.out.printf("\nPlease select a column %c [1,3]: ", turn);
+                    col = scanner.nextInt();
+                    scanner.nextLine(); // Buffer temizleme
+                    if(col == 9)
+                    {
+                        mainMenu();
+                        if(isClosed)
+                            return;
+                    }
+                    col -= 1;
+                    cls();
+                    if (row < 3 && row > -1 && col < 3 && col > -1 && paper[row][col] == ' ') {
+                        cls();
+                        isValid = true;
+                        paper[row][col] = turn;
+                        counter++;
+                        if (counter > 4 && Over(paper, turn)) {
+                            flag = false; // GAME OVER
+                            System.out.printf(
+                                    "                     %c WON IN %d TURNS                                                 \n\n",
+                                    turn, counter);
+                            System.out.println(
+                                    " __        ___                                  _                       ");
+                            System.out.println(
+                                    " \\ \\      / (_)_ __  _ __   ___ _ __  __      _(_)_ __  _ __   ___ _ __ ");
+                            System.out.println(
+                                    "  \\ \\ /\\ / /| | '_ \\| '_ \\ / _ \\ '__| \\ \\ /\\ / / | '_ \\| '_ \\ / _ \\ '__|");
+                            System.out.println(
+                                    "   \\ V  V / | | | | | | | |  __/ |     \\ V  V /| | | | | | | |  __/ |   ");
+                            System.out.println(
+                                    "    \\_/\\_/  |_|_| |_|_| |_|\\___|_|      \\_/\\_/ |_|_| |_|_| |_|\\___|_|   ");
+                            System.out
+                                    .println("  ___| |__ (_) ___| | _____ _ __     __| (_)_ __  _ __   ___ _ __      ");
+                            System.out.println(
+                                    " / __| '_ \\| |/ __| |/ / _ \\ '_ \\   / _` | | '_ \\| '_ \\ / _ \\ '__|     ");
+                            System.out
+                                    .println("| (__| | | | | (__|   <  __/ | | | | (_| | | | | | | | |  __/ |        ");
+                            System.out.println(
+                                    " \\___|_| |_|_|\\___|_|\\_\\___|_| |_|  \\__,_|_|_| |_|_| |_|\\___|_|         \n");
+                        } else if (counter == 9 && !Over(paper, turn)) {
+                            System.out.printf("The Game is Tie!\n\n");
+                            flag = false; // GAME OVER
+                        }
+                        printPaper(paper);
+                        turn = (turn == 'X') ? 'O' : 'X';
+                    } else
+                        System.out.print("\n 🚫 You Can't Choose This Block 🚫 \n");
+                } catch (InputMismatchException e) {
+                    scanner.nextLine(); // Scanner cleans non-integer input
+                    cls();
+                    invalidcounter++;
+                    if (invalidcounter == 3) {
+                        flag = false;
+                    }
+                    System.out.println(" ⛔️ Invalid input. You should use a valid **INTEGER** ⛔️");
+
+                }
+                if(!flag)
+                    isValid = true;
+
+            } while (!isValid);
+
+        }
+        System.out.println("\nPLAY AGAIN [0]");
+        System.out.println("\nRETURN MAIN MENU [1]");
+        try {
+            int exit;
+            exit = scanner.nextInt();
+            if (exit == 0) {
+                cls();
+                startxox();
+            } else {
+                returnHomePage();
+                return;
+            }
+        } catch (Exception e) {
+            cls();
+            System.out.println("\n INVALID ENTRY");
+            returnHomePage();
+            return;
+        }
+
+    }
+
+    /**
+     * @author Hayrunnisa , Zaid
+     * @param paper , current board
+     * @param turn  , indicates who's turn
+     * @return if it is a winning situation return true
+     *         checks the moves
+     */
+    public static boolean Over(char paper[][], char turn) {
+        // cross control
+        if (paper[0][0] == turn && paper[1][1] == turn && paper[2][2] == turn)
+            return true;
+        if (paper[0][2] == turn && paper[1][1] == turn && paper[2][0] == turn)
+            return true;
+        for (short i = 0; i < 3; i++) {
+            if (paper[0][i] == turn && paper[1][i] == turn && paper[2][i] == turn)
+                return true;
+            if (paper[i][0] == turn && paper[i][1] == turn && paper[i][2] == turn)
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * @author Zaid, Hayrunnisa
+     *         Prints the board
+     * @param paper, the board
+     */
+    public static void printPaper(char paper[][]) {
+        System.out.print("\nTic-Tac-Toe Board:\n\n");
+        for (short i = 0; i < 3; i++) {
+            for (short j = 0; j < 3; j++) {
+                System.out.print(paper[i][j]);
+                if (j < 2) {
+                    System.out.print(" | ");
+                }
+            }
+            if (i < 2) {
+                System.out.println();
+                System.out.println("---------");
+            }
+        }
+        System.out.println();
+    }
+    /**
+     * @author Murat
+     * Seperated this part from the branch to lessen repetition
+     */
+    public static void mainMenu()
+    {
+        if(isClosed)
+        {
+            exitPage();
+            return; //instead of return close program;
+        }
+        String selection;
+        while (!isClosed) {
+            
+            cls();
+            printOptions();
+            selection = scanner.nextLine();
+            selection = selection.toUpperCase();
+            while (!isValidEntry(selection, "A", "B", "C", "D", "E")) {
+                cls();
+                System.err.println("\n\n        INVALID ENTRY!!");
+                printOptions();
+                selection = scanner.nextLine();
+                selection = selection.toUpperCase();
+            }
+            objectiveChosen(selection);
+        }
+    }
+    /**
+     * @author Murat
+     * @param objective takes the index of which directory and operation will the program direct to
+     * this is an improvement to lessen repetition in code structure
+     * O(n) time complexity and O(1) space complexity since objective only accepts 1 char
+     */
+    public static void interfaceChange(String objective)
+    {
+        if (loopAsk())
+        {
+            loadingPage();
+            if("ABCDE".contains(objective))
+            {     
+                objectiveChosen(objective);
+            }
+            else if("12345".contains(objective))
+            {
+                operationChosen(objective);   
+            }
+        }
+        else
+        {
+            if("12345".contains(objective))
+            {     
+                objectiveChosen("B");
+            }
+            returnHomePage();        
+        } 
     }
 }
