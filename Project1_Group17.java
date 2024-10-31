@@ -3,22 +3,74 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
-public class Project1_Group17
+/**
+ * The class for the project 1
+ * Group-17
+ * This class contains array statical information, matrix operations, encryption/decryption, and a tic-tac-toe game 
+ * @author Emirhan, Hayrunnisa, Murat, Mohammad Zaid, Metehan
+ */
+public class Group17
 {
-    private static final Scanner scanner = new Scanner(System.in);
-    private static boolean isClosed = false;
-    private static double[][] Objective2Product = {{0.0, 0.0}, {0.0, 0.0}};
-    private static String rememberProduct = "N";
+    private static final Scanner scanner = new Scanner(System.in);      // scanner for the whole program
+    private static double[][] Objective2Product;                        // matrix that is used to store the product matrix from the operations
+    private static String rememberProduct = "N";                        // Indicates whether the product matrix should be used ("Y" for yes, "N" for no)
     
+    /**
+     * Main fucntion that represents the main menu
+     * Directs the user into the relevant methods
+     * @author Emirhan, Hayrunnisa, Murat, Zaid, Metehan
+     */
     public static void main(String[] args)
     {
+        String selection;
         cls();
         printHello();
         beklermisin();
         greetingPage();
-        mainMenu();
+        // this while loop takes an valid input between A-E and calls the relevent object
+        // The loop represents the main menu
+        while (true)
+        {
+            cls();
+            printHello();
+            printOptions();
+            selection = scanner.nextLine();
+            selection = selection.toUpperCase();
+            while (!isValidEntry(selection, "A","B","C","D","E"))
+            {
+                cls();
+                System.err.println("\n\n        INVALID ENTRY!!");
+                printOptions();
+                selection = scanner.nextLine();
+                selection = selection.toUpperCase();
+            }
+            
+            switch (selection)
+            {
+                case "A":
+                    Objective1();
+                    break;
+                case "B":
+                    Objective2();
+                    break;
+                case "C":
+                    Objective3();
+                    break;
+                case "D":
+                    Objective4();
+                    break;
+                case "E":
+                    exitPage();
+                    scanner.close();
+                    return;
+            }
+        }
     }
     //  MAIN METHODS FOR HOMEPAGE
+    /**
+     * Prints "WELCOME G17" with ascii art
+     * @author Emirhan, Hayrunnisa
+     */
     public static void printHello()
     {
         String[] part1 = {
@@ -33,6 +85,10 @@ public class Project1_Group17
         for (String line : part1) System.out.println(line);
         System.out.println("\n\n\n");
     }
+    /**
+     * Prints the names with ascii art
+     * @author Emirhan, Hayrunnisa
+     */
     public static void greetingPage()
     {
         String[] part2 = {
@@ -97,6 +153,10 @@ public class Project1_Group17
         for (String line : part6) System.out.println(line);
         beklermisin();
     }
+    /**
+     * Prints the options in the main menu
+     * @author Emirhan, Hayrunnisa
+     */
     public static void printOptions()
     {
         System.out.println("        A)   Statistical Information about an array\n");
@@ -106,6 +166,10 @@ public class Project1_Group17
         System.out.println("        E)   EXIT\n\n\n");
         System.out.print("        Please select an option from the list above(A-E)): ");
     }
+    /**
+     * Prints the options in the objective 3
+     * @author Hayrunnisa
+     */
     public static void printCrypOptions()
     {
         System.out.println("        A)   Encryption\n");
@@ -113,6 +177,14 @@ public class Project1_Group17
         System.out.println("        C)   Return to the Main Menu\n");
         System.out.print("        Please select an option from the list above(A-C)): ");
     }
+    /**
+     * Control the string ans, with the strings ...Check
+     * If there is a match, returns true
+     * @author Emirhan, Hayrunnisa
+     * @param ans the string to be controlled
+     * @param Check variable-length argument list, it contains valid answers
+     * @return if valid returns true, else return false 
+     */
     public static boolean isValidEntry(String ans, String... Check )
     {
         // .equals method must be used. Because when we use ==, it compares the their memory references
@@ -123,6 +195,10 @@ public class Project1_Group17
         }
         return false;
     }
+    /**
+     * Method for clearing the terminal
+     * @author Emirhan
+     */
     public static void cls()
     {
         try
@@ -140,22 +216,25 @@ public class Project1_Group17
             System.err.println("Error on cls!!!!");
         }
     }
-     /**
+    /**
+     * Method that waits 1 second, then clears screen.
      * @author Hayrunnisa
-     *         To give an significant visualizement to user in the some part of
-     *         program
-     *         it waits for 1 sec
      */
-    public static void beklermisin() {
-        // 3 saniye bekle, sonra ekranı temizle
+    public static void beklermisin()
+    {
+        // 1 saniye bekle, sonra ekranı temizle
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             System.out.println("Interruption cut: " + e.getMessage());
-            Thread.currentThread().interrupt(); // İş parçacığının kesildiğini bildirir
+            Thread.currentThread().interrupt();
         }
         cls();
     }
+    /**
+     * Animation used for returning homepage
+     * @author Emirhan
+     */
     public static void returnHomePage()
     {
         cls();
@@ -173,6 +252,10 @@ public class Project1_Group17
             System.out.println("Error! Returning Now");
         }
     }
+    /**
+     * Animation used for interface changes
+     * @author Emirhan
+     */
     public static void loadingPage()
     {
         cls();
@@ -194,6 +277,10 @@ public class Project1_Group17
             System.out.println("Error! Returning Now");
         }
     }
+    /**
+     * Animation used for terminating the program
+     * @author Emirhan
+     */
     public static void exitPage()
     {
         cls();
@@ -213,7 +300,11 @@ public class Project1_Group17
         }
     }
 
-    /** The function for either returning the main page or redo the objective*/
+    /**
+     * Method that asks for either re-doing the operation or going back
+     * @author Emirhan, Hayrunnisa
+     * @return returns true if the user wants to re-do the operation
+     */
     public static boolean loopAsk()
     {
        
@@ -234,20 +325,36 @@ public class Project1_Group17
     }
 
 
+    // -------------------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
     // -------------------------------------------    METHODS FOR THE OBJECTIVE 1    -------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
 
-    // Contains information about the objective and main menu of the objective 1 UI
-    // Directs the user to corresponding methods according to their input
+    /**
+     * OBJECTIVE 1 MAIN METHOD
+     * Calls the relevent methods for objective 1 and ask the user if they want to re-do the operation or go back
+     * @author Emirhan, Hayrunnisa
+     */
     public static void Objective1()
     {
         cls();
         double arr[] = fillArray();
         callMethodsForObj1(arr);
         
-         interfaceChange("A");     
+        if (loopAsk())
+        {
+            loadingPage();
+            Objective1();
+        }
+        else
+            returnHomePage();        
     } 
     
-    // This method calls all the methods for the first objective
+    /**
+     * This method calls all the operation methods for objective 1 
+     * @param arr to be used in the operations
+     */
     public static void callMethodsForObj1(double arr[])
     {
         cls();
@@ -273,7 +380,16 @@ public class Project1_Group17
         }
     }
 
-    // This method returns an array that the user will create
+    /**
+     * This method creates a valid double array with the constrains
+     * For non-positive elements, the program warns the user as:
+     * The value will be ignored in harmonic and geometric mean calculations.
+     * And then ask if the user wants to change it or continue
+     * @author Emirhan
+     * @throws RuntimeException if the user enters a number that is not in the determined range
+     * @throws IllegalArgumentException if the user enters a non-positive number. Because it will be ignored in harmonic and geometric mean calculations.
+     * @return array, an double array
+     */
     public static double[] fillArray()
     {
         int size = getSize();
@@ -350,6 +466,11 @@ public class Project1_Group17
         return array;
     }
     
+    /**
+     * This methods prints the objetive information, and takes an integer between 1-10
+     * @author Emirhan, Hayrunnisa
+     * @return an integer between 1-10 to represent the array size
+     */
     public static int getSize()
     {
         cls();
@@ -376,7 +497,11 @@ public class Project1_Group17
         return Integer.parseInt(ans);
     }
     
-    // This method takes an array as input and prints it
+    /**
+     * This methods takes an array as input and prints it
+     * @author Emirhan, Hayrunnisa
+     * @param arr array to be printed
+     */
     public static void printArray(double arr[])
     {
         int size = arr.length;
@@ -389,9 +514,15 @@ public class Project1_Group17
         System.out.println("]\n\n");
     }
 
-    // This method takes an array and its size as input, returns the median of the array
-    // The array is first sorted, then the mean is selected based on the size of the array
-    // O(logn) space complexity and O(n logn) time complexity. n=number of elements in the array
+    /**
+     * This method takes an array and its size as input, returns the median of the array
+     * The array is first sorted, then the mean is selected based on the size of the array
+     * O(logn) space complexity and O(n logn) time complexity. n=number of elements in the array
+     * @author Emirhan, Hayrunnisa
+     * @param arr array to be used for the operation
+     * @param size size of the array
+     * @return a double value, median of the array
+     */
     public static double median(double arr[], int size)
     {
         Arrays.sort(arr);
@@ -415,10 +546,16 @@ public class Project1_Group17
             return arr[size/2];
     }
 
-
-    // This method takes an array and its size as input, returns the arithmetic mean (average) of the array
-    // With an array of size n, the formula of the arithmetic mean is: (a1 + a2 + ... + an) / n
-    // O(n) time complexity. n=size of the array
+    /**
+     * This method takes an array and its size as input, returns the arithmetic mean (average) of the array
+     * With an array of size n, the formula of the arithmetic mean is: (a1 + a2 + ... + an) / n
+     * O(n) time complexity. n=size of the array
+     * @author Emirhan, Hayrunnisa
+     * @param arr array to be used in the operation
+     * @param size size of the array
+     * @return a double value, arithmetic mean of the array
+     */
+    // 
     public static double arithmeticMean(double arr[], int size)
     {
         double aritMean = 0;
@@ -437,10 +574,17 @@ public class Project1_Group17
         return aritMean / (double)size;
     }
 
-
-    // This method takes an array and its size as input, returns the geometric mean of the array.
-    // With an array of size n, the formula of the geometric mean is: pow((a1 * a2 * ... * an), 1/n)
-    // O(n) time complexity. n=size of the array
+    /**
+     * This method takes an array and its size as input, returns the geometric mean of the array.
+     * With an array of size n, the formula of the geometric mean is: pow((a1 * a2 * ... * an), 1/n)
+     * O(n) time complexity. n=size of the array
+     * @author Emirhan
+     * @param arr array to be used in the operation
+     * @param size size of the array
+     * @throws IllegalArgumentException when there is no positive number in the array
+     * @return a double value, geometric mean of the array
+     */
+    
     public static double geometricMean(double arr[], int size)
     {
         double geoMean = 1;
@@ -470,9 +614,16 @@ public class Project1_Group17
     }
 
 
-    // This method takes and array and its size as input, returns the harmonic mean of the array by using recursive harmonicSummation method in the summation process
-    // With an array of size n, the formula of the harmonic mean is: n / [(1/a1) + (1/a2) + ... + (1/an)]
-    // O(n) time complexity and O(n) space complexity. n=size of the array
+    /**
+     * This method takes and array and its size as input, returns the harmonic mean of the array by using recursive harmonicSummation method in the summation process
+     * With an array of size n, the formula of the harmonic mean is: n / [(1/a1) + (1/a2) + ... + (1/an)]
+     * O(n) time complexity and O(n) space complexity. n=size of the array
+     * @author Emirhan
+     * @param arr array to be used in the operation
+     * @param size size of the array
+     * @throws IllegalArgumentException when there is no positive number in the array
+     * @return a double value, harmonic mean of the array
+     */
     public static double harmonicMean(double arr[], int size)
     {
         // count how many numbers are greater than 0 (valid for harmonic mean calculation)
@@ -499,8 +650,15 @@ public class Project1_Group17
         return (double)size / harmonicSum;
     }
 
-    // This method is a recursive approach for harmonic summation step of the harmonic mean calculation
-    // Takes an array and an index as input and calculates the harmonic summation recursively until it reaches the first element of the array.
+    /**
+     * This method is a recursive approach for harmonic summation step of the harmonic mean calculation
+     * Takes an array and an index as input and calculates the harmonic summation recursively until it reaches the first element of the array.
+     * @author Emirhan
+     * @param arr array to be used in the operation
+     * @param index index that limits the array size for the recursive call
+     * @throws ArithmeticException when there is an overflow during the summation
+     * @return a double value, total harmonic summation of the array
+     */
     public static double harmonicSummation(double arr[], int index)
     {
          // Base case
@@ -532,7 +690,9 @@ public class Project1_Group17
      * Checks the overflow/underflow during summation and if any, throws an exception
      * If the result is 0 but neither of the values is zero, it is underflow
      * If the result is infinite, it is overflow
-     * @author Emirhan, Hayrunnisa
+     * @author Emirhan
+     * @param a first double value
+     * @param b second double value
      * @return the result of a + b if there is no exception
      * @throws ArithmeticException if overflow or underflow is detected
      */
@@ -549,8 +709,11 @@ public class Project1_Group17
     }
 
 
-
+    // -------------------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
     // -------------------------------------------    METHODS FOR THE OBJECTIVE 2    -------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
 
 
     /**
@@ -575,7 +738,23 @@ public class Project1_Group17
             input = scanner.nextLine();
         }
 
-        operationChosen(input);
+        switch (input)
+        {
+            case "1":
+                Obj2Case1();
+                break;
+            case "2":
+                Obj2Case2();
+                break;
+            case "3":
+                Obj2Case3();
+                break;
+            case "4":
+                Obj2Case4();
+                break;
+            case "5":
+                returnHomePage();
+        }
     }
 
     /**
@@ -635,7 +814,16 @@ public class Project1_Group17
 
         isUseProduct();
         cls();
-        interfaceChange("1");
+        if (loopAsk())
+        {
+            loadingPage();
+            Obj2Case1();
+        }
+        else
+        {
+            loadingPage();
+            Objective2();
+        }
     }
     
     /**
@@ -805,11 +993,8 @@ public class Project1_Group17
 
         double determinant = determinant(matrix);
         if (determinant == 0.0)
-        {
             System.err.println("\n\nSingular matrices (determinant = 0) does not have an inverse!!\n");
-            System.err.println("\n\nOperation product assigned as a 2x2 matrix filled with zeroes.\n");
-
-        }
+        
         else if (matrix.length == 1)
         {
             printMatrix(matrix, row, row, "Inverse of Your Matrix:");
@@ -824,7 +1009,16 @@ public class Project1_Group17
             
         isUseProduct();
         cls();
-        interfaceChange("2");
+        if (loopAsk())
+        {
+            loadingPage();
+            Obj2Case2();
+        }
+        else
+        {
+            loadingPage();
+            Objective2();
+        }
     }
     
     /** 
@@ -1064,7 +1258,16 @@ public class Project1_Group17
 
         isUseProduct();
         cls();
-        interfaceChange("3");
+        if (loopAsk())
+        {
+            loadingPage();
+            Obj2Case3();
+        }
+        else
+        {
+            loadingPage();
+            Objective2();
+        }
     }
     
     /**  
@@ -1160,7 +1363,16 @@ public class Project1_Group17
 
         isUseProduct();
         cls();
-        interfaceChange("4");
+        if (loopAsk())
+        {
+            loadingPage();
+            Obj2Case4();
+        }
+        else
+        {
+            loadingPage();
+            Objective2();
+        }
     }
 
     /**
@@ -1204,6 +1416,8 @@ public class Project1_Group17
      * If the result is 0 but neither of the values is zero, it is underflow
      * If the result is infinite, it is overflow
      * @author Emirhan, Hayrunnisa, Murat
+     * @param a first double value
+     * @param b second double value
      * @return the result of a * b if there is no exception
      * @throws ArithmeticException if overflow or underflow is detected
      */
@@ -1217,27 +1431,6 @@ public class Project1_Group17
             throw new ArithmeticException("UNDERFLOW DETECED !!!\n");
 
         return result;
-    }
-    public static void operationChosen(String Operation)
-    {
-        switch (Operation)
-        {
-            case "1":
-                Obj2Case1();
-                break;
-            case "2":
-                Obj2Case2();
-                break;
-            case "3":
-                Obj2Case3();
-                break;
-            case "4":
-                Obj2Case4();
-                break;
-            case "5":
-                rememberProduct = "N";
-                returnHomePage();
-        }
     }
     /**
      * This method is used to eleminate repetitive opearion
@@ -1255,7 +1448,7 @@ public class Project1_Group17
         System.out.println("Your choice(Y/N): ");
         rememberProduct = scanner.nextLine();
         rememberProduct = rememberProduct.toUpperCase();
-        while(!isValidEntry(rememberProduct, "Y","N"))
+        while(!isValidEntry(rememberProduct, "Y","N", "y", "n"))
         {
             cls();
             System.out.println("INVALID ENTRY!");
@@ -1264,10 +1457,22 @@ public class Project1_Group17
             rememberProduct = scanner.nextLine();
         }
     }
-    //-------------------------------------------------------------METHODS FOR OBJECTIVE 3--------------------------------------------------------
+
+
+
+
+    // -------------------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------    METHODS FOR THE OBJECTIVE 3    -------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
+
+
+
+
     /**
-     * @author Hayrunnisa, Zaid
      * Prints options for encryption/decryption and ables user to select an option
+     * @author Hayrunnisa, Zaid
      */
     public static void Objective3()
     {
@@ -1302,17 +1507,17 @@ public class Project1_Group17
         }
     }
     /**
-     * @author hayrunnisa, zaid
+     * Main method for encryption and decryption.
+     * @author Hayrunnisa, zaid
      * @param x , by multiplying -1 it decides if it is enc or dec x = dec , x -1 enc
-     * if the input is empty, invalid try
-     * @throw choosing a key, while key is invalid it continues. If input is non-integer 
+     * if the input is empty, invalid try 
      * it throws exception.
      * 
      * Negative key:
      * -Cannot be smaller than -26, to make them positive method adds 26 after taking modulo. then again it takes modulo so that it can go further from the original letter
      * strings are stabile so that we create a char "che" then assigned every char in the string to che in the for loop.
      * !!newarr hold the new message
-     * !! char Aa holds the place in the ascıı table for 'a' or 'A',
+     * !! char Aa holds the place in the ascii table for 'a' or 'A',
      * (THE DISTANCE OF THE ORIGINAL LETTER TO FIRST LETTER  + THE RAW KEY) %  26 gives the exact point from the first letter
      * so that dont forget the add first letter Aa
      * 
@@ -1389,37 +1594,24 @@ public class Project1_Group17
         cls();
         return;
     }
+
+
+
+
+
+
+    // -------------------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------    METHODS FOR THE OBJECTIVE 4    -------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------------------------------------------------
+
+
+
+
     /**
-     * @author Murat 
-     * @param Objective is to reach directories correctly
-     * set of objectives */
-    public static void objectiveChosen(String Objective)
-    {
-        switch (Objective)
-            {
-                case "A":
-                    Objective1();
-                    break;
-                case "B":
-                    Objective2();
-                    break;
-                case "C":
-                    Objective3();
-                    break;
-                case "D":
-                    Objective4();
-                    break;
-                case "E":
-                    scanner.close();
-                    isClosed = true;
-                    exitPage();
-                    return;
-            }
-    }
-    // ----------------------------------------------------------------------------------------
-    /**
+     *        Simulates an ascii art entrance for the game
      * @author Hayrunnisa
-     *         Simulates an ascıı art entrance for the game
      */
     public static void Objective4()
     {
@@ -1428,6 +1620,10 @@ public class Project1_Group17
         startxox();
         return;
     }
+    /**
+     * Animation
+     * @author Hayrunnisa
+     */
     public static void welcometoxox() {
         String[] lines = {
                 "                                                                                          ",
@@ -1464,8 +1660,8 @@ public class Project1_Group17
          * 
          * @throws if an exception occurs during execution
          */
-        for (String satır : lines) {
-            System.out.println(satır);
+        for (String satir : lines) {
+            System.out.println(satir);
             try {
                 Thread.sleep(10); // Her satır arasında 0.01 saniye bekle
             } catch (InterruptedException e) {
@@ -1478,6 +1674,7 @@ public class Project1_Group17
     }
 
     /**
+     * Animation to print out who is next
      * @author Hayrunnisa
      * @param choice -> is the person who is the next
      *               represents the user next and remains 1.2 sec
@@ -1512,23 +1709,8 @@ public class Project1_Group17
         cls();
     }
 
-    /**
-     * @author Hayrunnisa, Zaid, Murat
-     *         XOX STARTS
-     *         starts with an empty board
-     *         prints the board on terminal each time
-     *         X starts
-     *         if the turn number smaller then 4 it does not check if there is a
-     *         winner or not
-     *         About selecting a block:
-     *         they cannot choose a block that does not exist or full
-     *         Flag: follows the progress of the game.
-     *         Counter: total of the turns.
-     *         isValid: indicates input
-     * 
-     * 
-     */
-    public static void startxox() {
+    
+    /*public static void startxox() {
         char paper[][] = { { ' ', ' ', ' ' }, { ' ', ' ', ' ' }, { ' ', ' ', ' ' } };
         char turn = 'X';
         short counter = 0;
@@ -1549,19 +1731,17 @@ public class Project1_Group17
                     scanner.nextLine();
                     if(row == 9)
                     {
-                        mainMenu();
-                        if(isClosed)
-                            return;
+                        returnHomePage();
+                        return;
                     }
                     row -= 1;
                     System.out.printf("\nPlease select a column %c [1,3]: ", turn);
                     col = scanner.nextInt();
-                    scanner.nextLine(); // Buffer temizleme
+                    scanner.nextLine();
                     if(col == 9)
                     {
-                        mainMenu();
-                        if(isClosed)
-                            return;
+                        returnHomePage();
+                        return;
                     }
                     col -= 1;
                     cls();
@@ -1637,8 +1817,122 @@ public class Project1_Group17
         }
 
     }
+    */
+    
+    /**
+     * Main method for XOX game
+     * @author Hayrunnisa, Zaid
+     *         XOX STARTS
+     *         starts with an empty board
+     *         prints the board on terminal each time
+     *         X starts
+     *         if the turn number smaller then 4 it does not check if there is a
+     *         winner or not
+     *         About selecting a block:
+     *         they cannot choose a block that does not exist or full
+     *         Flag: follows the progress of the game.
+     *         Counter: total of the turns.
+     *         isValid: indicates input
+     */
+    public static void startxox() {
+        char paper[][] = { { ' ', ' ', ' ' }, { ' ', ' ', ' ' }, { ' ', ' ', ' ' } };
+        char turn = 'X';
+        short counter = 0;
+        int row, col;
+        boolean isValid;
+        boolean flag = true;
+        short invalidcounter = 0;
+        while (flag) {
+            printNext(turn);
+            isValid = false;
+            do {
+                try {
+                    printPaper(paper);
+                    System.out.printf("\n[After 3 invalid entry, game will be over! [%d] ]\n", invalidcounter);
+                    System.out.println();
+                    System.out.printf("\nPlease select a row %c [0,2]: ", turn);
+                    row = scanner.nextInt();
+                    System.out.printf("\nPlease select a column %c [0,2]: ", turn);
+                    col = scanner.nextInt();
+                    scanner.nextLine(); // Buffer temizleme
+                    cls();
+                    if (row < 3 && row > -1 && col < 3 && col > -1 && paper[row][col] == ' ') {
+                        cls();
+                        isValid = true;
+                        paper[row][col] = turn;
+                        counter++;
+                        if (counter > 4 && Over(paper, turn)) {
+                            flag = false; // GAME OVER
+                            System.out.printf(
+                                    "                     %c WON IN %d TURNS                                                 \n\n",
+                                    turn, counter);
+                            System.out.println(
+                                    " __        ___                                  _                       ");
+                            System.out.println(
+                                    " \\ \\      / (_)_ __  _ __   ___ _ __  __      _(_)_ __  _ __   ___ _ __ ");
+                            System.out.println(
+                                    "  \\ \\ /\\ / /| | '_ \\| '_ \\ / _ \\ '__| \\ \\ /\\ / / | '_ \\| '_ \\ / _ \\ '__|");
+                            System.out.println(
+                                    "   \\ V  V / | | | | | | | |  __/ |     \\ V  V /| | | | | | | |  __/ |   ");
+                            System.out.println(
+                                    "    \\_/\\_/  |_|_| |_|_| |_|\\___|_|      \\_/\\_/ |_|_| |_|_| |_|\\___|_|   ");
+                            System.out
+                                    .println("  ___| |__ (_) ___| | _____ _ __     __| (_)_ __  _ __   ___ _ __      ");
+                            System.out.println(
+                                    " / __| '_ \\| |/ __| |/ / _ \\ '_ \\   / _` | | '_ \\| '_ \\ / _ \\ '__|     ");
+                            System.out
+                                    .println("| (__| | | | | (__|   <  __/ | | | | (_| | | | | | | | |  __/ |        ");
+                            System.out.println(
+                                    " \\___|_| |_|_|\\___|_|\\_\\___|_| |_|  \\__,_|_|_| |_|_| |_|\\___|_|         \n");
+                        } else if (counter == 9 && !Over(paper, turn)) {
+                            System.out.printf("The Game is Tie!\n\n");
+                            flag = false; // GAME OVER
+                        }
+                        printPaper(paper);
+                        turn = (turn == 'X') ? 'O' : 'X';
+                    } else
+                        System.out.print("\n 🚫 You Can't Choose This Block 🚫 \n");
+                } catch (InputMismatchException e) {
+                    scanner.nextLine(); // Scanner cleans non-integer input
+                    cls();
+                    invalidcounter++;
+                    if (invalidcounter == 3) {
+                        flag = false;
+                    }
+                    System.out.println(" ⛔️ Invalid input. You should use a valid **INTEGER** ⛔️");
+
+                }
+                if(!flag)
+                    isValid = true;
+
+            } while (!isValid);
+
+        }
+        System.out.println("\nPLAY AGAIN [0]");
+        System.out.println("\nRETURN MAIN MENU [1]");
+        try {
+            int exit;
+            exit = scanner.nextInt();
+            if (exit == 0) {
+                cls();
+                scanner.nextLine();
+                startxox();
+            } else {
+                returnHomePage();
+                scanner.nextLine();
+                return;
+            }
+        } catch (Exception e) {
+            cls();
+            System.out.println("\n INVALID ENTRY");
+            returnHomePage();
+            return;
+        }
+
+    }
 
     /**
+     * To control if the game is over or not
      * @author Hayrunnisa , Zaid
      * @param paper , current board
      * @param turn  , indicates who's turn
@@ -1661,8 +1955,8 @@ public class Project1_Group17
     }
 
     /**
+     * Prints the board
      * @author Zaid, Hayrunnisa
-     *         Prints the board
      * @param paper, the board
      */
     public static void printPaper(char paper[][]) {
@@ -1680,62 +1974,5 @@ public class Project1_Group17
             }
         }
         System.out.println();
-    }
-    /**
-     * @author Murat
-     * Seperated this part from the branch to lessen repetition
-     */
-    public static void mainMenu()
-    {
-        if(isClosed)
-        {
-            exitPage();
-            return; //instead of return close program;
-        }
-        String selection;
-        while (!isClosed) {
-            
-            cls();
-            printOptions();
-            selection = scanner.nextLine();
-            selection = selection.toUpperCase();
-            while (!isValidEntry(selection, "A", "B", "C", "D", "E")) {
-                cls();
-                System.err.println("\n\n        INVALID ENTRY!!");
-                printOptions();
-                selection = scanner.nextLine();
-                selection = selection.toUpperCase();
-            }
-            objectiveChosen(selection);
-        }
-    }
-    /**
-     * @author Murat
-     * @param objective takes the index of which directory and operation will the program direct to
-     * this is an improvement to lessen repetition in code structure
-     * O(n) time complexity and O(1) space complexity since objective only accepts 1 char
-     */
-    public static void interfaceChange(String objective)
-    {
-        if (loopAsk())
-        {
-            loadingPage();
-            if("ABCDE".contains(objective))
-            {     
-                objectiveChosen(objective);
-            }
-            else if("12345".contains(objective))
-            {
-                operationChosen(objective);   
-            }
-        }
-        else
-        {
-            if("12345".contains(objective))
-            {     
-                objectiveChosen("B");
-            }
-            returnHomePage();        
-        } 
     }
 }
