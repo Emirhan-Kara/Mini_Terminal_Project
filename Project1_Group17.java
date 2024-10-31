@@ -3,50 +3,21 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
-public class Project1_Group17 {
+public class Project1_Group17{
+
+    private static final Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         cls();
-        String selection;
-        Scanner input = new Scanner(System.in);
+        
         greetingPage();
-        while (true) {
-            cls();
-            printOptions();
-            selection = input.nextLine();
-            selection = selection.toUpperCase();
-            while (!isValidEntry(selection, "A", "B", "C", "D", "E")) {
-                cls();
-                System.err.println("\n\n        INVALID ENTRY!!");
-                printOptions();
-                selection = input.nextLine();
-                selection = selection.toUpperCase();
-            }
-
-            switch (selection) {
-                case "A":
-                    break;
-                case "B":
-                    break;
-                case "C":
-                    break;
-                case "D":
-                    cls();
-                    welcometoxox();
-                    startxox();
-                    break;
-                case "E":
-                    input.close();
-                    exitPage();
-                    return;
-            }
-        }
+        mainMenu();
     }
 
     /**
      * GREETING PAGE
      * NO PARAMETERS
      * 
-     * @author Emirhan Hayrunnisa
+     * @author Emirhan Hayrunnisa Murat
      * 
      */
 
@@ -339,7 +310,7 @@ public class Project1_Group17 {
     }
 
     /**
-     * @author Hayrunnisa, Zaid
+     * @author Hayrunnisa, Zaid, Murat
      *         XOX STARTS
      *         starts with an empty board
      *         prints the board on terminal each time
@@ -355,7 +326,6 @@ public class Project1_Group17 {
      * 
      */
     public static void startxox() {
-        Scanner input = new Scanner(System.in);
         char paper[][] = { { ' ', ' ', ' ' }, { ' ', ' ', ' ' }, { ' ', ' ', ' ' } };
         char turn = 'X';
         short counter = 0;
@@ -369,13 +339,24 @@ public class Project1_Group17 {
             do {
                 try {
                     printPaper(paper);
-                    System.out.printf("\n[After 3 invalid entry, game will be over! [%d] ]\n", invalidcounter);
+                    System.out.printf("\nYou can type 9 to return to main menu!]\n", invalidcounter);
                     System.out.println();
-                    System.out.printf("\nPlease select a row %c [0,2]: ", turn);
-                    row = input.nextInt();
-                    System.out.printf("\nPlease select a column %c [0,2]: ", turn);
-                    col = input.nextInt();
-                    input.nextLine(); // Buffer temizleme
+                    System.out.printf("\nPlease select a row %c [1,3]: ", turn);
+                    row = scanner.nextInt();
+                    scanner.nextLine();
+                    if(row == 9)
+                    {
+                        mainMenu();
+                    }
+                    row -= 1;
+                    System.out.printf("\nPlease select a column %c [1,3]: ", turn);
+                    col = scanner.nextInt();
+                    scanner.nextLine(); // Buffer temizleme
+                    if(col == 9)
+                    {
+                        mainMenu();
+                    }
+                    col -= 1;
                     cls();
                     if (row < 3 && row > -1 && col < 3 && col > -1 && paper[row][col] == ' ') {
                         cls();
@@ -414,7 +395,7 @@ public class Project1_Group17 {
                     } else
                         System.out.print("\n 🚫 You Can't Choose This Block 🚫 \n");
                 } catch (InputMismatchException e) {
-                    input.nextLine(); // Scanner cleans non-integer input
+                    scanner.nextLine(); // Scanner cleans non-integer input
                     cls();
                     invalidcounter++;
                     if (invalidcounter == 3) {
@@ -433,7 +414,7 @@ public class Project1_Group17 {
         System.out.println("\nRETURN MAIN MENU [1]");
         try {
             int exit;
-            exit = input.nextInt();
+            exit = scanner.nextInt();
             if (exit == 0) {
                 cls();
                 startxox();
@@ -492,5 +473,45 @@ public class Project1_Group17 {
             }
         }
         System.out.println();
+    }
+    /**
+     * @author Murat
+     * Seperated this part from the branch to lessen repetition
+     */
+    public static void mainMenu()
+    {
+        String selection;
+        while (true) {
+            
+            cls();
+            printOptions();
+            selection = scanner.nextLine();
+            selection = selection.toUpperCase();
+            while (!isValidEntry(selection, "A", "B", "C", "D", "E")) {
+                cls();
+                System.err.println("\n\n        INVALID ENTRY!!");
+                printOptions();
+                selection = scanner.nextLine();
+                selection = selection.toUpperCase();
+            }
+
+            switch (selection) {
+                case "A":
+                    break;
+                case "B":
+                    break;
+                case "C":
+                    break;
+                case "D":
+                    cls();
+                    welcometoxox();
+                    startxox();
+                    break;
+                case "E":
+                    scanner.close();
+                    exitPage();
+                    return;
+            }
+        }
     }
 }
