@@ -1848,7 +1848,7 @@ public class Group17
             do {
                 try {
                     printPaper(paper);
-                    System.out.printf("\n[After 3 invalid entry, game will be over! [%d] ]\n", invalidcounter);
+                    System.out.printf("\n[After 3 non-integer entry, game will be over! [%d] ]\n", invalidcounter);
                     System.out.println();
                     System.out.printf("\nPlease select a row %c [0,2]: ", turn);
                     row = scanner.nextInt();
