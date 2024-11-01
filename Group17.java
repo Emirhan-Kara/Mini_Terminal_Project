@@ -647,7 +647,7 @@ public class Group17
             return 0.0;
         }
 
-        return (double)size / harmonicSum;
+        return (double)count / harmonicSum;
     }
 
     /**
